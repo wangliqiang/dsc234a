@@ -1,5 +1,4 @@
 <?php
-//源码由 旺旺:dongshaolin2008所有  禁止倒卖 一经发现停止任何服务！
 function get_validate_info($user_id)
 {
     $sql = 'SELECT u.mobile_phone, u.is_validated, u.email, up.pay_password, ur.bank_mobile, ur.real_name, ur.bank_card, ur.bank_name, ur.review_status FROM ' . $GLOBALS['ecs']->table('users') . ' AS u ' . ' LEFT JOIN ' . $GLOBALS['ecs']->table('users_paypwd') . ' AS up ON u.user_id = up.user_id ' . ' LEFT JOIN ' . $GLOBALS['ecs']->table('users_real') . ' AS ur ON u.user_id = ur.user_id ' . ' WHERE u.user_id=\'' . $user_id . '\' AND ur.user_type = 0';
@@ -2911,36 +2910,9 @@ if ($action == 'register') {
             $smarty->assign('order_info', $order_info);
             $smarty->display('user_clips.dwt');
         }else if($action == 'become_shareholder'){ //成为股东
+
             include_once ROOT_PATH . 'includes/lib_clips.php';
 
-            if (defined('THEME_EXTENSION')) {
-                $smarty->assign('user_info', get_user_default($_SESSION['user_id']));
-                $smarty->assign('upload_size_limit', upload_size_limit(1));
-            }
-
-            $page = (isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1);
-            $order_id = (empty($_GET['order_id']) ? 0 : intval($_GET['order_id']));
-            $order_info = array();
-
-            if ($order_id) {
-                $sql = 'SELECT COUNT(*) FROM ' . $ecs->table('feedback') . ' WHERE parent_id = 0 AND order_id = \'' . $order_id . '\' AND user_id = \'' . $user_id . '\' AND msg_status = 0 ';
-                $order_info = $db->getRow('SELECT * FROM ' . $ecs->table('order_info') . ' WHERE order_id = \'' . $order_id . '\' AND user_id = \'' . $user_id . '\'');
-                $order_info['url'] = 'user.php?act=order_detail&order_id=' . $order_id;
-            } else {
-                $sql = 'SELECT COUNT(*) FROM ' . $ecs->table('feedback') . ' WHERE parent_id = 0 AND msg_status = 0  AND user_id = \'' . $user_id . '\' AND user_name = \'' . $_SESSION['user_name'] . '\' AND order_id=0';
-            }
-
-            $record_count = $db->getOne($sql);
-            $act = array('act' => $action);
-
-            if ($order_id != '') {
-                $act['order_id'] = $order_id;
-            }
-
-            $pager = get_pager('user.php', $act, $record_count, $page, 5);
-            $smarty->assign('message_list', get_message_list($user_id, $_SESSION['user_name'], $pager['size'], $pager['start'], $order_id));
-            $smarty->assign('pager', $pager);
-            $smarty->assign('order_info', $order_info);
             $smarty->display('user_clips.dwt');
 
         } else if ($action == 'comment_list') {

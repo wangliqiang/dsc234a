@@ -400,64 +400,11 @@
                     <div class="user-message-warp clearfix">
                         <form action="user.php" method="post" enctype="multipart/form-data" name="formMsg" onSubmit="return submitMsg()">
                             <div class="user-items">
-                                <!--{if $order_info}-->
                                 <div class="item">
-                                    <div class="label">{$lang.order_number}：</div>
-                                    <div class="value value-checkbox">
-                                        <div class="txt-lh"><a href="{$order_info.url}"><img src="images/note.gif" style="margin-top:-3px;"/>&nbsp;&nbsp;{$order_info.order_sn}</a></div>
-                                    </div>
-                                </div>
-                                <input name="msg_type" type="hidden" value="5" />
-                                <input name="order_id" type="hidden" value="{$order_info.order_id}" />
-                                <!--{else}-->
-                                <div class="item">
-                                    <div class="label">{$lang.message_type}：</div>
+                                    <div class="label">推荐人：</div>
                                     <div class="value">
-                                        <div class="radio-item">
-                                            <input type="radio" checked="" name="msg_type" class="ui-radio" id="checkbox-message" value="0">
-                                            <label for="checkbox-message" class="ui-radio-label">{$lang.type[0]}</label>
-                                        </div>
-                                        <div class="radio-item">
-                                            <input type="radio" name="msg_type" class="ui-radio" id="checkbox-complaint" value="1">
-                                            <label for="checkbox-complaint" class="ui-radio-label">{$lang.type[1]}</label>
-                                        </div>
-                                        <div class="radio-item">
-                                            <input type="radio" name="msg_type" class="ui-radio" id="checkbox-ask" value="2">
-                                            <label for="checkbox-ask" class="ui-radio-label">{$lang.type[2]}</label>
-                                        </div>
-                                        <div class="radio-item">
-                                            <input type="radio" name="msg_type" class="ui-radio" id="checkbox-customer" value="3">
-                                            <label for="checkbox-customer" class="ui-radio-label">{$lang.type[3]}</label>
-                                        </div>
-                                        <div class="radio-item">
-                                            <input type="radio" name="msg_type" class="ui-radio" id="checkbox-buy" value="4">
-                                            <label for="checkbox-buy" class="ui-radio-label">{$lang.type[4]}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--{/if}-->
-                                <div class="item">
-                                    <div class="label">{$lang.message_title}：</div>
-                                    <div class="value">
-                                        <input type="text" name="msg_title" class="text text-2">
+                                        <input type="text" name="recommend_title" class="text text-2">
                                         <div class="notic"></div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="label">{$lang.message_content}：</div>
-                                    <div class="value">
-                                        <textarea name="msg_content" class="textarea textarea2"></textarea>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="label">&nbsp;</div>
-                                    <div class="value">
-                                        <div class="value-file">
-                                            <input type="button" class="sc-btn sc-redBg-btn" value="{$lang.Select_file}">
-                                            <input type="text" name="textfield" id="textfield" class="txt">
-                                            <input type="file" name="message_img" class="file" id="fileField" size="28" onchange="document.getElementById('textfield').value=this.value">
-                                        </div>
-                                        <span class="remind">{$lang.message_type_list}，附件大小不得超过{$upload_size_limit}。</span>
                                     </div>
                                 </div>
                                 <div class="item item-button">

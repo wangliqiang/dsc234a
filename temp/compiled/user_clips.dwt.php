@@ -428,64 +428,11 @@ echo $this->_echash . $k['name'] . '|' . serialize($k) . $this->_echash;
                     <div class="user-message-warp clearfix">
                         <form action="user.php" method="post" enctype="multipart/form-data" name="formMsg" onSubmit="return submitMsg()">
                             <div class="user-items">
-                                <?php if ($this->_var['order_info']): ?>
                                 <div class="item">
-                                    <div class="label"><?php echo $this->_var['lang']['order_number']; ?>：</div>
-                                    <div class="value value-checkbox">
-                                        <div class="txt-lh"><a href="<?php echo $this->_var['order_info']['url']; ?>"><img src="themes/ecmoban_dsc2017/images/note.gif" style="margin-top:-3px;"/>&nbsp;&nbsp;<?php echo $this->_var['order_info']['order_sn']; ?></a></div>
-                                    </div>
-                                </div>
-                                <input name="msg_type" type="hidden" value="5" />
-                                <input name="order_id" type="hidden" value="<?php echo $this->_var['order_info']['order_id']; ?>" />
-                                <?php else: ?>
-                                <div class="item">
-                                    <div class="label"><?php echo $this->_var['lang']['message_type']; ?>：</div>
+                                    <div class="label">推荐人：</div>
                                     <div class="value">
-                                        <div class="radio-item">
-                                            <input type="radio" checked="" name="msg_type" class="ui-radio" id="checkbox-message" value="0">
-                                            <label for="checkbox-message" class="ui-radio-label"><?php echo $this->_var['lang']['type']['0']; ?></label>
-                                        </div>
-                                        <div class="radio-item">
-                                            <input type="radio" name="msg_type" class="ui-radio" id="checkbox-complaint" value="1">
-                                            <label for="checkbox-complaint" class="ui-radio-label"><?php echo $this->_var['lang']['type']['1']; ?></label>
-                                        </div>
-                                        <div class="radio-item">
-                                            <input type="radio" name="msg_type" class="ui-radio" id="checkbox-ask" value="2">
-                                            <label for="checkbox-ask" class="ui-radio-label"><?php echo $this->_var['lang']['type']['2']; ?></label>
-                                        </div>
-                                        <div class="radio-item">
-                                            <input type="radio" name="msg_type" class="ui-radio" id="checkbox-customer" value="3">
-                                            <label for="checkbox-customer" class="ui-radio-label"><?php echo $this->_var['lang']['type']['3']; ?></label>
-                                        </div>
-                                        <div class="radio-item">
-                                            <input type="radio" name="msg_type" class="ui-radio" id="checkbox-buy" value="4">
-                                            <label for="checkbox-buy" class="ui-radio-label"><?php echo $this->_var['lang']['type']['4']; ?></label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php endif; ?>
-                                <div class="item">
-                                    <div class="label"><?php echo $this->_var['lang']['message_title']; ?>：</div>
-                                    <div class="value">
-                                        <input type="text" name="msg_title" class="text text-2">
+                                        <input type="text" name="recommend_title" class="text text-2">
                                         <div class="notic"></div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="label"><?php echo $this->_var['lang']['message_content']; ?>：</div>
-                                    <div class="value">
-                                        <textarea name="msg_content" class="textarea textarea2"></textarea>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="label">&nbsp;</div>
-                                    <div class="value">
-                                        <div class="value-file">
-                                            <input type="button" class="sc-btn sc-redBg-btn" value="<?php echo $this->_var['lang']['Select_file']; ?>">
-                                            <input type="text" name="textfield" id="textfield" class="txt">
-                                            <input type="file" name="message_img" class="file" id="fileField" size="28" onchange="document.getElementById('textfield').value=this.value">
-                                        </div>
-                                        <span class="remind"><?php echo $this->_var['lang']['message_type_list']; ?>，附件大小不得超过<?php echo $this->_var['upload_size_limit']; ?>。</span>
                                     </div>
                                 </div>
                                 <div class="item item-button">
@@ -2046,10 +1993,10 @@ if ($this->_foreach['name']['total'] > 0):
 											<input type="hidden" value="<?php echo $this->_var['consignee']['province']; ?>" ectype="ragionItem" name="province"></dt>
 											<dd ectype="layer">
 												<div class="option" data-value="0"><?php echo $this->_var['lang']['please_select']; ?><?php echo $this->_var['name_of_region']['1']; ?></div>
-												<?php $_from = $this->_var['province_list']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }; $this->push_vars('', 'province_0_85595100_1507521106');if (count($_from)):
-    foreach ($_from AS $this->_var['province_0_85595100_1507521106']):
+												<?php $_from = $this->_var['province_list']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }; $this->push_vars('', 'province_0_52848900_1507527499');if (count($_from)):
+    foreach ($_from AS $this->_var['province_0_52848900_1507527499']):
 ?>
-												<div class="option" data-value="<?php echo $this->_var['province_0_85595100_1507521106']['region_id']; ?>" data-text="<?php echo $this->_var['province_0_85595100_1507521106']['region_name']; ?>" data-type="2" ectype="ragionItem"><?php echo $this->_var['province_0_85595100_1507521106']['region_name']; ?></div>
+												<div class="option" data-value="<?php echo $this->_var['province_0_52848900_1507527499']['region_id']; ?>" data-text="<?php echo $this->_var['province_0_52848900_1507527499']['region_name']; ?>" data-type="2" ectype="ragionItem"><?php echo $this->_var['province_0_52848900_1507527499']['region_name']; ?></div>
 												<?php endforeach; endif; unset($_from); ?><?php $this->pop_vars();; ?>
 											</dd>
 										</dl>
