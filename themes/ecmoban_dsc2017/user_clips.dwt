@@ -396,71 +396,32 @@
         <div class="user-mod">
             <div class="user-title">
                 <h2>成为股东</h2>
-                    </div>
-                    <div class="user-message-warp clearfix">
-                        <form action="user.php" method="post" enctype="multipart/form-data" name="formMsg" onSubmit="return submitMsg()">
-                            <div class="user-items">
-                                <div class="item">
-                                    <div class="label">推荐人：</div>
-                                    <div class="value">
-                                        <input type="text" name="recommend_title" class="text text-2">
+            </div>
+            <div class="user-message-warp clearfix">
+                <form action="user.php" method="post" enctype="multipart/form-data" name="formMsg" onSubmit="return submitMsg()">
+                    <div class="user-items">
+                        <div class="item">
+                            <div class="label">推荐人手机：</div>
+                                <div class="value">
+                                    <input type="text" name="recommend_phone" class="text text-2">
                                         <div class="notic"></div>
-                                    </div>
-                                </div>
-                                <div class="item item-button">
-                                    <div class="label">&nbsp;</div>
-                                    <div class="value">
-                                        <input type="hidden" name="act" value="act_add_message" />
-                                        <input type="submit" class="sc-btn sc-redBg-btn pingjia_form" value="{$lang.submit_goods}">
-                                    </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <!--{if $message_list}-->
-                    <div class="user-title">
-                        <h2>{$lang.label_message}</h2>
-                    </div>
-                    <div class="user-message-list">
-                        <!--{foreach from=$message_list item=message key=key name=message} -->
-                        <div class="m-item {if $smarty.foreach.message.last} last{/if}">
-                            <div class="u-ico"><img src="{if $user_id}{if $user_info.user_picture}{$user_info.user_picture}{else}themes/<?php echo $GLOBALS['_CFG']['template']; ?>/images/touxiang.jpg{/if}{else}themes/<?php echo $GLOBALS['_CFG']['template']; ?>/images/avatar.png{/if}"></div>
-                            <div class="ud-right">
-                                <div class="m-tit">
-                                    <h3>{$message.msg_title}</h3>
-                                    <span>
-                                        {if $message.msg_type eq '留言' || $message.msg_type eq '投诉' || $message.msg_type eq '询问' || $message.msg_type eq '售后' || $message.msg_type eq '求购'}
-                                        {$message.msg_type}
-                                        {else}
-                                        留言
-                                        {/if}
-                                    </span>
-                                    <div class="fr">
-                                        <a href="user.php?act=del_msg&amp;id={$key}&amp;order_id={$message.order_id}" onclick="if (!confirm('{$lang.confirm_remove_msg}')) return false;" class="ftx-05 fr ml0">{$lang.drop}</a>
-                                        <em class="mr10">{$message.msg_time}</em>
+                            <div class="item item-button">
+                                <div class="label">&nbsp;</div>
+                                    <div class="value">
+                                        <input type="hidden" name="act" value="act_recommend" />
+                                        <input type="submit" class="sc-btn sc-redBg-btn pingjia_form" value="提交">
                                     </div>
                                 </div>
-                                <div class="txt">{$message.msg_content}</div>
-                                <!-- {if $message.message_img} 如果上传了图片-->
-                                <div class="fr">
-                                    <a href="data/feedbackimg/{$message.message_img}" class="nyroModal">{$lang.view_upload_file}</a>
-                                </div>
-                                <!--{/if}-->
-                                <!-- {if $message.re_msg_content} -->
-                                <div class="txt">
-                                    <a href="mailto:{$message.re_user_email}" target="_bank" class="ftx-03" >{$lang.shopman_reply}</a> ({$message.re_msg_time})<br />
-                                    {$message.re_msg_content}
-                                </div>
-                                <!-- {/if} -->
                             </div>
                         </div>
-                        <!--{/foreach}-->
                     </div>
-                    <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
-                    <!--{/if}-->
-                </div>
-                <!-- {/if} -->
-                <!-- #成为股东界面 end-->
+                </form>
+            </div>
+        </div>
+        <!-- {/if} -->
+        <!-- #成为股东界面 end-->
         
         <!-- 我的留言界面 start-->
         <!--{if $action eq 'message_list'}-->

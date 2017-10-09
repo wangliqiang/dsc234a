@@ -424,75 +424,32 @@ echo $this->_echash . $k['name'] . '|' . serialize($k) . $this->_echash;
         <div class="user-mod">
             <div class="user-title">
                 <h2>成为股东</h2>
-                    </div>
-                    <div class="user-message-warp clearfix">
-                        <form action="user.php" method="post" enctype="multipart/form-data" name="formMsg" onSubmit="return submitMsg()">
-                            <div class="user-items">
-                                <div class="item">
-                                    <div class="label">推荐人：</div>
-                                    <div class="value">
-                                        <input type="text" name="recommend_title" class="text text-2">
+            </div>
+            <div class="user-message-warp clearfix">
+                <form action="user.php" method="post" enctype="multipart/form-data" name="formMsg" onSubmit="return submitMsg()">
+                    <div class="user-items">
+                        <div class="item">
+                            <div class="label">推荐人手机：</div>
+                                <div class="value">
+                                    <input type="text" name="recommend_phone" class="text text-2">
                                         <div class="notic"></div>
-                                    </div>
-                                </div>
-                                <div class="item item-button">
-                                    <div class="label">&nbsp;</div>
-                                    <div class="value">
-                                        <input type="hidden" name="act" value="act_add_message" />
-                                        <input type="submit" class="sc-btn sc-redBg-btn pingjia_form" value="<?php echo $this->_var['lang']['submit_goods']; ?>">
-                                    </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <?php if ($this->_var['message_list']): ?>
-                    <div class="user-title">
-                        <h2><?php echo $this->_var['lang']['label_message']; ?></h2>
-                    </div>
-                    <div class="user-message-list">
-                        <?php $_from = $this->_var['message_list']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }; $this->push_vars('key', 'message');$this->_foreach['message'] = array('total' => count($_from), 'iteration' => 0);
-if ($this->_foreach['message']['total'] > 0):
-    foreach ($_from AS $this->_var['key'] => $this->_var['message']):
-        $this->_foreach['message']['iteration']++;
-?>
-                        <div class="m-item <?php if (($this->_foreach['message']['iteration'] == $this->_foreach['message']['total'])): ?> last<?php endif; ?>">
-                            <div class="u-ico"><img src="<?php if ($this->_var['user_id']): ?><?php if ($this->_var['user_info']['user_picture']): ?><?php echo $this->_var['user_info']['user_picture']; ?><?php else: ?>themes/<?php echo $GLOBALS['_CFG']['template']; ?>/images/touxiang.jpg<?php endif; ?><?php else: ?>themes/<?php echo $GLOBALS['_CFG']['template']; ?>/images/avatar.png<?php endif; ?>"></div>
-                            <div class="ud-right">
-                                <div class="m-tit">
-                                    <h3><?php echo $this->_var['message']['msg_title']; ?></h3>
-                                    <span>
-                                        <?php if ($this->_var['message']['msg_type'] == '留言' || $this->_var['message']['msg_type'] == '投诉' || $this->_var['message']['msg_type'] == '询问' || $this->_var['message']['msg_type'] == '售后' || $this->_var['message']['msg_type'] == '求购'): ?>
-                                        <?php echo $this->_var['message']['msg_type']; ?>
-                                        <?php else: ?>
-                                        留言
-                                        <?php endif; ?>
-                                    </span>
-                                    <div class="fr">
-                                        <a href="user.php?act=del_msg&amp;id=<?php echo $this->_var['key']; ?>&amp;order_id=<?php echo $this->_var['message']['order_id']; ?>" onclick="if (!confirm('<?php echo $this->_var['lang']['confirm_remove_msg']; ?>')) return false;" class="ftx-05 fr ml0"><?php echo $this->_var['lang']['drop']; ?></a>
-                                        <em class="mr10"><?php echo $this->_var['message']['msg_time']; ?></em>
+                            <div class="item item-button">
+                                <div class="label">&nbsp;</div>
+                                    <div class="value">
+                                        <input type="hidden" name="act" value="act_recommend" />
+                                        <input type="submit" class="sc-btn sc-redBg-btn pingjia_form" value="提交">
                                     </div>
                                 </div>
-                                <div class="txt"><?php echo $this->_var['message']['msg_content']; ?></div>
-                                <?php if ($this->_var['message']['message_img']): ?>
-                                <div class="fr">
-                                    <a href="data/feedbackimg/<?php echo $this->_var['message']['message_img']; ?>" class="nyroModal"><?php echo $this->_var['lang']['view_upload_file']; ?></a>
-                                </div>
-                                <?php endif; ?>
-                                <?php if ($this->_var['message']['re_msg_content']): ?>
-                                <div class="txt">
-                                    <a href="mailto:<?php echo $this->_var['message']['re_user_email']; ?>" target="_bank" class="ftx-03" ><?php echo $this->_var['lang']['shopman_reply']; ?></a> (<?php echo $this->_var['message']['re_msg_time']; ?>)<br />
-                                    <?php echo $this->_var['message']['re_msg_content']; ?>
-                                </div>
-                                <?php endif; ?>
                             </div>
                         </div>
-                        <?php endforeach; endif; unset($_from); ?><?php $this->pop_vars();; ?>
                     </div>
-                    <?php echo $this->fetch('library/pages.lbi'); ?>
-                    <?php endif; ?>
-                </div>
-                <?php endif; ?>
-                
+                </form>
+            </div>
+        </div>
+        <?php endif; ?>
+        
         
         
         <?php if ($this->_var['action'] == 'message_list'): ?>
@@ -1993,10 +1950,10 @@ if ($this->_foreach['name']['total'] > 0):
 											<input type="hidden" value="<?php echo $this->_var['consignee']['province']; ?>" ectype="ragionItem" name="province"></dt>
 											<dd ectype="layer">
 												<div class="option" data-value="0"><?php echo $this->_var['lang']['please_select']; ?><?php echo $this->_var['name_of_region']['1']; ?></div>
-												<?php $_from = $this->_var['province_list']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }; $this->push_vars('', 'province_0_52848900_1507527499');if (count($_from)):
-    foreach ($_from AS $this->_var['province_0_52848900_1507527499']):
+												<?php $_from = $this->_var['province_list']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }; $this->push_vars('', 'province_0_90853900_1507531155');if (count($_from)):
+    foreach ($_from AS $this->_var['province_0_90853900_1507531155']):
 ?>
-												<div class="option" data-value="<?php echo $this->_var['province_0_52848900_1507527499']['region_id']; ?>" data-text="<?php echo $this->_var['province_0_52848900_1507527499']['region_name']; ?>" data-type="2" ectype="ragionItem"><?php echo $this->_var['province_0_52848900_1507527499']['region_name']; ?></div>
+												<div class="option" data-value="<?php echo $this->_var['province_0_90853900_1507531155']['region_id']; ?>" data-text="<?php echo $this->_var['province_0_90853900_1507531155']['region_name']; ?>" data-type="2" ectype="ragionItem"><?php echo $this->_var['province_0_90853900_1507531155']['region_name']; ?></div>
 												<?php endforeach; endif; unset($_from); ?><?php $this->pop_vars();; ?>
 											</dd>
 										</dl>

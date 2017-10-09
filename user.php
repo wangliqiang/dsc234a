@@ -488,6 +488,7 @@ require ROOT_PATH . '/includes/lib_area.php';
 require_once ROOT_PATH . '/' . ADMIN_PATH . '/includes/lib_goods.php';
 require_once ROOT_PATH . 'languages/' . $_CFG['lang'] . '/user.php';
 include_once ROOT_PATH . '/includes/cls_image.php';
+
 $image = new cls_image($_CFG['bgcolor']);
 get_request_filter();
 $user_id = (isset($_SESSION['user_id']) && !empty($_SESSION['user_id']) ? $_SESSION['user_id'] : 0);
@@ -504,7 +505,7 @@ if (defined('THEME_EXTENSION')) {
 }
 
 $not_login_arr = array('login', 'act_login', 'register', 'act_register', 'act_edit_password', 'get_password', 'send_pwd_email', 'get_pwd_mobile', 'password', 'signin', 'add_tag', 'collect', 'return_to_cart', 'logout', 'email_list', 'validate_email', 'send_hash_mail', 'order_query', 'is_registered', 'check_email', 'clear_history', 'qpassword_name', 'get_passwd_question', 'check_answer', 'oath', 'oath_login', 'other_login', 'is_mobile_phone', 'check_phone', 'captchas', 'phone_captcha', 'code_notice', 'captchas_pass', 'oath_register', 'is_user', 'is_login_captcha', 'is_register_captcha', 'is_mobile_code', 'oath_remove', 'oath_weixin_login', 'user_email_verify', 'user_email_send', 'add_value_card', 'email_send_succeed', 'pay_pwd', 'checkd_email_send_code');
-$ui_arr = array('register', 'act_register', 'login', 'profile', 'order_list', 'order_detail', 'auction_order_detail','become_shareholder', 'order_delete_restore', 'order_to_query', 'order_recycle', 'auction_order_recycle', 'address_list', 'address', 'collection_list', 'store_list', 'account_safe', 'account_bind', 'focus_brand', 'message_list', 'tag_list', 'get_password', 'get_pwd_mobile', 'reset_password', 'booking_list', 'add_booking', 'account_raply', 'commented_view', 'crowdfunding', 'to_paid', 'wholesale_buy', 'wholesale_purchase', 'purchase_info', 'purchase_edit', 'purchase_delete', 'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'value_card', 'value_card_info', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list', 'validate_email', 'track_packages', 'transform_points', 'qpassword_name', 'get_passwd_question', 'check_answer', 'service_detail', 'return_list', 'apply_return', 'apply_info', 'submit_return', 'goods_order', 'return_detail', 'edit_express', 'return_shipping', 'face', 'check_comm', 'single_sun', 'single_sun_insert', 'single_list', 'user_picture', 'ajax_del_address', 'ajax_add_address', 'vat_insert', 'vat_update', 'vat_remove', 'ajax_make_address', 'ajax_update_address', 'ajax_BatchCancelFollow', 'baitiao', 'repay_bt', 'take_list', 'merchants_upgrade', 'application_grade', 'confirm_inventory', 'coupons', 'complaint_list', 'complaint_info', 'complaint_apply', 'return_order_status', 'purchase', 'want_buy', 'invoice', 'illegal_report', 'arbitration', 'vat_invoice_info', 'vat_consignee', 'auction', 'auction_list', 'snatch_list');
+$ui_arr = array('register', 'act_register', 'login', 'profile', 'order_list', 'order_detail', 'auction_order_detail', 'become_shareholder', 'order_delete_restore', 'order_to_query', 'order_recycle', 'auction_order_recycle', 'address_list', 'address', 'collection_list', 'store_list', 'account_safe', 'account_bind', 'focus_brand', 'message_list', 'tag_list', 'get_password', 'get_pwd_mobile', 'reset_password', 'booking_list', 'add_booking', 'account_raply', 'commented_view', 'crowdfunding', 'to_paid', 'wholesale_buy', 'wholesale_purchase', 'purchase_info', 'purchase_edit', 'purchase_delete', 'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'value_card', 'value_card_info', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list', 'validate_email', 'track_packages', 'transform_points', 'qpassword_name', 'get_passwd_question', 'check_answer', 'service_detail', 'return_list', 'apply_return', 'apply_info', 'submit_return', 'goods_order', 'return_detail', 'edit_express', 'return_shipping', 'face', 'check_comm', 'single_sun', 'single_sun_insert', 'single_list', 'user_picture', 'ajax_del_address', 'ajax_add_address', 'vat_insert', 'vat_update', 'vat_remove', 'ajax_make_address', 'ajax_update_address', 'ajax_BatchCancelFollow', 'baitiao', 'repay_bt', 'take_list', 'merchants_upgrade', 'application_grade', 'confirm_inventory', 'coupons', 'complaint_list', 'complaint_info', 'complaint_apply', 'return_order_status', 'purchase', 'want_buy', 'invoice', 'illegal_report', 'arbitration', 'vat_invoice_info', 'vat_consignee', 'auction', 'auction_list', 'snatch_list');
 
 if (empty($_SESSION['user_id'])) {
     if (!in_array($action, $not_login_arr)) {
@@ -2909,7 +2910,7 @@ if ($action == 'register') {
             $smarty->assign('pager', $pager);
             $smarty->assign('order_info', $order_info);
             $smarty->display('user_clips.dwt');
-        }else if($action == 'become_shareholder'){ //成为股东
+        } else if ($action == 'become_shareholder') { //成为股东
 
             include_once ROOT_PATH . 'includes/lib_clips.php';
 
@@ -3216,6 +3217,12 @@ if ($action == 'register') {
             $sql = 'UPDATE' . $ecs->table('complaint') . 'SET complaint_state = \'' . $complaint_state . '\' ' . $set . ' WHERE complaint_id = \'' . $complaint_id . '\'';
             $db->query($sql);
             show_message($_LANG['apply_success'], $_LANG['back_page_up'], 'user.php?act=complaint_apply&complaint_id=' . $complaint_id);
+        } else if ($action == 'act_recommend') {
+            include_once ROOT_PATH . 'includes/lib_clips.php';
+            $_POST = get_request_filter($_POST, 1);
+            $recommend_phone = $_POST['recommend_phone'];
+            $sql = 'INSERT INTO' . $GLOBALS['ecs']->table('shareholder') . '(user_id,recommend_phone,is_shareholder,submit_date)' . ' VALUES (\''.$_SESSION['user_id'] . '\', \'' . $recommend_phone . '\', \''.'1'.'\', SYSDATE())';
+            $db->query($sql);
         } else if ($action == 'act_add_message') {
             include_once ROOT_PATH . 'includes/lib_clips.php';
             $_POST = get_request_filter($_POST, 1);
