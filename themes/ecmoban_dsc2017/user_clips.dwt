@@ -399,6 +399,7 @@
             </div>
             <div class="user-message-warp clearfix">
                 <form action="user.php" method="post" enctype="multipart/form-data" name="formMsg" onSubmit="return submitMsg()">
+                    <!-- {if $recommend_info.is_array } -->
                     <div class="user-items">
                         <div class="item">
                             <div class="label">推荐人手机：</div>
@@ -417,6 +418,36 @@
                             </div>
                         </div>
                     </div>
+                    <!-- {else} -->
+                    <div class="user-message-list">
+                        <div class="m-item  last">
+                                <div class="ud-right">
+                                    <div class="m-tit">
+                                        <h3>申请人:{$recommend_info.user_name}</h3>
+                                        <span>
+                                            {if $recommend_info.is_shareholder eq '1'}
+                                                审核中
+                                            {elseif $recommend_info.is_shareholder eq '2'}
+                                                成为股东
+                                            {elseif $recommend_info.is_shareholder eq '3'}
+                                                审核未通过
+                                            {/if}
+                                         </span>
+                                        <div class="fr">
+                                            {if $recommend_info.is_shareholder eq '1'}
+                                                <a href="user.php?act=act_re_recommend&amp;id={$recommend_info.id} onclick="if (!confirm('你确实要撤回申请吗？')) return false;" class="ftx-05 fr ml0">撤回申请</a>
+                                            {/if}
+                                            {if $recommend_info.is_shareholder eq '3'}
+                                                <a href="user.php?act=act_re_recommend&amp;id={$recommend_info.id}" class="ftx-05 fr ml0">再次申请</a>
+                                            {/if}
+                                            <em class="mr10">{$recommend_info.submit_date}</em>
+                                        </div>
+                                    </div>
+                                    <div class="txt">推荐人手机号：{$recommend_info.recommend_phone}</div>
+                                </div>
+                            </div>
+                            </div>
+                    <!-- {/if} -->
                 </form>
             </div>
         </div>

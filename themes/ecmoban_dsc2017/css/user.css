@@ -765,7 +765,7 @@ body{ background: #f8f8f8; }
 .user-message-list .m-item{ padding:28px 0; overflow:hidden; border-bottom:1px solid #d2d2d2;}
 .user-message-list .m-item .m-tit{ overflow:hidden;}
 .user-message-list .m-item .m-tit h3{ font-size:16px; font-weight:bold; color:#555; float:left;}
-.user-message-list .m-item .m-tit span{ position:relative; display:block; float:left; width:30px; padding-left:5px; height:16px; line-height:16px; text-align:center; color:#ff8f23; border-radius:3px; background:url(../images/user/aff-icon3.png) no-repeat; margin:3px 0 0 5px}
+.user-message-list .m-item .m-tit span{ position:relative; display:block; float:left; width:100px; padding-left:5px; height:16px; line-height:16px; text-align:center; color:#ff8f23; border-radius:3px; margin:3px 0 0 5px}
 .user-message-list .m-item .txt{ color:#8c8c8c; font-size:14px; line-height:25px; margin-top:5px;}
 /* ------------------ 我的留言 end ------------------ */
 

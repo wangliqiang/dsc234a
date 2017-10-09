@@ -2914,7 +2914,27 @@ if ($action == 'register') {
 
             include_once ROOT_PATH . 'includes/lib_clips.php';
 
+            $sql = 'select id,user_name,recommend_phone,is_shareholder,submit_date from ' . $GLOBALS['ecs']->table('dsc_shareholder') . ' a INNER JOIN ' . $GLOBALS['ecs']->table('users') . ' b ON a.user_id = b.user_id where a.user_id = \'' . $user_id . '\'';
+
+            $recommend_info = $db->getRow($sql);
+            $smarty->assign('recommend_info', $recommend_info);
             $smarty->display('user_clips.dwt');
+
+        } else if ($action == 'act_recommend') {
+            //添加股东申请
+            include_once ROOT_PATH . 'includes/lib_clips.php';
+            $_POST = get_request_filter($_POST, 1);
+            $recommend_phone = $_POST['recommend_phone'];
+            $sql = 'INSERT INTO' . $GLOBALS['ecs']->table('shareholder') . '(user_id,recommend_phone,is_shareholder,submit_date)' . ' VALUES (\'' . $_SESSION['user_id'] . '\', \'' . $recommend_phone . '\', \'' . '1' . '\', SYSDATE())';
+            $db->query($sql);
+        } else if($action == 'act_re_recommend'){
+            include_once ROOT_PATH . 'includes/lib_clips.php';
+            $id = (isset($_GET['id']) ? intval($_GET['id']) : 0);
+//            echo "<script>alert('$id')</script>";
+            $sql = 'delete * from ' . $GLOBALS['ecs']->table('shareholder') . ' where id = \'' . $id . '\'';
+
+
+            
 
         } else if ($action == 'comment_list') {
             include_once ROOT_PATH . 'includes/lib_clips.php';
@@ -3217,12 +3237,6 @@ if ($action == 'register') {
             $sql = 'UPDATE' . $ecs->table('complaint') . 'SET complaint_state = \'' . $complaint_state . '\' ' . $set . ' WHERE complaint_id = \'' . $complaint_id . '\'';
             $db->query($sql);
             show_message($_LANG['apply_success'], $_LANG['back_page_up'], 'user.php?act=complaint_apply&complaint_id=' . $complaint_id);
-        } else if ($action == 'act_recommend') {
-            include_once ROOT_PATH . 'includes/lib_clips.php';
-            $_POST = get_request_filter($_POST, 1);
-            $recommend_phone = $_POST['recommend_phone'];
-            $sql = 'INSERT INTO' . $GLOBALS['ecs']->table('shareholder') . '(user_id,recommend_phone,is_shareholder,submit_date)' . ' VALUES (\''.$_SESSION['user_id'] . '\', \'' . $recommend_phone . '\', \''.'1'.'\', SYSDATE())';
-            $db->query($sql);
         } else if ($action == 'act_add_message') {
             include_once ROOT_PATH . 'includes/lib_clips.php';
             $_POST = get_request_filter($_POST, 1);
