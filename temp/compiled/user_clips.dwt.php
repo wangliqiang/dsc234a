@@ -427,7 +427,7 @@ echo $this->_echash . $k['name'] . '|' . serialize($k) . $this->_echash;
             </div>
             <div class="user-message-warp clearfix">
                 <form action="user.php" method="post" enctype="multipart/form-data" name="formMsg" onSubmit="return submitMsg()">
-                    <?php if ($this->_var['recommend_info']['is_array']): ?>
+                    <?php if ($this->_var['recommend_info'] == ""): ?>
                     <div class="user-items">
                         <div class="item">
                             <div class="label">推荐人手机：</div>
@@ -459,13 +459,15 @@ echo $this->_echash . $k['name'] . '|' . serialize($k) . $this->_echash;
                                                 成为股东
                                             <?php elseif ($this->_var['recommend_info']['is_shareholder'] == '3'): ?>
                                                 审核未通过
+                                            <?php elseif ($this->_var['recommend_info']['is_shareholder'] == '4'): ?>
+                                                申请已撤回
                                             <?php endif; ?>
                                          </span>
                                         <div class="fr">
                                             <?php if ($this->_var['recommend_info']['is_shareholder'] == '1'): ?>
-                                                <a href="user.php?act=act_re_recommend&amp;id=<?php echo $this->_var['recommend_info']['id']; ?> onclick="if (!confirm('你确实要撤回申请吗？')) return false;" class="ftx-05 fr ml0">撤回申请</a>
+                                                <a href="user.php?act=act_back_recommend&amp;id=<?php echo $this->_var['recommend_info']['id']; ?>" class="ftx-05 fr ml0">撤回申请</a>
                                             <?php endif; ?>
-                                            <?php if ($this->_var['recommend_info']['is_shareholder'] == '3'): ?>
+                                            <?php if ($this->_var['recommend_info']['is_shareholder'] == '3' || $this->_var['recommend_info']['is_shareholder'] == '4'): ?>
                                                 <a href="user.php?act=act_re_recommend&amp;id=<?php echo $this->_var['recommend_info']['id']; ?>" class="ftx-05 fr ml0">再次申请</a>
                                             <?php endif; ?>
                                             <em class="mr10"><?php echo $this->_var['recommend_info']['submit_date']; ?></em>
@@ -1981,10 +1983,10 @@ if ($this->_foreach['name']['total'] > 0):
 											<input type="hidden" value="<?php echo $this->_var['consignee']['province']; ?>" ectype="ragionItem" name="province"></dt>
 											<dd ectype="layer">
 												<div class="option" data-value="0"><?php echo $this->_var['lang']['please_select']; ?><?php echo $this->_var['name_of_region']['1']; ?></div>
-												<?php $_from = $this->_var['province_list']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }; $this->push_vars('', 'province_0_66814800_1507537699');if (count($_from)):
-    foreach ($_from AS $this->_var['province_0_66814800_1507537699']):
+												<?php $_from = $this->_var['province_list']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }; $this->push_vars('', 'province_0_85812500_1507600213');if (count($_from)):
+    foreach ($_from AS $this->_var['province_0_85812500_1507600213']):
 ?>
-												<div class="option" data-value="<?php echo $this->_var['province_0_66814800_1507537699']['region_id']; ?>" data-text="<?php echo $this->_var['province_0_66814800_1507537699']['region_name']; ?>" data-type="2" ectype="ragionItem"><?php echo $this->_var['province_0_66814800_1507537699']['region_name']; ?></div>
+												<div class="option" data-value="<?php echo $this->_var['province_0_85812500_1507600213']['region_id']; ?>" data-text="<?php echo $this->_var['province_0_85812500_1507600213']['region_name']; ?>" data-type="2" ectype="ragionItem"><?php echo $this->_var['province_0_85812500_1507600213']['region_name']; ?></div>
 												<?php endforeach; endif; unset($_from); ?><?php $this->pop_vars();; ?>
 											</dd>
 										</dl>
