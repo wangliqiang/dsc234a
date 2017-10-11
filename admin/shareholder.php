@@ -6,6 +6,39 @@
  * Time: 14:24
  */
 
+function user_list()
+{
+    $result = get_filter();
+    if ($result === false) {
+        $filter['keywords'] = empty($_REQUEST['keywords']) ? '' : trim($_REQUEST['keywords']);
+        if (isset($_REQUEST['is_ajax']) && ($_REQUEST['is_ajax'] == 1)) {
+            $filter['keywords'] = json_str_iconv($filter['keywords']);
+        }
+        $ex_where = ' WHERE 1 ';
+        if ($filter['keywords']) {
+            $ex_where .= ' AND (u.user_name LIKE \'%' . mysql_like_quote($filter['keywords']) . '%\')';
+        }
+
+        $filter['record_count'] = $GLOBALS['db']->getOne('SELECT COUNT(*) FROM ' . $GLOBALS['ecs']->table('users') . ' AS u inner join'
+            . $GLOBALS['ecs']->table('shareholder')  . 'as s on u.user_id = s.user_id' . $ex_where);
+        $filter = page_and_size($filter);
+        $sql = 'SELECT u.user_rank,u.user_id, u.user_name, u.nick_name, u.mobile_phone,s.id,s.user_id ' . ' FROM ' .
+            $GLOBALS['ecs']->table('users') . ' AS u inner join' . $GLOBALS['ecs']->table('shareholder')  . 'as s on u.user_id = s.user_id' . $ex_where . ' '
+           . ' LIMIT ' . $filter['start'] . ',' . $filter['page_size'];
+        $filter['keywords'] = stripslashes($filter['keywords']);
+        set_filter($filter, $sql);
+    } else {
+        $sql = $result['sql'];
+        $filter = $result['filter'];
+    }
+
+    $user_list = $GLOBALS['db']->getAll($sql);
+    $count = count($user_list);
+
+    $arr = array('user_list' => $user_list, 'filter' => $filter, 'page_count' => $filter['page_count'], 'record_count' => $filter['record_count']);
+    return $arr;
+}
+
 define('IN_ECS', true);
 require dirname(__FILE__) . '/includes/init.php';
 $adminru = get_admin_ru_id();
@@ -18,18 +51,10 @@ if ($adminru['ru_id'] == 0) {
 
 if ($_REQUEST['act'] == 'list') {
     admin_priv('users_manage');
-    $smarty->assign('menu_select', array('action' => 'shareholder_mgt', 'current' => '01_shareholder_list'));
-    $sql = 'SELECT rank_id, rank_name, min_points FROM ' . $ecs->table('user_rank') . ' ORDER BY min_points ASC ';
-    $rs = $db->query($sql);
-    $ranks = array();
-
-    while ($row = $db->FetchRow($rs)) {
-        $ranks[$row['rank_id']] = $row['rank_name'];
-    }
-
-    $smarty->assign('user_ranks', $ranks);
     $smarty->assign('ur_here', $_LANG['01_shareholder_list']);
     $smarty->assign('action_link', array('text' => $_LANG['04_shareholder_add'], 'href' => 'shareholder.php?act=add'));
+    $user_list = user_list();
+    $smarty->assign('user_list', $user_list['user_list']);
     $smarty->assign('filter', $user_list['filter']);
     $smarty->assign('record_count', $user_list['record_count']);
     $smarty->assign('page_count', $user_list['page_count']);
@@ -38,6 +63,13 @@ if ($_REQUEST['act'] == 'list') {
 
     $smarty->display('shareholder_list.dwt');
 
+} else if ($_REQUEST['act'] == 'query') {
+    $user_list = user_list();
+    $smarty->assign('user_list', $user_list['user_list']);
+    $smarty->assign('filter', $user_list['filter']);
+    $smarty->assign('record_count', $user_list['record_count']);
+    $smarty->assign('page_count', $user_list['page_count']);
+    make_json_result($smarty->fetch('shareholder_list.dwt'), '', array('filter' => $user_list['filter'], 'page_count' => $user_list['page_count']));
 } else if ($_REQUEST['act'] == 'apply') {
 
 } else if ($_REQUEST['act'] == 'msg') {
