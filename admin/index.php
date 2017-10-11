@@ -80,6 +80,8 @@ function get_menu_list($menus, $ru_id = 0)
             $arr[$key]['href'] = 'goods_warehouse_batch.php?act=add';
         } else if ($row['label'] == '店铺设置管理') {
             $arr[$key]['href'] = 'index.php?act=merchants_first';
+        }else if($row['label'] == '管理设置') {
+            $arr[$key]['href'] = 'shareholder.php?act=list';
         }
     }
 
