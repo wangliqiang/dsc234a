@@ -1,5 +1,4 @@
 <?php
-//源码由 旺旺:dongshaolin2008所有  禁止倒卖 一经发现停止任何服务！
 $_LANG['flat'] = '市內快遞';
 $_LANG['flat_desc'] = '固定運費的配送方式內容';
 $_LANG['base_fee'] = '基本費用：';

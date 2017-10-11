@@ -1,5 +1,4 @@
 <?php
-//zend by 旺旺dongshaolin2008所有  禁止倒卖 一经发现停止任何服务
 if (!defined('IN_ECS')) {
 	exit('Hacking attempt');
 }
@@ -143,6 +142,8 @@ $menu_top['finance'] = '06_stats';
 $menu_top['third_party'] = '24_sms,25_file,26_login,27_interface';
 $menu_top['ectouch'] = '20_ectouch,22_wechat,23_drp';
 $menu_top['menuinformation'] = '21_cloud';
+$menu_top['shareholdermgt'] = '01_shareholder_config,02_shareholder_list';
+$modules['01_shareholder_config']['02_shareholder_list'] = '';
 $modules['20_ecjia_app']['02_ecjia_app_shortcut'] = 'ecjia_shortcut.php?act=list';
 $modules['20_ecjia_app']['03_ecjia_app_shortcut_ipad'] = 'ecjia_shortcut_ipad.php?act=list';
 $modules['20_ecjia_app']['04_ecjia_app_cycleimage'] = 'ecjia_cycleimage.php?act=list';
