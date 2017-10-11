@@ -1312,7 +1312,7 @@ i.sc_icon_dsz{ position:absolute; width:48px; height:56px; background-position:-
 
 .pannel-content .section_warp{ width:300px; padding:10px; position:relative;}
 .pannel-content .section{ position:relative;}
-.pannel-content .section .img{ width:300x;}
+.pannel-content .section .img{ width:300px;}
 .pannel-content .section .img img{ width:100%; height:100%; float:left;}
 
 .section .tools{ position:absolute; width:100%; height:100%; top:0; left:0; z-index:999; display:none;}
