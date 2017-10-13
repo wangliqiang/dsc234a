@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>{include file ='library/admin_html_head.lbi'}</head>
+
+<body class="iframe_body">
+	<div class="warpper">
+    	<div class="title"><a href="{$action_link2.href}" class="s-back">{$lang.back}</a>股东管理 - {$ur_here}</div>
+        <div class="content">
+        	<div class="explanation" id="explanation">
+            	<div class="ex_tit"><i class="sc_icon"></i><h4>操作提示</h4><span id="explanationZoom" title="收起提示"></span></div>
+                <ul>
+                    <li>可从管理平台手动添加一名新会员，并填写相关信息。</li>
+                    <li>标识“<em>*</em>”的选项为必填项，其余为选填项。</li>
+                    <li>新增会员后可从会员列表中找到该条数据，并再次进行编辑操作，但该会员名称不可变。</li>
+                </ul>
+            </div>
+            <div class="flexilist">
+                <div class="common-content">
+                    <div class="mian-info">
+                        <form method="post" action="shareholder.php" name="theForm" id="shareholder_form" >
+                            <div class="switch_info">
+                                <div class="item">
+                                    <div class="label">股东名称：</div>
+                                    <div class="label_value">
+                                        <input type="text" id="username" name="username" class="text" value="" autocomplete="off" />
+                                        <div class="form_prompt"></div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="label">股东手机：</div>
+                                    <div class="label_value">
+                                        <input type="text" name="phone" class="text" value="" id="phone" autocomplete="off" />
+                                        <div class="form_prompt"></div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="label">认筹金额：</div>
+                                    <div class="label_value">
+                                        <input type="text"   style="display:none"/>
+                                        <input type="text" name="principal" class="text" value="" id="principal"/>
+                                        <div class="form_prompt"></div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="label">&nbsp;</div>
+                                    <div class="label_value info_btn">
+                                        <input type="hidden" name="act" value="insert" />
+                                        <a href="javascript:;" class="button" id="submitBtn">提交</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+		</div>
+    </div>
+ {include file ='library/pagefooter.lbi'}
+    <script type="text/javascript">
+		//表单验证
+		$(function(){
+			$("#submitBtn").click(function(){
+				$("#shareholder_form").submit();
+			});
+		});
+    </script>
+</body>
+</html>

@@ -20,11 +20,11 @@ function user_list()
         }
 
         $filter['record_count'] = $GLOBALS['db']->getOne('SELECT COUNT(*) FROM ' . $GLOBALS['ecs']->table('users') . ' AS u inner join'
-            . $GLOBALS['ecs']->table('shareholder')  . 'as s on u.user_id = s.user_id' . $ex_where);
+            . $GLOBALS['ecs']->table('shareholder') . 'as s on u.user_id = s.user_id' . $ex_where);
         $filter = page_and_size($filter);
         $sql = 'SELECT u.user_rank,u.user_id, u.user_name, u.nick_name, u.mobile_phone,s.id,s.user_id ' . ' FROM ' .
-            $GLOBALS['ecs']->table('users') . ' AS u inner join' . $GLOBALS['ecs']->table('shareholder')  . 'as s on u.user_id = s.user_id' . $ex_where . ' '
-           . ' LIMIT ' . $filter['start'] . ',' . $filter['page_size'];
+            $GLOBALS['ecs']->table('users') . ' AS u inner join' . $GLOBALS['ecs']->table('shareholder') . 'as s on u.user_id = s.user_id' . $ex_where . ' '
+            . ' LIMIT ' . $filter['start'] . ',' . $filter['page_size'];
         $filter['keywords'] = stripslashes($filter['keywords']);
         set_filter($filter, $sql);
     } else {
@@ -75,5 +75,22 @@ if ($_REQUEST['act'] == 'list') {
 } else if ($_REQUEST['act'] == 'msg') {
 
 } else if ($_REQUEST['act'] == 'add') {
-    echo '添加';
+    admin_priv('users_manage');
+
+    $smarty->assign('ur_here', $_LANG['04_shareholder_add']);
+    $smarty->assign('action_link2', array('text' => $_LANG['01_shareholder_list'], 'href' => 'shareholder.php?act=list'));
+    $smarty->display('shareholder_add.dwt');
+} else if ($_REQUEST['act'] == 'insert') {
+    admin_priv('users_manage');
+
+    $username = (empty($_POST['username']) ? '' : trim($_POST['username']));
+    $phone = (empty($_POST['phone']) ? '' : trim($_POST['phone']));
+    $principal = (empty($_POST['principal']) ? '' : trim($_POST['principal']));
+
+    $sql = 'select * from ' . $ecs->table('users') . ' where user_name = \'' . $username . '\' and mobile_phone = \'' . $phone . '\'';
+
+    if (0 >= $db->getOne($sql)) {
+        sys_msg('该用户不存在！', 1);
+    }
+    echo $username;
 }
