@@ -22,14 +22,14 @@
                                 <div class="item">
                                     <div class="label">股东名称：</div>
                                     <div class="label_value">
-                                        <input type="text" id="username" name="username" class="text" value="{$shareholder_info.username}" autocomplete="off" />
+                                        <input type="text" id="username" name="username" class="text" value="{$shareholder_info.username}" readonly="true"  autocomplete="off" />
                                         <div class="form_prompt"></div>
                                     </div>
                                 </div>
                                 <div class="item">
                                     <div class="label">股东手机：</div>
                                     <div class="label_value">
-                                        <input type="text" name="phone" class="text" value="{$shareholder_info.phone}" id="phone" autocomplete="off" />
+                                        <input type="text" name="phone" class="text" value="{$shareholder_info.phone}" id="phone" readonly="true"  autocomplete="off" />
                                         <div class="form_prompt"></div>
                                     </div>
                                 </div>
