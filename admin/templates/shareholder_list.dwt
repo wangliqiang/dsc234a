@@ -48,7 +48,6 @@
                                     <th width="8%"><div class="tDiv">本金</div></th>
                                     <th width="8%"><div class="tDiv">股指</div></th>
                                     <th width="6%"><div class="tDiv">收益</div></th>
-                                    <th width="6%"><div class="tDiv">涨幅</div></th>
                                     <th width="12%" class="handle">{$lang.handler}</th>
                                 </tr>
                             </thead>
@@ -60,10 +59,9 @@
                                 	<td><div class="tDiv">{$list.user_name}</div></td>
                                     <td><div class="tDiv">{$list.nick_name}</div></td>
                                     <td><div class="tDiv">{$list.mobile_phone}</div></td>
-                                    <td><div class="tDiv"></div></td>
-                                    <td><div class="tDiv"></div></td>
-                                    <td><div class="tDiv"></div></td>
-                                    <td><div class="tDiv"></div></td>
+                                    <td><div class="tDiv">{$list.share_principal}</div></td>
+                                    <td><div class="tDiv">{$share_stock.stock_price}</div></td>
+                                    <td><div class="tDiv">{$list.profit}</div></td>
                                     <td class="handle">
                                     	<div class="tDiv a2">
                                             <a href="users.php?act=edit&id={$list.user_id}" class="btn_see"><i class="sc_icon sc_icon_see"></i>{$lang.view}</a>

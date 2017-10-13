@@ -22,7 +22,7 @@ function user_list()
         $filter['record_count'] = $GLOBALS['db']->getOne('SELECT COUNT(*) FROM ' . $GLOBALS['ecs']->table('users') . ' AS u inner join'
             . $GLOBALS['ecs']->table('shareholder') . 'as s on u.user_id = s.user_id' . $ex_where);
         $filter = page_and_size($filter);
-        $sql = 'SELECT u.user_rank,u.user_id, u.user_name, u.nick_name, u.mobile_phone,s.id,s.user_id ' . ' FROM ' .
+        $sql = 'SELECT u.user_rank,u.user_id, u.user_name, u.nick_name, u.mobile_phone,s.id,s.share_principal,s.share_date,FORMAT (s.share_principal * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ),2) AS profit' . ' FROM ' .
             $GLOBALS['ecs']->table('users') . ' AS u inner join' . $GLOBALS['ecs']->table('shareholder') . 'as s on u.user_id = s.user_id' . $ex_where . ' '
             . ' LIMIT ' . $filter['start'] . ',' . $filter['page_size'];
         $filter['keywords'] = stripslashes($filter['keywords']);
@@ -34,8 +34,10 @@ function user_list()
 
     $user_list = $GLOBALS['db']->getAll($sql);
     $count = count($user_list);
+    $getStock = 'select stock_id,stock_price,stock_date,stock_status from ' . $GLOBALS['ecs']->table('share_stock') . ' where stock_status = 1';
+    $share_stock = $GLOBALS['db']->getRow($getStock);
 
-    $arr = array('user_list' => $user_list, 'filter' => $filter, 'page_count' => $filter['page_count'], 'record_count' => $filter['record_count']);
+    $arr = array('user_list' => $user_list, 'share_stock' => $share_stock, 'filter' => $filter, 'page_count' => $filter['page_count'], 'record_count' => $filter['record_count']);
     return $arr;
 }
 
@@ -50,11 +52,13 @@ if ($adminru['ru_id'] == 0) {
 }
 
 if ($_REQUEST['act'] == 'list') {
+
     admin_priv('users_manage');
     $smarty->assign('ur_here', $_LANG['01_shareholder_list']);
     $smarty->assign('action_link', array('text' => $_LANG['04_shareholder_add'], 'href' => 'shareholder.php?act=add'));
     $user_list = user_list();
     $smarty->assign('user_list', $user_list['user_list']);
+    $smarty->assign('share_stock', $user_list['share_stock']);
     $smarty->assign('filter', $user_list['filter']);
     $smarty->assign('record_count', $user_list['record_count']);
     $smarty->assign('page_count', $user_list['page_count']);
@@ -75,22 +79,37 @@ if ($_REQUEST['act'] == 'list') {
 } else if ($_REQUEST['act'] == 'msg') {
 
 } else if ($_REQUEST['act'] == 'add') {
-    admin_priv('users_manage');
-
     $smarty->assign('ur_here', $_LANG['04_shareholder_add']);
     $smarty->assign('action_link2', array('text' => $_LANG['01_shareholder_list'], 'href' => 'shareholder.php?act=list'));
     $smarty->display('shareholder_add.dwt');
 } else if ($_REQUEST['act'] == 'insert') {
-    admin_priv('users_manage');
-
     $username = (empty($_POST['username']) ? '' : trim($_POST['username']));
     $phone = (empty($_POST['phone']) ? '' : trim($_POST['phone']));
     $principal = (empty($_POST['principal']) ? '' : trim($_POST['principal']));
-
-    $sql = 'select * from ' . $ecs->table('users') . ' where user_name = \'' . $username . '\' and mobile_phone = \'' . $phone . '\'';
-
-    if (0 >= $db->getOne($sql)) {
-        sys_msg('该用户不存在！', 1);
+    if (empty($username)) {
+        sys_msg('用户名不能为空!', 1);
+    } else if (empty($principal)) {
+        sys_msg('请输入金额!', 1);
     }
-    echo $username;
+    $isExit = 'select id  from ' . $ecs->table('shareholder') . ' where user_id = \'' . $getUserId . '\'';
+    $getUserId = 'select user_id  from ' . $ecs->table('users') . ' where user_name = \'' . $username . '\' and mobile_phone = \'' . $phone . '\'';
+    $userId = $db->getOne($getUserId);
+    if (empty($userId)) {
+        sys_msg('该用户不存在！', 1);
+    } else {
+        echo $isExit;
+        $isShare = $db->getOne($isExit);
+        if (empty($isShare)) {
+            sys_msg('该用户已是股东！', 1);
+        }
+    }
+
+    $sql = 'insert into ' . $ecs->table('shareholder') . '(user_id,share_principal,share_date) ' . ' VALUES (\'' . $userId . '\', \'' . $principal . '\', SYSDATE())';
+
+    $db->query($sql);
+
+    $link[] = array('text' => $_LANG['go_back'], 'href' => 'shareholder.php?act=list');
+    sys_msg(sprintf($_LANG['add_success'], htmlspecialchars(stripslashes($_POST['username']))), 0, $link);
+} else if ($_REQUEST['act'] == 'edit') {
+
 }
