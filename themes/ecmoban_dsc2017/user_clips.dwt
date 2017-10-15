@@ -402,53 +402,34 @@
                     <!-- {if $recommend_info == "" } -->
                     <div class="user-items">
                         <div class="item">
-                            <div class="label">推荐人手机：</div>
-                                <div class="value">
-                                    <input type="text" name="recommend_phone" class="text text-2">
-                                        <div class="notic"></div>
-                                </div>
-                            </div>
                             <div class="item item-button">
                                 <div class="label">&nbsp;</div>
                                     <div class="value">
                                         <input type="hidden" name="act" value="act_recommend" />
-                                        <input type="submit" class="sc-btn sc-redBg-btn pingjia_form" value="提交">
+                                        <input type="submit" class="sc-btn sc-redBg-btn pingjia_form" value="成为股东">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- {else} -->
-                    <div class="user-message-list">
-                        <div class="m-item  last">
-                                <div class="ud-right">
-                                    <div class="m-tit">
-                                        <h3>申请人:{$recommend_info.user_name}</h3>
-                                        <span>
-                                            {if $recommend_info.is_shareholder eq '1'}
-                                                审核中
-                                            {elseif $recommend_info.is_shareholder eq '2'}
-                                                成为股东
-                                            {elseif $recommend_info.is_shareholder eq '3'}
-                                                审核未通过
-                                            {elseif $recommend_info.is_shareholder eq '4'}
-                                                申请已撤回
-                                            {/if}
-                                         </span>
-                                        <div class="fr">
-                                            {if $recommend_info.is_shareholder eq '1'}
-                                                <a href="user.php?act=act_back_recommend&amp;id={$recommend_info.id}" class="ftx-05 fr ml0">撤回申请</a>
-                                            {/if}
-                                            {if $recommend_info.is_shareholder eq '3' ||  $recommend_info.is_shareholder eq '4'}
-                                                <a href="user.php?act=act_re_recommend&amp;id={$recommend_info.id}" class="ftx-05 fr ml0">再次申请</a>
-                                            {/if}
-                                            <em class="mr10">{$recommend_info.submit_date}</em>
+                        <!-- {if $recommend_info.share_status == "1" } -->
+                            <h1 class="text-center">您的申请已经提交，请耐心等待审核</h1>
+                        <!-- {else} -->
+                             <h1 class="text-center">您的申请已被驳回，请重新提交申请</h1>
+                             <div class="user-items">
+                                <div class="item">
+                                    <div class="item item-button">
+                                        <div class="label">&nbsp;</div>
+                                            <div class="value">
+                                                <input type="hidden" name="act" value="act_recommend" />
+                                                    <input type="submit" class="sc-btn sc-redBg-btn pingjia_form" value="成为股东">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="txt">推荐人手机号：{$recommend_info.recommend_phone}</div>
                                 </div>
-                            </div>
-                            </div>
+                        <!-- {/if} -->
                     <!-- {/if} -->
                 </form>
             </div>

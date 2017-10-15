@@ -1,0 +1,226 @@
+<!doctype html>
+{if $full_page}
+<html>
+<head>{include file ='library/admin_html_head.lbi'}</head>
+
+<body class="iframe_body">
+	<div class="warpper">
+    	<div class="title">股东管理 - {$ur_here}</div>
+        <div class="content">
+        	<div class="explanation" id="explanation">
+                <div class="flexilist">
+                    <div class="common-content">
+                        <div class="mian-info">
+                            <form method="post" action="shareholder.php" name="theForm" id="shareholder_form" >
+                                <div class="switch_info">
+                                    <div class="item">
+                                        <div class="label">股指金额：</div>
+                                            <div class="label_value">
+                                                <input type="text"   style="display:none"/>
+                                                <input type="text" name="principal" class="text" value="" id="principal"/>
+                                                <div class="form_prompt"></div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="label">&nbsp;</div>
+                                        <div class="label_value info_btn">
+                                            <input type="hidden" name="act" value="{$form_action}" />
+                                            <a href="javascript:;" class="button" id="submitBtn">确定</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+             </div>
+             </div>
+            </div>
+            <div class="flexilist">
+            	<div class="common-head" style="display:none;">
+                   	<div class="refresh">
+                    	<div class="refresh_tit" title="刷新数据"><i class="icon icon-refresh"></i></div>
+                    	<div class="refresh_span">刷新 - 共{$record_count}条记录</div>
+                    </div>
+                    <form action="javascript:searchUserName()" name="searchForm">
+                        <div class="search">
+                            <div class="input">
+                                <input type="text" name="user_name" class="text nofocus" placeholder="会员名称" autocomplete="off" /><input type="submit" value="" class="not_btn" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="common-content">
+                    <form method="POST" action="" name="listForm" onsubmit="return confirm_bath()">
+                	<div class="list-div"  id="listDiv">
+                        {/if}
+                    	<table cellpadding="0" cellspacing="0" border="0">
+                        	<thead>
+                            	<tr>
+                                    <th width="3%" class="sign"><div class="tDiv"><input type="checkbox" name="all_list" class="checkbox" id="all_list" /><label for="all_list" class="checkbox_stars"></label></div></th>
+                                    <th width="5%"><div class="tDiv">编号</div></th>
+                                    <th width="10%"><div class="tDiv">股指</div></th>
+                                    <th width="10%"><div class="tDiv">状态</div></th>
+                                    <th width="20%"><div class="tDiv">日期</div></th>
+                                    <th width="12%" class="handle">{$lang.handler}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {foreach from=$share_stock item=list}
+                            	<tr>
+                                	<td class="sign"><div class="tDiv"><input type="checkbox" name="checkboxes[]" value="{$list.user_id}" class="checkbox" id="checkbox_{$list.user_id}" /><label for="checkbox_{$list.user_id}" class="checkbox_stars"></label></div></td>
+                                    <td><div class="tDiv">{$list.stock_id}</div></td>
+                                	<td><div class="tDiv">{$list.stock_price} 元</div></td>
+                                    <td><div class="tDiv">
+                                        <!-- {if $list.stock_status eq '1'} -->
+                                            已启用
+                                        <!-- {else} -->
+                                            已弃用
+                                        <!-- {/if} -->
+                                        </div>
+                                     </td>
+                                    <td><div class="tDiv">{$list.stock_date}</div></td>
+                                     <td class="handle">
+                                        <div class="tDiv a2">
+                                            <a href="shareholder.php?act=mgt_option&stock_id={$list.stock_id}" class="btn_see"><i class="sc_icon sc_icon_see"></i>启用</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {foreachelse}
+                                    <tr><td class="no-records" colspan="12">{$lang.no_records}</td></tr>
+                                {/foreach}
+                            </tbody>
+                            <tfoot>
+                            	<tr>
+                                    <td colspan="12">
+                                        <div class="tDiv">
+                                            <div class="list-page">
+                                                {include file="library/page.lbi"}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        {if $full_page}
+                    </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {include file ='library/pagefooter.lbi'}
+<script type="text/javascript">
+listTable.recordCount = '{$record_count}';
+listTable.pageCount = '{$page_count}';
+
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+
+$(function(){
+    $("#submitBtn").click(function(){
+        $("#shareholder_form").submit();
+    });
+});
+
+//列表导航栏设置下路选项
+$(".ps-container").perfectScrollbar();
+
+//高级搜索
+$.divselect("#divselect","#quesetion");
+
+$.divselect("#shop_name_select","#shop_name_val",function(obj){
+    var val = obj.attr("data-value");
+    get_store_search(val);
+});
+function get_store_search(val){
+	if(val == 1){
+			$("#merchant_box").css("display",'');
+			$("#store_keyword").css("display",'none');
+			$("#store_type").css("display",'none')
+	}else if(val == 2){
+			$("#merchant_box").css("display",'none');
+			$("#store_keyword").css("display",'');
+			$("#store_type").css("display",'none')
+	}else if(val == 3){
+			$("#merchant_box").css("display",'none');
+			$("#store_keyword").css("display",'');
+			$("#store_type").css("display",'')
+	}else{
+			 $("#merchant_box").css("display",'none');
+			$("#store_keyword").css("display",'none');
+			$("#store_type").css("display",'none')
+	}
+}
+//导出会员
+function download_userlist()
+{
+  var args = '';
+  for (var i in listTable.filter)
+  {
+    if (typeof(listTable.filter[i]) != "function" && typeof(listTable.filter[i]) != "undefined")
+    {
+      args += "&" + i + "=" + encodeURIComponent(listTable.filter[i]);
+    }
+  }
+
+  location.href = "users.php?act=export" + args;
+}
+
+function confirm_bath()
+{
+
+  userItems = $("input[name='checkboxes[]']");
+
+  cfm = '{$lang.list_remove_confirm}';
+
+  for (i=0; userItems[i]; i++)
+  {
+    if (userItems[i].checked && userItems[i].notice == 1)
+    {
+      cfm = '{$lang.list_still_accounts}' + '{$lang.list_remove_confirm}';
+      break;
+    }
+  }
+
+  return confirm(cfm);
+}
+
+/**
+ * 搜索用户
+ */
+function searchUser()
+{
+    var frm = $("form[name='formSearch_senior']");
+    listTable.filter['store_search'] = Utils.trim(frm.find("input[name='store_search']").val());
+    listTable.filter['merchant_id'] = Utils.trim(frm.find("input[name='merchant_id']").val());
+    listTable.filter['store_keyword'] = Utils.trim(frm.find("input[name='store_keyword']").val());
+    listTable.filter['store_type'] = Utils.trim(frm.find("input[name='store_type']").val());
+
+    listTable.filter['keywords'] = Utils.trim(($("form[name='searchForm']").find("input[name='keyword']").val() != '') ? $("form[name='searchForm']").find("input[name='keyword']").val() :  frm.find("input[name='keyword']").val());
+    listTable.filter['mobile_phone'] = Utils.trim(frm.find("input[name='mobile_phone']").val());
+    listTable.filter['email'] = Utils.trim(frm.find("input[name='email']").val());
+    listTable.filter['page'] = 1;
+    listTable.loadList();
+}
+
+/**
+ * 搜索用户名称
+ */
+function searchUserName()
+{
+	var frm = $("form[name='searchForm']");
+
+	listTable.filter = [];
+	listTable.filter['keywords'] = Utils.trim(frm.find("input[name='user_name']").val());
+
+	listTable.filter['page'] = 1;
+    listTable.loadList();
+}
+
+$.gjSearch("-240px");  //高级搜索
+</script>
+{/if}
+</body>
+</html>

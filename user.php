@@ -2914,7 +2914,7 @@ if ($action == 'register') {
 
             include_once ROOT_PATH . 'includes/lib_clips.php';
 
-            $sql = 'select id,user_name,recommend_phone,is_shareholder,submit_date from ' . $GLOBALS['ecs']->table('shareholder') . ' a INNER JOIN ' . $GLOBALS['ecs']->table('users') . ' b ON a.user_id = b.user_id where a.user_id = \'' . $user_id . '\'';
+            $sql = 'select id,user_name,share_status from ' . $GLOBALS['ecs']->table('shareholder') . ' a INNER JOIN ' . $GLOBALS['ecs']->table('users') . ' b ON a.user_id = b.user_id where a.user_id = \'' . $user_id . '\'';
 
             $recommend_info = $db->getRow($sql);
             $smarty->assign('recommend_info', $recommend_info);
@@ -2924,39 +2924,11 @@ if ($action == 'register') {
             //添加股东申请
             include_once ROOT_PATH . 'includes/lib_clips.php';
 
-            echo "<script>alert('$user_id')</script>";
-
-            if ($_POST['recommend_phone'] == "") {
-                echo "<script>alert('请输入正确的手机号')</script>";
-                ecs_header("Location: user.php?act=become_shareholder");
-            } else {
-                $sql = 'INSERT INTO' . $GLOBALS['ecs']->table('shareholder') . '(user_id,recommend_phone,is_shareholder,submit_date)' . ' VALUES (\'' . $user_id . '\', \'' . isset($_POST['recommend_phone']) . '\', \'' . '1' . '\', SYSDATE())';
-                $db->query($sql);
-            }
-            if ($db->affected_rows()) {
-                ecs_header("Location: user.php?act=become_shareholder");
-            }
-        } else if ($action == 'act_re_recommend') {
-            include_once ROOT_PATH . 'includes/lib_clips.php';
-            $id = (isset($_GET['id']) ? intval($_GET['id']) : 0);
-            $sql = 'delete from ' . $GLOBALS['ecs']->table('shareholder') . ' where id = \'' . $id . '\'';
-
+            $sql = 'INSERT INTO' . $GLOBALS['ecs']->table('shareholder') . '(user_id,share_date,share_status)' . ' VALUES (\'' . $user_id . '\', SYSDATE(), \'' . '0' . '\')';
             $db->query($sql);
-
             if ($db->affected_rows()) {
                 ecs_header("Location: user.php?act=become_shareholder");
             }
-        } else if ($action == 'act_back_recommend') {
-            include_once ROOT_PATH . 'includes/lib_clips.php';
-            $id = (isset($_GET['id']) ? intval($_GET['id']) : 0);
-            $sql = 'UPDATE' . $ecs->table('shareholder') . 'set is_shareholder = 4 where id = \'' . $id . '\'';
-
-            $db->query($sql);
-
-            if ($db->affected_rows()) {
-                ecs_header("Location: user.php?act=become_shareholder");
-            }
-
         } else if ($action == 'comment_list') {
             include_once ROOT_PATH . 'includes/lib_clips.php';
             if ((intval($_CFG['captcha']) & CAPTCHA_COMMENT) && (0 < gd_version())) {

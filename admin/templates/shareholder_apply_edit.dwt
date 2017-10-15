@@ -4,7 +4,7 @@
 
 <body class="iframe_body">
 	<div class="warpper">
-    	<div class="title"><a href="{$action_link2.href}" class="s-back">{$lang.back}</a>股东列表 - {$ur_here}</div>
+    	<div class="title"><a href="{$action_link2.href}" class="s-back">{$lang.back}</a>股东申请 - {$ur_here}</div>
         <div class="content">
         	<div class="explanation" id="explanation">
             	<div class="ex_tit"><i class="sc_icon"></i><h4>操作提示</h4><span id="explanationZoom" title="收起提示"></span></div>
@@ -22,14 +22,14 @@
                                 <div class="item">
                                     <div class="label">股东名称：</div>
                                     <div class="label_value">
-                                        <input type="text" id="username" name="username" class="text" value="" autocomplete="off" />
+                                        <input type="text" id="username" name="username" class="text" value="{$shareholder_info.username}" readonly="true"  autocomplete="off" />
                                         <div class="form_prompt"></div>
                                     </div>
                                 </div>
                                 <div class="item">
                                     <div class="label">股东手机：</div>
                                     <div class="label_value">
-                                        <input type="text" name="phone" class="text" value="" id="phone" autocomplete="off" />
+                                        <input type="text" name="phone" class="text" value="{$shareholder_info.phone}" id="phone" readonly="true"  autocomplete="off" />
                                         <div class="form_prompt"></div>
                                     </div>
                                 </div>
@@ -37,7 +37,7 @@
                                     <div class="label">认筹金额：</div>
                                     <div class="label_value">
                                         <input type="text"   style="display:none"/>
-                                        <input type="text" name="principal" class="text" value="" id="principal"/>
+                                        <input type="text" name="principal" class="text" value="{$shareholder_info.principal}" id="principal"/>
                                         <div class="form_prompt"></div>
                                     </div>
                                 </div>
@@ -45,7 +45,8 @@
                                     <div class="label">&nbsp;</div>
                                     <div class="label_value info_btn">
                                         <input type="hidden" name="act" value="{$form_action}" />
-                                        <a href="javascript:;" class="button" id="submitBtn">提交</a>
+                                        <a href="javascript:;" class="button" id="submitBtn">同意入股</a>
+                                        <a href="shareholder.php?act=apply_remove&share_id={$shareholder_info.id}" class="button">驳回</a>
                                     </div>
                                     </div>
                                 </div>
