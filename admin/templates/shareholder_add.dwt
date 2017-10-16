@@ -20,21 +20,90 @@
                         <form method="post" action="shareholder.php" name="theForm" id="shareholder_form" >
                             <div class="switch_info">
                                 <div class="item">
-                                    <div class="label">股东名称：</div>
+                                    <div class="label">会员名称：</div>
                                     <div class="label_value">
                                         <input type="text" id="username" name="username" class="text" value="" autocomplete="off" />
                                         <div class="form_prompt"></div>
                                     </div>
                                 </div>
                                 <div class="item">
-                                    <div class="label">股东手机：</div>
+                                    <div class="label">姓名：</div>
+                                    <div class="label_value">
+                                        <input type="text" name="realname" class="text" value="" id="phone" autocomplete="off" />
+                                        <div class="form_prompt"></div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="label">身份证号：</div>
+                                    <div class="label_value">
+                                        <input type="text" name="idently" class="text" value="" id="phone" autocomplete="off" />
+                                        <div class="form_prompt"></div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="label">手机：</div>
                                     <div class="label_value">
                                         <input type="text" name="phone" class="text" value="" id="phone" autocomplete="off" />
                                         <div class="form_prompt"></div>
                                     </div>
                                 </div>
+                                <input type="hidden" value="{if $consignee.country}{$consignee.country}{else}1{/if}" name="country">
+                                    <div class="item">
+                                        <div class="label">所在地区：</div>
+                                        <div class="label_value">
+                                                <div class="level_linkage">
+                                                <div class="fl">
+                                                    <div class="ui-dropdown smartdropdown alien">
+                                                        <input type="hidden" value="{$consignee.province}" name="province" id="selProvinces">
+                                                        <div class="txt">省/直辖市</div>
+                                                        <i class="down u-dropdown-icon"></i>
+                                                        <div class="options clearfix" style="max-height:300px;">
+                                                            {foreach from=$province_list item=list}
+                                                                <span class="liv" data-text="{$list.region_name}" data-type="2"  data-value="{$list.region_id}">{$list.region_name}</span>
+                                                            {/foreach}
+                                                        </div>
+                                                    </div>
+                                                    <div id="dlCity" class="ui-dropdown smartdropdown alien">
+                                                        <input type="hidden" value="{$consignee.city}" name="city" id="selCities">
+                                                        <div class="txt">市</div>
+                                                        <i class="down u-dropdown-icon"></i>
+                                                        <div class="options clearfix" style="max-height:300px;">
+                                                            {foreach from=$city_list item=list}
+                                                            <span class="liv" data-text="{$list.region_name}" data-type="3"  data-value="{$list.region_id}">{$list.region_name}</span>
+                                                            {/foreach}
+                                                        </div>
+                                                    </div>
+                                                    <div id="dlRegion" class="ui-dropdown smartdropdown alien">
+                                                        <input type="hidden" value="{$consignee.district}" name="district" id="selDistricts">
+                                                        <div class="txt">区/县</div>
+                                                        <i class="down u-dropdown-icon"></i>
+                                                        <div class="options clearfix" style="max-height:300px;">
+                                                            {foreach from=$district_list item=list}
+                                                            <span class="liv" data-text="{$list.region_name}" data-type="4"  data-value="{$list.region_id}">{$list.region_name}</span>
+                                                            {/foreach}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 <div class="item">
-                                    <div class="label">认筹金额：</div>
+                                    <div class="label">详细地址：</div>
+                                    <div class="label_value">
+                                        <input type="text" name="address_detail" class="text" value="" id="phone" autocomplete="off" />
+                                        <div class="form_prompt"></div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="label">本金：</div>
+                                    <div class="label_value">
+                                        <input type="text"   style="display:none"/>
+                                        <input type="text" name="principal" class="text" value="" id="principal"/>
+                                        <div class="form_prompt"></div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="label">股数：</div>
                                     <div class="label_value">
                                         <input type="text"   style="display:none"/>
                                         <input type="text" name="principal" class="text" value="" id="principal"/>
@@ -57,7 +126,9 @@
 		</div>
     </div>
  {include file ='library/pagefooter.lbi'}
+ <script type="text/javascript" src="js/region.js"></script>
     <script type="text/javascript">
+    $.levelLink();//地区三级联动
 		//表单验证
 		$(function(){
 			$("#submitBtn").click(function(){

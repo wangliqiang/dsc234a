@@ -74,6 +74,13 @@ function user_apply()
     return $arr;
 }
 
+
+function get_regions_log($type = 0, $parent = 0)
+{
+    $sql = 'SELECT region_id, region_name FROM ' . $GLOBALS['ecs']->table('region') . ' WHERE region_type = \'' . $type . '\' AND parent_id = \'' . $parent . '\'';
+    return $GLOBALS['db']->GetAll($sql);
+}
+
 define('IN_ECS', true);
 require dirname(__FILE__) . '/includes/init.php';
 $adminru = get_admin_ru_id();
@@ -107,24 +114,42 @@ if ($_REQUEST['act'] == 'list') {
     $smarty->assign('page_count', $user_list['page_count']);
     make_json_result($smarty->fetch('shareholder_list.dwt'), '', array('filter' => $user_list['filter'], 'page_count' => $user_list['page_count']));
 } else if ($_REQUEST['act'] == 'option') {
+
     $share_id = (empty($_GET['share_id']) ? '' : trim($_GET['share_id']));
     $sql = 'SELECT u.user_id, u.user_name as username, u.nick_name, u.mobile_phone as phone,s.id,s.share_principal as principal ,s.share_date,FORMAT (s.share_principal * (SELECT stock_price FROM `shop`.`dsc_share_stock` WHERE stock_status = 1 ),2) AS profit FROM `shop`.`dsc_users` AS u inner join`shop`.`dsc_shareholder`as s on u.user_id = s.user_id WHERE s.id = \'' . $share_id . '\'';
     $editShare = $db->getRow($sql);
-
     $smarty->assign('ur_here', $_LANG['05_shareholder_edit']);
     $smarty->assign('form_action', 'edit');
     $smarty->assign('shareholder_info', $editShare);
     $smarty->assign('action_link2', array('text' => $_LANG['01_shareholder_list'], 'href' => 'shareholder.php?act=list'));
     $smarty->display('shareholder_list_edit.dwt');
+
 } else if ($_REQUEST['act'] == 'add') {
+
+    $country_list = get_regions_steps(0, 0);
+    $province_list = get_regions_steps(1, 1);
+    $city_list = get_regions_steps(2, $consignee['province']);
+    $district_list = get_regions_steps(3, $consignee['city']);
+    $smarty->assign('sn', $sn);
+    $smarty->assign('country_list', get_regions());
     $smarty->assign('ur_here', $_LANG['04_shareholder_add']);
     $smarty->assign('form_action', 'insert');
+    $smarty->assign('country_list', $country_list);
+    $smarty->assign('province_list', $province_list);
+    $smarty->assign('city_list', $city_list);
+    $smarty->assign('district_list', $district_list);
     $smarty->assign('action_link2', array('text' => $_LANG['01_shareholder_list'], 'href' => 'shareholder.php?act=list'));
     $smarty->display('shareholder_add.dwt');
+
 } else if ($_REQUEST['act'] == 'insert') {
     $username = (empty($_POST['username']) ? '' : trim($_POST['username']));
     $phone = (empty($_POST['phone']) ? '' : trim($_POST['phone']));
     $principal = (empty($_POST['principal']) ? '' : trim($_POST['principal']));
+    $country = (isset($_POST['country']) ? $_POST['country'] : 0);
+    $province = (isset($_POST['province']) ? $_POST['province'] : 0);
+    $city = (isset($_POST['city']) ? $_POST['city'] : 0);
+    $district = (isset($_POST['district']) ? $_POST['district'] : 0);
+
     if (empty($username)) {
         sys_msg('用户名不能为空!', 1);
     } else if (empty($principal)) {
