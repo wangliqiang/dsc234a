@@ -2913,9 +2913,7 @@ if ($action == 'register') {
         } else if ($action == 'become_shareholder') { //成为股东
 
             include_once ROOT_PATH . 'includes/lib_clips.php';
-
-            $sql = 'select id,user_name,share_status from ' . $GLOBALS['ecs']->table('shareholder') . ' a INNER JOIN ' . $GLOBALS['ecs']->table('users') . ' b ON a.user_id = b.user_id where a.user_id = \'' . $user_id . '\'';
-
+            $sql = 'SELECT u.user_id, u.user_name, u.nick_name, u.mobile_phone,s.id,s.share_principal,s.share_date,s.share_status,(SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ) as price,FORMAT (s.share_principal * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1),2) AS profit FROM ' . $GLOBALS['ecs']->table('users') . ' AS u inner join' . $GLOBALS['ecs']->table('shareholder') . 'as s on u.user_id = s.user_id WHERE s.user_id = \'' . $user_id . '\'';
             $recommend_info = $db->getRow($sql);
             $smarty->assign('recommend_info', $recommend_info);
             $smarty->display('user_clips.dwt');

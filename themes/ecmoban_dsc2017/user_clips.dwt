@@ -14,7 +14,6 @@
 <link rel="stylesheet" type="text/css" href="themes/<?php echo $GLOBALS['_CFG']['template']; ?>/css/user.css">
 <link rel="stylesheet" type="text/css" href="../js/perfect-scrollbar/perfect-scrollbar.min.css" />
 </script>
-
 </head>
 <body>
 <!-- #BeginLibraryItem "/library/page_header_common.lbi" --><!-- #EndLibraryItem -->
@@ -415,7 +414,7 @@
                     <!-- {else} -->
                         <!-- {if $recommend_info.share_status == "1" } -->
                             <h1 class="text-center">您的申请已经提交，请耐心等待审核</h1>
-                        <!-- {else} -->
+                        <!-- {elseif $recommend_info.share_status == "2" } -->
                              <h1 class="text-center">您的申请已被驳回，请重新提交申请</h1>
                              <div class="user-items">
                                 <div class="item">
@@ -429,6 +428,27 @@
                                         </div>
                                     </div>
                                 </div>
+                        <!-- {elseif $recommend_info.share_status == "3" } -->
+                                <div class="affiliate-list-warp clearfix">
+                                 <table class="user-table user-table-baitiao">
+                                     <thead>
+                                         <tr>
+                                             <th class="tc">名称</th>
+                                             <th>本金</th>
+                                             <th>股指（元）</th>
+                                             <th>总计（元）</th>
+                                         </tr>
+                                     </thead>
+                                     <tbody>
+                                         <tr>
+                                             <td class="tc">{$recommend_info.user_name}</td>
+                                             <td class="tc">{$recommend_info.share_principal}</td>
+                                             <td class="tc">{$recommend_info.price}</td>
+                                             <td class="tc">{$recommend_info.profit}</td>
+                                         </tr>
+                                     </tbody>
+                                 </table>
+                             </div>
                         <!-- {/if} -->
                     <!-- {/if} -->
                 </form>
