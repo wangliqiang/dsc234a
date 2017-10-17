@@ -133,6 +133,52 @@
 			</a>
 		</ul>
 	</section>
+	<section class="m-top08 user-function-list b-color-f">
+		<a href="javascript:void(0);">
+			<div class="dis-box padding-all wallet-bt">
+				<h3 class="box-flex"><i class="iconfont icon-iconfontquanbudingdan   color-fe"></i>股东信息</h3>
+				<div class="box-flex f-03 text-right onelist-hidden jian-top">股指：{$shareholder.price}</div>
+				<span class="t-jiantou"><i class="iconfont icon-jiantou tf-180 jian-top"></i></span>
+			</div>
+		</a>
+		{if $shareholder.share_status == '1'}
+			<ul class="user-order-list  dis-box text-center">
+				<a href="javascript:void(0);" class="box-flex">
+					<li>
+						<h4 class="ellipsis-one">{$shareholder.share_principal}</h4>
+						<p class="t-remark3">本金</p>
+					</li>
+				</a>
+				<a href="javascript:void(0);" class="box-flex">
+
+					<li>
+						<h4 class="ellipsis-one">{$shareholder.profit}</h4>
+						<p class="t-remark3">收益</p>
+					</li>
+				</a>
+				<a href="javascript:void(0);" class="box-flex">
+					<li>
+						<h4 class="ellipsis-one">{$shareholder.share_number}</h4>
+						<p class="t-remark3">股数</p>
+					</li>
+				</a>
+				<a href="javascript:void(0);" class="box-flex">
+					<li>
+						{if $couponses == '' }
+						<h4 class="ellipsis-one">0</h4> {else}
+						<h4 class="ellipsis-one">{$shareholder.total}</h4> {/if}
+						<p class="t-remark3">总计</p>
+					</li>
+				</a>
+			</ul>
+			{elseif $shareholder.share_status == '0'}
+				<h2 class="text-center" style="padding: 10px;"><a href="javascript:void(0);" class="box-flex">申请审核中</a></h2>
+			{elseif $shareholder.share_status == '2'}
+			<h2 class="text-center" style="padding: 10px;"><a href="{url('user/account/shareholder')}" class="box-flex">申请驳回，请重新提交</a></h2>
+			{else}
+				<h2 class="text-center" style="padding: 10px;"><a href="{url('user/account/shareholder')}" class="box-flex">成为股东</a></h2>
+		{/if}
+	</section>
 	<section class="m-top06" style="display: none">
 		<div class="index-banner swiper-container box mb-1 banner-second">
 				<div class="swiper-wrapper">
@@ -173,8 +219,8 @@
 			<a href="{url('user/crowd/index')}">
 				<label><i class="iconfont icon-zichou color-ff7"></i></label>
 				<p class="f-02 col-7">我的微筹</p>
-			</a>-->
-         
+			</a>
+
    			 {if $is_wechat == 1}
     		<a href="{url('user/profile/account_relation')}">
 				<label><i class="iconfont icon-fenxiang3 color-e72"></i></label>
@@ -199,7 +245,7 @@
 				<label><i class="iconfont icon-3shouce color-f9c"></i></label>
 				<p class="f-02 col-7">授权管理</p>
 			</a>
-            
+
 
 		</div>
 	</nav>

@@ -133,7 +133,9 @@
 		</div>
     </div>
  {include file ='library/pagefooter.lbi'}
+  <script type="text/javascript" src="js/region.js"></script>
     <script type="text/javascript">
+     $.levelLink();//地区三级联动
 		//表单验证
 		$(function(){
 			$("#submitBtn").click(function(){

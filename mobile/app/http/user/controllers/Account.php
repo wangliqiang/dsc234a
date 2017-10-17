@@ -1,5 +1,4 @@
 <?php
-//zend by 旺旺ecshop2011所有  禁止倒卖 一经发现停止任何服务
 namespace app\http\user\controllers;
 
 class Account extends \app\http\base\controllers\Frontend
@@ -36,6 +35,32 @@ class Account extends \app\http\base\controllers\Frontend
 		$this->assign('pay_points', $pay_points ? $pay_points : 0);
 		$this->assign('page_title', L('label_user_surplus'));
 		$this->display();
+	}
+
+	public function actionShareholder(){
+		$sql = 'select user_name,mobile_phone from {pre}users where user_id = \'' . $this->user_id . '\'';
+		$userinfo = $this->db->getRow($sql);
+        $this->assign('userinfo', $userinfo);
+        $this->assign('page_title', '成为股东');
+        $this->display();
+	}
+
+	public function actionAddShareholder(){
+
+        $realname = (empty($_POST['realname']) ? '' : trim($_POST['realname']));
+        $identity = (empty($_POST['identity']) ? '' : trim($_POST['identity']));
+        $phone = $_POST['mobile_phone'];
+        $country = '1';
+        $province = $_POST['province_region_id'];
+        $city = $_POST['city_region_id'];
+        $district = $_POST['district_region_id'];
+        $address_detail = $_POST['address'];
+
+        $sql = 'insert into {pre}shareholder (user_id,share_realname,share_identity,share_phone,country,province,city,district,share_address,share_date,share_status) '
+            . ' VALUES (\'' . $this->user_id . '\',\'' . $realname . '\',\'' . $identity . '\',\'' . $phone . '\',\'' . $country . '\',\'' . $province . '\',\'' . $city . '\',\'' . $district . '\',\'' . $address_detail . '\', SYSDATE(),0)';
+        $this->db->query($sql);
+
+        $this->redirect('user/index/index');
 	}
 
 	public function actionDetail()

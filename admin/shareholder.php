@@ -34,7 +34,6 @@ function user_list()
         $sql = $result['sql'];
         $filter = $result['filter'];
     }
-
     $user_list = $GLOBALS['db']->getAll($sql);
     $count = count($user_list);
     $getStock = 'select stock_id,stock_price,stock_date,stock_status from ' . $GLOBALS['ecs']->table('share_stock') . ' where stock_status = 1';
@@ -214,7 +213,7 @@ if ($_REQUEST['act'] == 'list') {
 
     $userId = $db->getOne($getUserId);
 
-    $sql = 'update ' . $ecs->table('shareholder') . ' SET  country = ' . $country . ',province = ' . $province . ',city = ' . $city . ',district = ' . $district . ',share_address = ' . $address_detail . ',share_number = ' . $share_number . ',share_principal = ' . $principal . ',share_date = SYSDATE(),share_status = 1 where user_id = ' . $userId . '';
+    $sql = 'update ' . $ecs->table('shareholder') . ' SET  country = ' . $country . ',province = ' . $province . ',city = ' . $city . ',district = ' . $district . ',share_address = \'' . $address_detail . '\',share_number = ' . $share_number . ',share_principal = ' . $principal . ',share_date = SYSDATE(),share_status = 1 where user_id = ' . $userId . '';
 
     $db->query($sql);
 
@@ -231,6 +230,7 @@ if ($_REQUEST['act'] == 'list') {
     $lnk[] = array('text' => $_LANG['go_back'], 'href' => 'shareholder.php?act=list');
     sys_msg(sprintf($_LANG['batch_remove_success'], $count), 0, $lnk);
 } else if ($_REQUEST['act'] == 'apply') {
+
     $smarty->assign('ur_here', '申请列表');
     $user_list = user_apply();
     $smarty->assign('user_list', $user_list['user_list']);
@@ -242,17 +242,25 @@ if ($_REQUEST['act'] == 'list') {
     $smarty->assign('sort_user_id', '<img src="images/sort_desc.gif">');
     $smarty->display('shareholder_apply.dwt');
 } else if ($_REQUEST['act'] == 'apply_edit') {
+
     $username = (empty($_POST['username']) ? '' : trim($_POST['username']));
-    $phone = (empty($_POST['phone']) ? '' : trim($_POST['phone']));
-    $principal = (empty($_POST['principal']) ? '' : trim($_POST['principal']));
-    if (empty($principal)) {
-        sys_msg('请输入金额!', 1);
-    }
+    $realname = (empty($_POST['realname']) ? '' : trim($_POST['realname']));
+    $identity = (empty($_POST['identity']) ? '' : trim($_POST['identity']));
+    $phone = $_POST['phone'];
+    $principal = $_POST['principal'];
+    $country = $_POST['country'];
+    $province = $_POST['province'];
+    $city = $_POST['city'];
+    $district = $_POST['district'];
+    $address_detail = $_POST['address_detail'];
+    $share_number = $_POST['share_number'];
+
+
     $getUserId = 'select user_id  from ' . $ecs->table('users') . ' where user_name = \'' . $username . '\' and mobile_phone = \'' . $phone . '\'';
 
     $userId = $db->getOne($getUserId);
 
-    $sql = 'update ' . $ecs->table('shareholder') . ' SET share_principal = ' . $principal . ',share_date = SYSDATE(),share_status = 1 where user_id = ' . $userId . '';
+    $sql = 'update ' . $ecs->table('shareholder') . ' SET  country = ' . $country . ',province = ' . $province . ',city = ' . $city . ',district = ' . $district . ',share_address = \'' . $address_detail . '\',share_number = ' . $share_number . ',share_principal = ' . $principal . ',share_date = SYSDATE(),share_status = 1 where user_id = ' . $userId . '';
 
     $db->query($sql);
 
@@ -262,15 +270,27 @@ if ($_REQUEST['act'] == 'list') {
     $links[1]['href'] = 'javascript:history.back()';
     sys_msg($_LANG['update_success'], 0, $links);
 } else if ($_REQUEST['act'] == 'apply_query') {
+
     $user_list = user_apply();
     $smarty->assign('user_list', $user_list['user_list']);
     $smarty->assign('filter', $user_list['filter']);
     $smarty->assign('record_count', $user_list['record_count']);
     $smarty->assign('page_count', $user_list['page_count']);
     make_json_result($smarty->fetch('shareholder_apply.dwt'), '', array('filter' => $user_list['filter'], 'page_count' => $user_list['page_count']));
+
 } else if ($_REQUEST['act'] == 'apply_option') {
+
     $share_id = (empty($_GET['share_id']) ? '' : trim($_GET['share_id']));
-    $sql = 'SELECT u.user_id, u.user_name as username, u.nick_name, u.mobile_phone as phone,s.id,s.share_principal as principal ,s.share_date,FORMAT (s.share_principal * (SELECT stock_price FROM `shop`.`dsc_share_stock` WHERE stock_status = 1 ),2) AS profit FROM `shop`.`dsc_users` AS u inner join`shop`.`dsc_shareholder`as s on u.user_id = s.user_id WHERE s.id = \'' . $share_id . '\'';
+    $sql = 'SELECT u.user_id, u.user_name as username, u.mobile_phone as phone,s.id,s.share_principal as principal ,s.share_date,
+      s.country,
+      s.province,
+      s.city,
+      s.district,
+	  s.share_address,
+	  s.share_identity,
+	  s.share_realname,
+	  s.share_number,
+      FORMAT (s.share_principal * (SELECT stock_price FROM `shop`.`dsc_share_stock` WHERE stock_status = 1 ),2) AS profit FROM `shop`.`dsc_users` AS u inner join`shop`.`dsc_shareholder`as s on u.user_id = s.user_id WHERE s.id = \'' . $share_id . '\'';
     $editShare = $db->getRow($sql);
 
     $smarty->assign('ur_here', '详情');

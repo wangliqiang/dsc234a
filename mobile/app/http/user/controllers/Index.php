@@ -35,7 +35,6 @@ class Index extends \app\http\base\controllers\Frontend
 			$team_num = team_ongoing($user_id);
 			$this->assign('team_num', intval($team_num));
 		}
-
 		$where_confirmed = ' AND oi.pay_status = ' . PS_PAYED . ' AND oi.order_status in (' . OS_CONFIRMED . ', ' . OS_SPLITED . ', ' . OS_SPLITING_PART . ') AND (oi.shipping_status >= ' . SS_UNSHIPPED . ' AND oi.shipping_status <> ' . SS_RECEIVED . ')';
 		$sql = 'SELECT a.msg_id  FROM {pre}feedback AS a WHERE a.parent_id IN ' . ' (SELECT b.msg_id FROM {pre}feedback AS b WHERE b.user_id = \'' . $_SESSION['user_id'] . '\') ORDER BY a.msg_id DESC';
 		$msg_ids = $this->db->getOne($sql);
@@ -59,6 +58,9 @@ class Index extends \app\http\base\controllers\Frontend
 			}
 		}
 
+        $getShareHolderInfo = 'SELECT u.user_id, u.user_name, u.mobile_phone,s.id,s.share_number,s.share_principal,s.share_date,s.share_status,(SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ) as price,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1) - s.share_principal,2) AS profit,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1),2) AS total FROM ' . $GLOBALS['ecs']->table('users') . ' AS u inner join' . $GLOBALS['ecs']->table('shareholder') . 'as s on u.user_id = s.user_id WHERE s.user_id = \'' . $user_id . '\'';
+        $shareHolderInfo = $this->db->getRow($getShareHolderInfo);
+
 		$user_id = $_SESSION['user_id'];
 		$c_sql = 'select count(*)  from ' . $GLOBALS['ecs']->table('coupons_user') . 'where is_use =0 and user_id = \'' . $user_id . '\'';
 		$c_count = $GLOBALS['db']->getOne($c_sql);
@@ -76,13 +78,15 @@ class Index extends \app\http\base\controllers\Frontend
 		$this->assign('return_count', $return_count);
 		$this->assign('drp', is_dir(APP_DRP_PATH) ? 1 : 0);
 		$this->assign('team', is_dir(APP_TEAM_PATH) ? 1 : 0);
-		$share = unserialize($GLOBALS['_CFG']['affiliate']);
+        $this->assign('shareholder', $shareHolderInfo);
+        $share = unserialize($GLOBALS['_CFG']['affiliate']);
 
-		if ($share['on'] == 1) {
-			$this->assign('share', '1');
-		}
+        if ($share['on'] == 1) {
+            $this->assign('share', '1');
+        }
 
-		$this->display();
+
+        $this->display();
 	}
 
 	public function actionHistory()
@@ -889,7 +893,6 @@ class Index extends \app\http\base\controllers\Frontend
 		if ($share['on'] == 0) {
 			$this->redirect('user/index/index');
 		}
-
 		$goodsid = I('request.goodsid', 0);
 
 		if (empty($goodsid)) {
