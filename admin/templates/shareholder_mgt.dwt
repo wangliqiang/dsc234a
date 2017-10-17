@@ -70,13 +70,12 @@
                                 	<td class="sign"><div class="tDiv"><input type="checkbox" name="checkboxes[]" value="{$list.user_id}" class="checkbox" id="checkbox_{$list.user_id}" /><label for="checkbox_{$list.user_id}" class="checkbox_stars"></label></div></td>
                                     <td><div class="tDiv">{$list.stock_id}</div></td>
                                 	<td><div class="tDiv">{$list.stock_price} 元</div></td>
-                                    <td><div class="tDiv">
+                                    <td>
                                         <!-- {if $list.stock_status eq '1'} -->
-                                            已启用
+                                            <div class="tDiv" style="color:red;">已启用</div>
                                         <!-- {else} -->
-                                            已弃用
+                                            <div class="tDiv">已弃用</div>
                                         <!-- {/if} -->
-                                        </div>
                                      </td>
                                     <td><div class="tDiv">{$list.stock_date}</div></td>
                                      <td class="handle">

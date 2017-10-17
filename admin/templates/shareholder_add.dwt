@@ -27,16 +27,16 @@
                                     </div>
                                 </div>
                                 <div class="item">
-                                    <div class="label">姓名：</div>
+                                    <div class="label">真实姓名：</div>
                                     <div class="label_value">
-                                        <input type="text" name="realname" class="text" value="" id="phone" autocomplete="off" />
+                                        <input type="text" name="realname" class="text" value="" id="realname" autocomplete="off" />
                                         <div class="form_prompt"></div>
                                     </div>
                                 </div>
                                 <div class="item">
                                     <div class="label">身份证号：</div>
                                     <div class="label_value">
-                                        <input type="text" name="idently" class="text" value="" id="phone" autocomplete="off" />
+                                        <input type="text" name="identity" class="text" value="" id="identity" autocomplete="off" />
                                         <div class="form_prompt"></div>
                                     </div>
                                 </div>
@@ -106,7 +106,7 @@
                                     <div class="label">股数：</div>
                                     <div class="label_value">
                                         <input type="text"   style="display:none"/>
-                                        <input type="text" name="principal" class="text" value="" id="principal"/>
+                                        <input type="text" name="share_number" class="text" value="" id="share_number"/>
                                         <div class="form_prompt"></div>
                                     </div>
                                 </div>
@@ -132,9 +132,57 @@
 		//表单验证
 		$(function(){
 			$("#submitBtn").click(function(){
-				$("#shareholder_form").submit();
+                if($("#shareholder_form").valid()){
+                    $("#shareholder_form").submit();
+				}
 			});
 		});
+        $('#shareholder_form').validate({
+			errorPlacement:function(error, element){
+				var error_div = element.parents('div.label_value').find('div.form_prompt');
+				error_div.append(error);
+			},
+			rules:{
+				username :{
+					required:true
+				},
+				realname :{
+					required:true
+				},
+				identity :{
+				    required:true
+				},
+				address_detail :{
+				    required:true
+				},
+				principal :{
+				    required:true
+				},
+				share_number :{
+				    required:true
+				}
+			},
+			messages:{
+				username :{
+					required:'<i class="icon icon-exclamation-sign"></i>会员姓名不能为空'
+				},
+				realname :{
+					required:'<i class="icon icon-exclamation-sign"></i>真实姓名不能为空'
+				},
+				identity :{
+					required:'<i class="icon icon-exclamation-sign"></i>身份证号不能为空'
+				},
+				address_detail :{
+					required:'<i class="icon icon-exclamation-sign"></i>请填写详细地址'
+				},
+				principal :{
+					required:'<i class="icon icon-exclamation-sign"></i>本金不能为空'
+				},
+				share_number :{
+					required:'<i class="icon icon-exclamation-sign"></i>股数不能为空'
+				}
+			}
+        });
     </script>
 </body>
 </html>

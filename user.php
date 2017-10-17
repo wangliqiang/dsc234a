@@ -2913,17 +2913,44 @@ if ($action == 'register') {
         } else if ($action == 'become_shareholder') { //成为股东
 
             include_once ROOT_PATH . 'includes/lib_clips.php';
-            $sql = 'SELECT u.user_id, u.user_name, u.nick_name, u.mobile_phone,s.id,s.share_principal,s.share_date,s.share_status,(SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ) as price,FORMAT (s.share_principal * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1),2) AS profit FROM ' . $GLOBALS['ecs']->table('users') . ' AS u inner join' . $GLOBALS['ecs']->table('shareholder') . 'as s on u.user_id = s.user_id WHERE s.user_id = \'' . $user_id . '\'';
+
+            $country_list = get_regions_steps(0, 0);
+            $province_list = get_regions_steps(1, 1);
+            $city_list = get_regions_steps(2, $consignee['province']);
+            $district_list = get_regions_steps(3, $consignee['city']);
+
+            $getUsername = 'SELECT user_name,mobile_phone from ' . $ecs->table('users') . ' where user_id = \'' . $user_id . '\'';
+
+            $user_info = $db->getRow($getUsername);
+
+            $sql = 'SELECT u.user_id, u.user_name, u.mobile_phone,s.id,s.share_number,s.share_principal,s.share_date,s.share_status,(SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ) as price,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1) - s.share_principal,2) AS profit,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1),2) AS total FROM ' . $GLOBALS['ecs']->table('users') . ' AS u inner join' . $GLOBALS['ecs']->table('shareholder') . 'as s on u.user_id = s.user_id WHERE s.user_id = \'' . $user_id . '\'';
             $recommend_info = $db->getRow($sql);
+            $smarty->assign('user_info', $user_info);
             $smarty->assign('recommend_info', $recommend_info);
+            $smarty->assign('country_list', $country_list);
+            $smarty->assign('province_list', $province_list);
+            $smarty->assign('city_list', $city_list);
+            $smarty->assign('district_list', $district_list);
             $smarty->display('user_clips.dwt');
 
         } else if ($action == 'act_recommend') {
             //添加股东申请
             include_once ROOT_PATH . 'includes/lib_clips.php';
+            $username = (empty($_POST['username']) ? '' : trim($_POST['username']));
+            $realname = (empty($_POST['realname']) ? '' : trim($_POST['realname']));
+            $identity = (empty($_POST['identity']) ? '' : trim($_POST['identity']));
+            $phone = $_POST['phone'];
+            $country = $_POST['country'];
+            $province = $_POST['province'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $address_detail = $_POST['address_detail'];
 
-            $sql = 'INSERT INTO' . $GLOBALS['ecs']->table('shareholder') . '(user_id,share_date,share_status)' . ' VALUES (\'' . $user_id . '\', SYSDATE(), \'' . '0' . '\')';
+            $sql = 'insert into ' . $ecs->table('shareholder') . '(user_id,share_realname,share_identity,share_phone,country,province,city,district,share_address,share_date,share_status) '
+                . ' VALUES (\'' . $user_id . '\',\'' . $realname . '\',\'' . $identity . '\',\'' . $phone . '\',\'' . $country . '\',\'' . $province . '\',\'' . $city . '\',\'' . $district . '\',\'' . $address_detail . '\', SYSDATE(),0)';
+
             $db->query($sql);
+
             if ($db->affected_rows()) {
                 ecs_header("Location: user.php?act=become_shareholder");
             }

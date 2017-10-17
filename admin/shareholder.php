@@ -22,7 +22,10 @@ function user_list()
         $filter['record_count'] = $GLOBALS['db']->getOne('SELECT COUNT(*) FROM ' . $GLOBALS['ecs']->table('users') . ' AS u inner join'
             . $GLOBALS['ecs']->table('shareholder') . 'as s on u.user_id = s.user_id' . $ex_where);
         $filter = page_and_size($filter);
-        $sql = 'SELECT u.user_id, u.user_name, u.nick_name, u.mobile_phone,s.id,s.share_principal,s.share_date,FORMAT (s.share_principal * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ),2) AS profit' . ' FROM ' .
+        $sql = 'SELECT u.user_id, u.user_name,u.mobile_phone,s.id,s.share_phone,s.share_number,s.share_principal,s.share_date
+            ,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ) - s.share_principal,2) AS profit
+            ,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ),2) AS total'
+            . ' FROM ' .
             $GLOBALS['ecs']->table('users') . ' AS u inner join' . $GLOBALS['ecs']->table('shareholder') . 'as s on u.user_id = s.user_id' . $ex_where . ' '
             . ' LIMIT ' . $filter['start'] . ',' . $filter['page_size'];
         $filter['keywords'] = stripslashes($filter['keywords']);
@@ -56,7 +59,10 @@ function user_apply()
         $filter['record_count'] = $GLOBALS['db']->getOne('SELECT COUNT(*) FROM ' . $GLOBALS['ecs']->table('users') . ' AS u inner join'
             . $GLOBALS['ecs']->table('shareholder') . 'as s on u.user_id = s.user_id' . $ex_where);
         $filter = page_and_size($filter);
-        $sql = 'SELECT u.user_id, u.user_name, u.nick_name, u.mobile_phone,s.id,s.share_principal,s.share_date,FORMAT (s.share_principal * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ),2) AS profit' . ' FROM ' .
+        $sql = 'SELECT u.user_id, u.user_name,u.mobile_phone,s.id,s.share_phone,s.share_number,s.share_principal,s.share_date
+            ,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ) - s.share_principal,2) AS profit
+            ,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ),2) AS total'
+            . ' FROM ' .
             $GLOBALS['ecs']->table('users') . ' AS u inner join' . $GLOBALS['ecs']->table('shareholder') . 'as s on u.user_id = s.user_id' . $ex_where . ' '
             . ' LIMIT ' . $filter['start'] . ',' . $filter['page_size'];
         $filter['keywords'] = stripslashes($filter['keywords']);
@@ -67,6 +73,7 @@ function user_apply()
     }
 
     $user_list = $GLOBALS['db']->getAll($sql);
+
     $count = count($user_list);
     $getStock = 'select stock_id,stock_price,stock_date,stock_status from ' . $GLOBALS['ecs']->table('share_stock') . ' where stock_status = 1';
     $share_stock = $GLOBALS['db']->getRow($getStock);
@@ -115,12 +122,30 @@ if ($_REQUEST['act'] == 'list') {
     make_json_result($smarty->fetch('shareholder_list.dwt'), '', array('filter' => $user_list['filter'], 'page_count' => $user_list['page_count']));
 } else if ($_REQUEST['act'] == 'option') {
 
+    $country_list = get_regions_steps(0, 0);
+    $province_list = get_regions_steps(1, 1);
+    $city_list = get_regions_steps(2, $consignee['province']);
+    $district_list = get_regions_steps(3, $consignee['city']);
+
     $share_id = (empty($_GET['share_id']) ? '' : trim($_GET['share_id']));
-    $sql = 'SELECT u.user_id, u.user_name as username, u.nick_name, u.mobile_phone as phone,s.id,s.share_principal as principal ,s.share_date,FORMAT (s.share_principal * (SELECT stock_price FROM `shop`.`dsc_share_stock` WHERE stock_status = 1 ),2) AS profit FROM `shop`.`dsc_users` AS u inner join`shop`.`dsc_shareholder`as s on u.user_id = s.user_id WHERE s.id = \'' . $share_id . '\'';
+    $sql = 'SELECT u.user_id, u.user_name as username, u.mobile_phone as phone,s.id,s.share_principal as principal ,s.share_date,
+      s.country,
+      s.province,
+      s.city,
+      s.district,
+	  s.share_address,
+	  s.share_identity,
+	  s.share_realname,
+	  s.share_number,
+      FORMAT (s.share_principal * (SELECT stock_price FROM `shop`.`dsc_share_stock` WHERE stock_status = 1 ),2) AS profit FROM `shop`.`dsc_users` AS u inner join`shop`.`dsc_shareholder`as s on u.user_id = s.user_id WHERE s.id = \'' . $share_id . '\'';
     $editShare = $db->getRow($sql);
     $smarty->assign('ur_here', $_LANG['05_shareholder_edit']);
     $smarty->assign('form_action', 'edit');
     $smarty->assign('shareholder_info', $editShare);
+    $smarty->assign('country_list', $country_list);
+    $smarty->assign('province_list', $province_list);
+    $smarty->assign('city_list', $city_list);
+    $smarty->assign('district_list', $district_list);
     $smarty->assign('action_link2', array('text' => $_LANG['01_shareholder_list'], 'href' => 'shareholder.php?act=list'));
     $smarty->display('shareholder_list_edit.dwt');
 
@@ -143,18 +168,17 @@ if ($_REQUEST['act'] == 'list') {
 
 } else if ($_REQUEST['act'] == 'insert') {
     $username = (empty($_POST['username']) ? '' : trim($_POST['username']));
-    $phone = (empty($_POST['phone']) ? '' : trim($_POST['phone']));
-    $principal = (empty($_POST['principal']) ? '' : trim($_POST['principal']));
-    $country = (isset($_POST['country']) ? $_POST['country'] : 0);
-    $province = (isset($_POST['province']) ? $_POST['province'] : 0);
-    $city = (isset($_POST['city']) ? $_POST['city'] : 0);
-    $district = (isset($_POST['district']) ? $_POST['district'] : 0);
+    $realname = (empty($_POST['realname']) ? '' : trim($_POST['realname']));
+    $identity = (empty($_POST['identity']) ? '' : trim($_POST['identity']));
+    $phone = $_POST['phone'];
+    $principal = $_POST['principal'];
+    $country = $_POST['country'];
+    $province = $_POST['province'];
+    $city = $_POST['city'];
+    $district = $_POST['district'];
+    $address_detail = $_POST['address_detail'];
+    $share_number = $_POST['share_number'];
 
-    if (empty($username)) {
-        sys_msg('用户名不能为空!', 1);
-    } else if (empty($principal)) {
-        sys_msg('请输入金额!', 1);
-    }
     $getUserId = 'select user_id  from ' . $ecs->table('users') . ' where user_name = \'' . $username . '\' and mobile_phone = \'' . $phone . '\'';
     $userId = $db->getOne($getUserId);
     if (empty($userId)) {
@@ -165,7 +189,8 @@ if ($_REQUEST['act'] == 'list') {
         }
     }
 
-    $sql = 'insert into ' . $ecs->table('shareholder') . '(user_id,share_principal,share_date,share_status) ' . ' VALUES (\'' . $userId . '\', \'' . $principal . '\', SYSDATE(),1)';
+    $sql = 'insert into ' . $ecs->table('shareholder') . '(user_id,share_realname,share_identity,share_phone,country,province,city,district,share_address,share_number,share_principal,share_date,share_status) '
+        . ' VALUES (\'' . $userId . '\',\'' . $realname . '\',\'' . $identity . '\',\'' . $phone . '\',\'' . $country . '\',\'' . $province . '\',\'' . $city . '\',\'' . $district . '\',\'' . $address_detail . '\',\'' . $share_number . '\', \'' . $principal . '\', SYSDATE(),1)';
 
     $db->query($sql);
 
@@ -173,16 +198,23 @@ if ($_REQUEST['act'] == 'list') {
     sys_msg(sprintf($_LANG['add_success'], htmlspecialchars(stripslashes($_POST['username']))), 0, $link);
 } else if ($_REQUEST['act'] == 'edit') {
     $username = (empty($_POST['username']) ? '' : trim($_POST['username']));
-    $phone = (empty($_POST['phone']) ? '' : trim($_POST['phone']));
-    $principal = (empty($_POST['principal']) ? '' : trim($_POST['principal']));
-    if (empty($principal)) {
-        sys_msg('请输入金额!', 1);
-    }
+    $realname = (empty($_POST['realname']) ? '' : trim($_POST['realname']));
+    $identity = (empty($_POST['identity']) ? '' : trim($_POST['identity']));
+    $phone = $_POST['phone'];
+    $principal = $_POST['principal'];
+    $country = $_POST['country'];
+    $province = $_POST['province'];
+    $city = $_POST['city'];
+    $district = $_POST['district'];
+    $address_detail = $_POST['address_detail'];
+    $share_number = $_POST['share_number'];
+
+
     $getUserId = 'select user_id  from ' . $ecs->table('users') . ' where user_name = \'' . $username . '\' and mobile_phone = \'' . $phone . '\'';
 
     $userId = $db->getOne($getUserId);
 
-    $sql = 'update ' . $ecs->table('shareholder') . ' SET share_principal = ' . $principal . ',share_date = SYSDATE(),share_status = 1 where user_id = ' . $userId . '';
+    $sql = 'update ' . $ecs->table('shareholder') . ' SET  country = ' . $country . ',province = ' . $province . ',city = ' . $city . ',district = ' . $district . ',share_address = ' . $address_detail . ',share_number = ' . $share_number . ',share_principal = ' . $principal . ',share_date = SYSDATE(),share_status = 1 where user_id = ' . $userId . '';
 
     $db->query($sql);
 

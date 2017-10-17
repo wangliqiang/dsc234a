@@ -401,6 +401,97 @@
                     <!-- {if $recommend_info == "" } -->
                     <div class="user-items">
                         <div class="item">
+                                    <div class="label">会员名称：</div>
+                                    <div class="label_value">
+                                        <input type="text" id="username" name="username" class="text" value="{$user_info.user_name}" readonly="readonly" autocomplete="off" />
+                                        <div class="form_prompt"></div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="label">真实姓名：</div>
+                                    <div class="label_value">
+                                        <input type="text" name="realname" class="text" value="" id="realname" autocomplete="off" />
+                                        <div class="form_prompt"></div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="label">身份证号：</div>
+                                    <div class="label_value">
+                                        <input type="text" name="identity" class="text" value="" id="identity" autocomplete="off" />
+                                        <div class="form_prompt"></div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="label">手机：</div>
+                                    <div class="label_value">
+                                        <input type="text" name="phone" class="text" value="{$user_info.mobile_phone}" id="phone" readonly="readonly" autocomplete="off" />
+                                        <div class="form_prompt"></div>
+                                    </div>
+                                </div>
+                                <input type="hidden" value="{if $consignee.country}{$consignee.country}{else}1{/if}" name="country">
+                                <div class="item">
+									<div class="label">所在地区：</div>
+									<div class="form-value" ectype="regionLinkage">
+										<dl class="mod-select mod-select-small" ectype="smartdropdown">
+											<dt>
+												<span class="txt" ectype="txt">{$lang.please_select}{$name_of_region[0]}</span>
+												<input type="hidden" value="{$consignee.country}" name="country">
+											</dt>
+											<dd ectype="layer">
+												<!-- {foreach from=$country_list item=country} -->
+												<div class="option" data-value="{$country.region_id}" data-text="{$country.region_name}" ectype="ragionItem" data-type="1">{$country.region_name}</div>
+												<!-- {/foreach} -->
+											</dd>
+										</dl>
+										<dl class="mod-select mod-select-small" ectype="smartdropdown">
+											<dt><span class="txt" ectype="txt">{$lang.please_select}{$name_of_region[1]}</span>
+											<input type="hidden" value="{$consignee.province}" ectype="ragionItem" name="province"></dt>
+											<dd ectype="layer">
+												<div class="option" data-value="0">{$lang.please_select}{$name_of_region[1]}</div>
+												<!-- {foreach from=$province_list item=province} -->
+												<div class="option" data-value="{$province.region_id}" data-text="{$province.region_name}" data-type="2" ectype="ragionItem">{$province.region_name}</div>
+												<!-- {/foreach} -->
+											</dd>
+										</dl>
+										<dl class="mod-select mod-select-small" ectype="smartdropdown">
+											<dt><span class="txt" ectype="txt">{$lang.please_select}{$name_of_region[2]}</span>
+											<input type="hidden" value="{$consignee.city}" name="city" ></dt>
+											<dd ectype="layer">
+												<div class="option" data-value="0">{$lang.please_select}{$name_of_region[2]}</div>
+												<!-- {foreach from=$city_list item=city} -->
+												<div class="option" data-value="{$city.region_id}" data-type="3" data-text="{$city.region_name}" ectype="ragionItem">{$city.region_name}</div>
+												<!-- {/foreach} -->
+											</dd>
+										</dl>
+										<dl class="mod-select mod-select-small" ectype="smartdropdown" style="display:none">
+											<dt><span class="txt" ectype="txt">{$lang.please_select}{$name_of_region[3]}</span>
+											<input type="hidden" value="{$consignee.district}" name="district"></dt>
+											<dd ectype="layer">
+												<div class="option" data-value="0">{$lang.please_select}{$name_of_region[3]}</div>
+												<!-- {foreach from=$district_list item=district} -->
+												<div class="option" data-value="{$district.region_id}" data-type="4" data-text="{$district.region_name}" ectype="ragionItem">{$district.region_name}</div>
+												<!-- {/foreach} -->
+											</dd>
+										</dl>
+										<dl class="mod-select mod-select-small" ectype="smartdropdown" style="display:none">
+											<dt><span class="txt" ectype="txt">{$lang.please_select}{$name_of_region[3]}</span><input type="hidden" value="{$consignee.street}" name="street"></dt>
+											<dd ectype="layer">
+												<div class="option" data-value="0">{$lang.please_select}{$name_of_region[3]}</div>
+												<!-- {foreach from=$street_list item=street} -->
+												<div class="option" data-value="{$street.region_id}" data-type="5" data-text="{$street.region_name}" ectype="ragionItem">{$street.region_name}</div>
+												<!-- {/foreach} -->
+											</dd>
+										</dl>
+									</div>
+								</div>
+                                <div class="item">
+                                    <div class="label">详细地址：</div>
+                                    <div class="label_value">
+                                        <input type="text" name="address_detail" class="text" value="" id="phone" autocomplete="off" />
+                                        <div class="form_prompt"></div>
+                                    </div>
+                                </div>
+                        <div class="item">
                             <div class="item item-button">
                                 <div class="label">&nbsp;</div>
                                     <div class="value">
@@ -412,7 +503,7 @@
                         </div>
                     </div>
                     <!-- {else} -->
-                        <!-- {if $recommend_info.share_status == "1" } -->
+                        <!-- {if $recommend_info.share_status == "0" } -->
                             <h1 class="text-center">您的申请已经提交，请耐心等待审核</h1>
                         <!-- {elseif $recommend_info.share_status == "2" } -->
                              <h1 class="text-center">您的申请已被驳回，请重新提交申请</h1>
@@ -428,14 +519,16 @@
                                         </div>
                                     </div>
                                 </div>
-                        <!-- {elseif $recommend_info.share_status == "3" } -->
+                             <!-- {elseif $recommend_info.share_status == "1" } -->
                                 <div class="affiliate-list-warp clearfix">
                                  <table class="user-table user-table-baitiao">
                                      <thead>
                                          <tr>
                                              <th class="tc">名称</th>
                                              <th>本金</th>
+                                             <th>股数（股）</th>
                                              <th>股指（元）</th>
+                                             <th>收益（元）</th>
                                              <th>总计（元）</th>
                                          </tr>
                                      </thead>
@@ -443,8 +536,10 @@
                                          <tr>
                                              <td class="tc">{$recommend_info.user_name}</td>
                                              <td class="tc">{$recommend_info.share_principal}</td>
+                                             <td class="tc">{$recommend_info.share_number}</td>
                                              <td class="tc">{$recommend_info.price}</td>
                                              <td class="tc">{$recommend_info.profit}</td>
+                                             <td class="tc">{$recommend_info.total}</td>
                                          </tr>
                                      </tbody>
                                  </table>
@@ -2213,7 +2308,14 @@ $(function(){
 $.levelLink(1);//地区三级联动
 </script>
 <!--{/if}-->
- 
+
+<!-- {if $action eq 'become_shareholder'} -->
+<script type="text/javascript" src="themes/<?php echo $GLOBALS['_CFG']['template']; ?>/js/region.js"></script>
+<script>
+$.levelLink(1);//地区三级联动
+</script>
+<!--{/if}-->
+
 <!-- {if $action eq 'vat_invoice_info'} -->
 <script type="text/javascript" src="themes/<?php echo $GLOBALS['_CFG']['template']; ?>/js/region.js"></script>
 <script type="text/javascript">
