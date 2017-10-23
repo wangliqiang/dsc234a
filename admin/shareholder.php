@@ -136,7 +136,7 @@ if ($_REQUEST['act'] == 'list') {
 	  s.share_identity,
 	  s.share_realname,
 	  s.share_number,
-      FORMAT (s.share_principal * (SELECT stock_price FROM `shop`.`dsc_share_stock` WHERE stock_status = 1 ),2) AS profit FROM `shop`.`dsc_users` AS u inner join`shop`.`dsc_shareholder`as s on u.user_id = s.user_id WHERE s.id = \'' . $share_id . '\'';
+      FORMAT (s.share_principal * (SELECT stock_price FROM ' . $ecs->table('share_stock') . ' WHERE stock_status = 1 ),2) AS profit FROM ' . $ecs->table('users') . ' AS u inner join ' . $ecs->table('shareholder') . ' as s on u.user_id = s.user_id WHERE s.id = \'' . $share_id . '\'';
     $editShare = $db->getRow($sql);
     $smarty->assign('ur_here', $_LANG['05_shareholder_edit']);
     $smarty->assign('form_action', 'edit');
@@ -290,7 +290,7 @@ if ($_REQUEST['act'] == 'list') {
 	  s.share_identity,
 	  s.share_realname,
 	  s.share_number,
-      FORMAT (s.share_principal * (SELECT stock_price FROM `shop`.`dsc_share_stock` WHERE stock_status = 1 ),2) AS profit FROM `shop`.`dsc_users` AS u inner join`shop`.`dsc_shareholder`as s on u.user_id = s.user_id WHERE s.id = \'' . $share_id . '\'';
+      FORMAT (s.share_principal * (SELECT stock_price FROM ' . $ecs->table('share_stock') . ' WHERE stock_status = 1 ),2) AS profit FROM ' . $ecs->table('users') . ' AS u inner join ' . $ecs->table('shareholder') . 'as s on u.user_id = s.user_id WHERE s.id = \'' . $share_id . '\'';
     $editShare = $db->getRow($sql);
 
     $smarty->assign('ur_here', '详情');
