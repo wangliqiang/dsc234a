@@ -1,0 +1,51 @@
+{include file="page_header"}
+<section class="purse-header-box text-center purse-f">
+    <p>当前收益</p>
+    <h2>{$shareholder.profit}</h2>
+    <h5>总额：{$shareholder.share_principal}</h5>
+    <img src="{elixir('img/pur-bg.png')}">
+    <div class="user-pur-box">
+    </div>
+</section>
+<section class="b-color-f my-nav-box m-top10">
+    <div class="user-money-list g-s-i-title-1 dis-box my-dingdan purse-f">
+        <a href="javascript:void(0)" class="box-flex text-center">
+            <p class="t-remark3">当前股指</p>
+            <h5 class="ellipsis-one">{$shareholder.price}</h5>
+            <div class="purse-ts-box" style="display:none"></div>
+        </a>
+        <a href="javascript:void(0)" class="box-flex text-center">
+            <p class="t-remark3">拥有股数</p>
+            <h5 class="ellipsis-one">{$shareholder.share_number}</h5>
+            <div class="purse-ts-box" style="display:none"></div>
+        </a>
+    </div>
+</section>
+<section class="b-color-f my-nav-box m-top10">
+    <a href="javascript:void(0)">
+        <div class="dis-box padding-all my-bottom">
+            <h3 class="box-flex text-all-span my-u-title-size">股东姓名</h3>
+            <div class="f-04"><span class="t-jiantou">{$shareholder.share_realname}</span></div>
+        </div>
+    </a>
+    <a href="javascript:void(0)">
+        <div class="dis-box padding-all my-bottom">
+            <h3 class="box-flex text-all-span my-u-title-size">联系电话</h3>
+            <div class="f-04"><span class="t-jiantou">{$shareholder.mobile_phone}</span></div>
+        </div>
+    </a>
+    <a href="javascript:void(0)">
+        <div class="dis-box padding-all my-bottom">
+            <h3 class="box-flex text-all-span my-u-title-size">审批日期</h3>
+            <div class="f-04"><span class="t-jiantou">{$shareholder.share_date}</span></div>
+        </div>
+    </a>
+</section>
+
+<!--快捷导航-->
+<!--{include file="float_nav"}-->
+{include file="float_nav_footer"}
+
+</body>
+
+</html>
