@@ -26,16 +26,16 @@
             <input type="hidden" name="back_act" value="{$back_act}"/>
             <button type="submit" class="btn-submit min-two-btn br-5">立即登录</button>
         </form>
-        {if $sms_signin == 1}
+        {if $sms_signin == 0}
         <div class="text-right m-top10"><a href="{url('user/login/mobile_quick')}" class="f-04" >手机号快捷登录</a></div>
         {/if}
         <div class="dis-box user-login-list">
             <div class="box-flex">
                  <a class="list-password f-04" href="{url('user/login/get_password')}">忘记密码</a>
             </div>
-           <!-- <div class="box-flex">
+           <div class="box-flex">
                  <a class="list-new f-04" href="{url('user/login/register')}">新用户注册</a>
-            </div>-->
+            </div>
         </div>
         {if $oauth_list}
         <div class="other-login">

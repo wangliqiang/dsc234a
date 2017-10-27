@@ -9,7 +9,7 @@
 		<ul>
         {foreach from=$nav_top item=nav}
         	{if $nav.children}
-				{if $nav.type != ""}<li data-param="{$nav.type}"><a href="javascript:void(0);">{$nav.label}</a></li>{/if}
+			    {if $nav.type != ""}<li data-param="{$nav.type}"><a href="javascript:void(0);">{$nav.label}</a></li>{/if}
             {/if}
         {/foreach}
 		</ul>

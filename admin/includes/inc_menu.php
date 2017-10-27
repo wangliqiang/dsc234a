@@ -141,7 +141,7 @@ $menu_top['menushopping'] = '02_cat_and_goods,03_promotion,04_order,09_crowdfund
 $menu_top['finance'] = '06_stats';
 $menu_top['third_party'] = '24_sms,25_file,26_login,27_interface';
 $menu_top['ectouch'] = '20_ectouch,22_wechat,23_drp';
-$menu_top['menuinformation'] = '21_cloud';
+//$menu_top['menuinformation'] = '21_cloud';
 $menu_top['shareholdersystem'] = 'shareholder_mgt';
 $modules['shareholder_mgt']['01_shareholder_list'] = 'shareholder.php?act=list';
 $modules['shareholder_mgt']['02_shareholder_apply'] = 'shareholder.php?act=apply';

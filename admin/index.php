@@ -271,11 +271,20 @@ if ($_REQUEST['act'] == '') {
         $smarty->assign('priv_ru', 0);
     }
 
-    $smarty->assign('nav_top', $nav_top);
     $admin_id = intval($_SESSION['admin_id']);
-    $sql = 'SELECT u.user_name,u.last_login,u.last_ip,u.admin_user_img,r.role_name FROM ' . $ecs->table('admin_user') . " u\r\n            LEFT JOIN " . $ecs->table('role') . ' r ON u.role_id = r.role_id WHERE u.user_id = \'' . $admin_id . '\'';
+    $sql = 'SELECT u.user_name,u.last_login,u.last_ip,u.admin_user_img,u.is_admin,r.role_name FROM ' . $ecs->table('admin_user') . " u\r\n            LEFT JOIN " . $ecs->table('role') . ' r ON u.role_id = r.role_id WHERE u.user_id = \'' . $admin_id . '\'';
     $admin_info = $db->getRow($sql);
     $admin_info['last_login'] = local_date('Y-m-d H:i:s', $admin_info['last_login']);
+
+    if($admin_info['is_admin'] == 1){
+        unset($nav_top["menuplatform"]);
+        unset($nav_top["menushopping"]);
+        unset($nav_top["finance"]);
+        unset($nav_top["third_party"]);
+        unset($nav_top["ectouch"]);
+    }
+
+    $smarty->assign('nav_top', $nav_top);
     $smarty->assign('admin_info', $admin_info);
     $auth_menu = substr($_COOKIE['auth_menu'], 0, -1);
     $auth_menu = array_filter(explode(',', $auth_menu));
