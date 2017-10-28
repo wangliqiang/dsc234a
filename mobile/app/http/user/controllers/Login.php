@@ -473,12 +473,11 @@ class Login extends \app\http\base\controllers\Frontend
             $this->assign('enabled_captcha', 1);
             $this->assign('rand', mt_rand());
         }
-
         $this->assign('flag', 'register');
         $this->assign('back_act', $back_act);
         $this->assign('page_title', '新用户注册');
         $this->assign('page_title', L('registered_user'));
-        $this->assign('show', $GLOBALS['_CFG']['sms_signin']);
+        $this->assign('show', 1);//$GLOBALS['_CFG']['sms_signin']
         $this->display();
     }
 

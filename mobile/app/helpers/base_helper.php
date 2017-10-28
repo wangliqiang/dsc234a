@@ -432,7 +432,7 @@ function check_file_type($filename, $realname = '', $limit_ext_types = '')
 				if ((substr($str, 0, 4) == 'GIF8') && ($extname != 'txt')) {
 					$format = 'gif';
 				}
-				else if (substr($str, 0, 8) == "‰PNG\r\n\x1a\n") {
+				else if (substr($str, 0, 8) == "ï¿½PNG\r\n\x1a\n") {
 					$format = 'png';
 				}
 				else {

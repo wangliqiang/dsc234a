@@ -111,9 +111,9 @@
             <div class="box-flex">
                  <a class="list-password f-04" href="<?php echo url('user/login/get_password');?>">忘记密码</a>
             </div>
-           <!-- <div class="box-flex">
+           <div class="box-flex">
                  <a class="list-new f-04" href="<?php echo url('user/login/register');?>">新用户注册</a>
-            </div>-->
+            </div>
         </div>
         <?php if($oauth_list) { ?>
         <div class="other-login">

@@ -26,7 +26,7 @@
             <input type="hidden" name="back_act" value="{$back_act}"/>
             <button type="submit" class="btn-submit min-two-btn br-5">立即登录</button>
         </form>
-        {if $sms_signin == 0}
+        {if $sms_signin == 1}
         <div class="text-right m-top10"><a href="{url('user/login/mobile_quick')}" class="f-04" >手机号快捷登录</a></div>
         {/if}
         <div class="dis-box user-login-list">
