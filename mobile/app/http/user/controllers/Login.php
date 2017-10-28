@@ -393,6 +393,7 @@ class Login extends \app\http\base\controllers\Frontend
                 $password = (isset($_POST['smspassword']) ? trim($_POST['smspassword']) : '');
                 $sms_code = (isset($_POST['mobile_code']) ? trim($_POST['mobile_code']) : '');
                 $repassword = (isset($_POST['repassword']) ? trim($_POST['repassword']) : '');
+                $recommender = (isset($_POST['recommender']) ? trim($_POST['recommender']) : '');
                 if (($mobile != $_SESSION['sms_mobile']) || ($sms_code != $_SESSION['sms_mobile_code'])) {
                     exit(json_encode(array('status' => 'n', 'info' => L('log_mobile_verify_error'))));
                 }
@@ -409,8 +410,12 @@ class Login extends \app\http\base\controllers\Frontend
                     exit(json_encode(array('status' => 'n', 'info' => L('passwd_balnk'))));
                 }
 
+                if (strlen($recommender) == 0) {
+                    exit(json_encode(array('status' => 'n', 'info' => L('推荐人不能为空'))));
+                }
+
                 $email = $username . '@qq.com';
-                $other = array('mobile_phone' => $mobile, 'nick_name' => $mobile);
+                $other = array('mobile_phone' => $mobile, 'nick_name' => $mobile, 'recommender' => $recommender);
             } else if (I('enabled_sms') == 2) {
                 $username = (isset($_POST['username']) ? trim($_POST['username']) : '');
                 $email = (isset($_POST['email']) ? trim($_POST['email']) : '');

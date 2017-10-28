@@ -100,7 +100,7 @@ function register($username, $password, $email, $other = array())
 			}
 		}
 
-		$other_key_array = array('aite_id', 'nick_name', 'sex', 'user_picture', 'msn', 'qq', 'office_phone', 'home_phone', 'mobile_phone', 'parent_id');
+		$other_key_array = array('aite_id', 'nick_name', 'sex', 'user_picture', 'msn', 'qq', 'office_phone', 'home_phone', 'mobile_phone', 'parent_id','recommender');
 		$update_data['reg_time'] = local_strtotime(local_date('Y-m-d H:i:s'));
 
 		if ($other) {
