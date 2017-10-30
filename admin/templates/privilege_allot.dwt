@@ -4,7 +4,7 @@
 
 <body class="iframe_body">
 	<div class="warpper">
-    	<div class="title"><a href="javascript" ectype="goback" class="s-back"></a>管理员 - {$ur_here}</div>
+    	<div class="title"><a href="{$action_link.href}" ectype="goback" class="s-back"></a>管理员 - {$ur_here}</div>
         <div class="content">
         	<div class="explanation" id="explanation">
             	<div class="ex_tit"><i class="sc_icon"></i><h4>操作提示</h4><span id="explanationZoom" title="收起提示"></span></div>
@@ -23,6 +23,26 @@
                         <form method="POST" action="privilege_seller.php" name="theFrom" id="privilege_frm">
                         {/if}
                     	<div class="switch_info business_info" style="background:none;">
+                            <div class="step">
+                            	<div class="tit">
+                                    <div class="checkbox_items">
+                                    	<div class="checkbox_item">
+                                            <input type="checkbox" name="chkGroup_share" value="checkbox" class="ui-checkbox" id="chkGroup_shareholder"/>
+                                            <label for="chkGroup_shareholder" class="ui-label blod">股东管理&nbsp;(请单独使用该权限)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="qx_items shareholder_mgt">
+                                	<div class="qx_item">
+                                        <div class="checkbox_items">
+                                            <div class="checkbox_item">
+                                                <input type="checkbox" value="" name="shareholder" class="ui-checkbox" id="shareholder" {if $is_admin eq 1} checked="true" {/if}/>
+                                                <label for="shareholder" class="ui-label">股东管理</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             {foreach from=$priv_arr item=priv}
                             {if $priv.priv}
                             <div class="step">
@@ -58,9 +78,10 @@
                                 </div>
                                 <div class="info_btn">
                                     <input type="submit" value="{$lang.button_save}" class="button">
-                                    <input type="hidden"   name="id"    value="{$user_id}" />
+                                    <input type="hidden" name="id"    value="{$user_id}" />
                                     <input type="hidden" name="token" value="{$token}" />
-                                    <input type="hidden"   name="act"   value="{$form_act}" />
+                                    <input type="hidden" name="act"   value="{$form_act}" />
+                                    <input type="hidden" name="shareValue" id="shareValue" value="{$is_admin}" />
                                 </div>
                             </div>
                         </div>
@@ -72,6 +93,7 @@
     </div>
     {include file ='library/pagefooter.lbi'}
     <script language="javascript">
+
         $("#checkall").click(function(){
 			var checkbox = $(this).parents(".switch_info").find('input:checkbox[type="checkbox"]');
 			if($(this).prop("checked") == true){
@@ -81,6 +103,16 @@
 			}
         });
 		
+		$("input[name='chkGroup_share']").click(function(){
+			var checkbox = $(this).parents(".tit").next(".shareholder_mgt").find('input:checkbox[type="checkbox"]');
+			if($(this).prop("checked") == true){
+			    $("#shareValue").attr("value",1);
+				checkbox.prop("checked",true);
+			}else{
+			    $("#shareValue").attr("value",0);
+				checkbox.prop("checked",false);
+			}
+		});
 		$("input[name='chkGroup']").click(function(){
 			var checkbox = $(this).parents(".tit").next(".qx_items").find('input:checkbox[type="checkbox"]');
 			if($(this).prop("checked") == true){
@@ -89,7 +121,7 @@
 				checkbox.prop("checked",false);
 			}
 		});
-		
+
 		$("input[name='action_code[]']").click(function(){    
 			var qx_items = $(this).parents(".qx_items");
 			var length = qx_items.find("input[name='action_code[]']").length;
@@ -100,7 +132,19 @@
 				qx_items.prev().find("input[name='chkGroup']").prop("checked",false);
 			}
         });
-		
+		$("input[name='shareholder']").click(function(){
+			var qx_items = $(this).parents(".qx_items");
+			var length = qx_items.find("input[name='shareholder']").length;
+			var length2 =  qx_items.find("input[name='shareholder']:checked").length;
+			if(length == length2){
+				$("#shareValue").attr("value",1);
+				qx_items.prev().find("input[name='chkGroup_share']").prop("checked",true);
+			}else{
+				$("#shareValue").attr("value",0);
+				qx_items.prev().find("input[name='chkGroup_share']").prop("checked",false);
+			}
+        });
+
 		$(".qx_items").each(function(index, element) {
             var length = $(this).find("input[name='action_code[]']").length;
 			var length2 = $(this).find("input[name='action_code[]']:checked").length;
@@ -109,6 +153,18 @@
 				$(this).prev().find("input[name='chkGroup']").prop("checked",true);
 			}else{
 				$(this).prev().find("input[name='chkGroup']").prop("checked",false);
+			}
+        });
+		$(".shareholder_mgt").each(function(index, element) {
+            var length = $(this).find("input[name='shareholder']").length;
+			var length2 = $(this).find("input[name='shareholder']:checked").length;
+
+			if(length == length2){
+			    $("#shareValue").attr("value",1);
+				$(this).prev().find("input[name='chkGroup_share']").prop("checked",true);
+			}else{
+			    $("#shareValue").attr("value",0);
+				$(this).prev().find("input[name='chkGroup_share']").prop("checked",false);
 			}
         });
     </script>
