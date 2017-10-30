@@ -181,7 +181,7 @@ if ($_REQUEST['act'] == 'list') {
     $getUserId = 'select user_id  from ' . $ecs->table('users') . ' where user_name = \'' . $username . '\' and mobile_phone = \'' . $phone . '\'';
     $userId = $db->getOne($getUserId);
     if (empty($userId)) {
-        sys_msg('该用户不存在！', 1);
+        sys_msg('该用户没注册或手机号不正确', 1);
     } else {
         if (!empty($db->getOne('select id  from ' . $ecs->table('shareholder') . ' where user_id = \'' . $userId . '\''))) {
             sys_msg('该用户已是股东！', 1);
@@ -227,8 +227,9 @@ if ($_REQUEST['act'] == 'list') {
 
     $sql = 'delete from' . $ecs->table('shareholder') . ' where id = ' . $share_id . '';
     $db->query($sql);
-    $lnk[] = array('text' => $_LANG['go_back'], 'href' => 'shareholder.php?act=list');
-    sys_msg(sprintf($_LANG['batch_remove_success'], $count), 0, $lnk);
+    if ($db->affected_rows()) {
+        ecs_header("Location: shareholder.php?act=list");
+    }
 } else if ($_REQUEST['act'] == 'apply') {
 
     $smarty->assign('ur_here', '申请列表');

@@ -121,6 +121,7 @@
                                     <div class="label_value info_btn">
                                         <input type="hidden" name="act" value="{$form_action}" />
                                         <a href="javascript:;" class="button" id="submitBtn">提交</a>
+                                        <a href="javascript:confirm_redirect('您确定要删除该股东吗？','shareholder.php?act=delete&share_id={$shareholder_info.id}')" class="button">删除股东</a>
                                     </div>
                                     </div>
                                 </div>
