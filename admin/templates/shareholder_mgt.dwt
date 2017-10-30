@@ -81,6 +81,7 @@
                                      <td class="handle">
                                         <div class="tDiv a2">
                                             <a href="shareholder.php?act=mgt_option&stock_id={$list.stock_id}" class="btn_see"><i class="sc_icon sc_icon_see"></i>启用</a>
+                                            <a href="javascript:confirm_redirect('{if $list.stock_status eq '1'}该股指已被启用{else}您确定要删除吗？{/if}', 'shareholder.php?act=mgt_remove&stock_id={$list.stock_id}')" title="删除" class="btn_trash"><i class="icon icon-trash"></i>删除</a>
                                         </div>
                                     </td>
                                 </tr>

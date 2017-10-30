@@ -22,7 +22,7 @@ function user_list()
         $filter['record_count'] = $GLOBALS['db']->getOne('SELECT COUNT(*) FROM ' . $GLOBALS['ecs']->table('users') . ' AS u inner join'
             . $GLOBALS['ecs']->table('shareholder') . 'as s on u.user_id = s.user_id' . $ex_where);
         $filter = page_and_size($filter);
-        $sql = 'SELECT u.user_id, u.user_name,u.mobile_phone,s.id,s.share_phone,s.share_number,s.share_principal,s.share_date
+        $sql = 'SELECT u.user_id, u.user_name,u.mobile_phone,s.id,s.share_realname,s.share_phone,s.share_number,s.share_principal,s.share_date
             ,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ) - s.share_principal,2) AS profit
             ,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ),2) AS total'
             . ' FROM ' .
@@ -58,7 +58,7 @@ function user_apply()
         $filter['record_count'] = $GLOBALS['db']->getOne('SELECT COUNT(*) FROM ' . $GLOBALS['ecs']->table('users') . ' AS u inner join'
             . $GLOBALS['ecs']->table('shareholder') . 'as s on u.user_id = s.user_id' . $ex_where);
         $filter = page_and_size($filter);
-        $sql = 'SELECT u.user_id, u.user_name,u.mobile_phone,s.id,s.share_phone,s.share_number,s.share_principal,s.share_date
+        $sql = 'SELECT u.user_id, u.user_name,u.mobile_phone,s.id,s.share_realname,s.share_phone,s.share_number,s.share_principal,s.share_date
             ,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ) - s.share_principal,2) AS profit
             ,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ),2) AS total'
             . ' FROM ' .
@@ -345,6 +345,20 @@ if ($_REQUEST['act'] == 'list') {
     $db->query($update);
 
     $sql = 'UPDATE ' . $ecs->table('share_stock') . ' SET stock_status = 1 where stock_id = \'' . $stock_id . '\'';
+
+    $db->query($sql);
+
+    if ($db->affected_rows()) {
+        ecs_header("Location: shareholder.php?act=mgt");
+    }
+} else if ($_REQUEST['act'] == 'mgt_remove') {
+
+    $stock_id = (empty($_GET['stock_id']) ? '' : trim($_GET['stock_id']));
+    $update = 'UPDATE ' . $ecs->table('share_stock') . ' SET stock_status = 0';
+    echo $update;
+    $db->query($update);
+
+    $sql = 'delete from' . $ecs->table('share_stock') . 'where stock_id = \'' . $stock_id . '\'';
 
     $db->query($sql);
 

@@ -16,7 +16,7 @@
                 </ul>
             </div>
             <div class="flexilist">
-            	<div class="common-head">
+            	<div class="common-head" style="display:none;">
                     <div class="fl">
                         <a href="{$action_link.href}"><div class="fbutton"><div class="add" title="{$action_link.text}"><span><i class="icon icon-plus"></i>{$action_link.text}</span></div></div></a>
                     </div>
@@ -41,8 +41,8 @@
                         	<thead>
                             	<tr>
                                     <th width="3%" class="sign"><div class="tDiv"><input type="checkbox" name="all_list" class="checkbox" id="all_list" /><label for="all_list" class="checkbox_stars"></label></div></th>
-                                    <th width="5%"><div class="tDiv">编号</div></th>
-                                    <th width="10%"><div class="tDiv">名称</div></th>
+                                    <th width="5%"><div class="tDiv">姓名</div></th>
+                                    <th width="10%"><div class="tDiv">手机号</div></th>
                                     <th width="8%"><div class="tDiv">本金(元)</div></th>
                                     <th width="8%"><div class="tDiv">股数(股)</div></th>
                                     <th width="8%"><div class="tDiv">当前股指(元)</div></th>
@@ -55,8 +55,8 @@
                                 {foreach from=$user_list item=list}
                             	<tr>
                                 	<td class="sign"><div class="tDiv"><input type="checkbox" name="checkboxes[]" value="{$list.user_id}" class="checkbox" id="checkbox_{$list.user_id}" /><label for="checkbox_{$list.user_id}" class="checkbox_stars"></label></div></td>
-                                    <td><div class="tDiv">{$list.user_id}</div></td>
-                                	<td><div class="tDiv">{$list.user_name}</div></td>
+                                    <td><div class="tDiv">{$list.share_realname}</div></td>
+                                	<td><div class="tDiv">{$list.share_phone}</div></td>
                                     <td><div class="tDiv">{$list.share_principal}</div></td>
                                     <td><div class="tDiv">{$list.share_number}</div></td>
                                     <td><div class="tDiv">{$share_stock.stock_price}</div></td>
