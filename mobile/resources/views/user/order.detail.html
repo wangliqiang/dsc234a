@@ -358,11 +358,11 @@
         {if $order.order_amount > 0 && empty($order.hidden_pay_button)}
             <div class="n-right-width" >
                 <!--{$order.pay_online}-->
-                {if $order.order_status eq '未确认'}
+                {if $order.order_status neq '未确认'}
                     <div class="n-right-width" >
                         <span class="box-flex text-right"></span>
                         <a class="btn-submit f1" type="button"
-                           href="{url('user/order/payment',array('payid'=>$order.pay_id,'orderid'=>$order.order_sn,'totalfee'=>$order.formated_order_amount,'goodname'=>$val.goods_name))}">去付款</a>
+                           href="{url('user/order/payment',array('pay_name'=>$order.pay_name,'orderid'=>$order.order_sn,'totalfee'=>$order.formated_order_amount,'goodname'=>$val.goods_name))}">去付款</a>
                     </div>
                 {/if}
             </div>

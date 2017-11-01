@@ -236,16 +236,16 @@ class Order extends \app\http\base\controllers\Frontend
 
     public function actionPayment()
     {
-        $payId = $_GET['payid'];
+        $pay_name = $_GET['pay_name'];
         $orderid = $_GET['orderid'];
         $totalfee = substr($_GET['totalfee'], 2, strlen($_GET['totalfee'])) * 100;
-        $subject = 'test';//$_GET['goodname'];//描述
-        if ($payId == 24) {//微信支付
+        $subject = $_GET['goodname'];//描述
+        if ($pay_name === '微信支付') {//微信支付
             $nonce_str = md5($orderid);
             $spbill_create_ip = $this->getIp();
             $trade_type = 'MWEB';//交易类型 具体看API 里面有详细介绍
             $notify_url = 'http://www.ilaike.net'; //回调地址
-            $scene_info = '{"h5_info":{"type":"Wap","wap_url":"http://www.ilaike.net/mobile","wap_name":"测试支付"}}'; //场景信息
+            $scene_info = '{"h5_info":{"type":"Wap","wap_url":"http://www.ilaike.net/mobile","wap_name":"微信支付"}}';  //场景信息
             //对参数按照key=value的格式，并按照参数名ASCII字典序排序生成字符串
             $appid = 'wx8bf3494ef096a20c';
             $mch_id = '1430990802';
@@ -275,7 +275,7 @@ class Order extends \app\http\base\controllers\Frontend
 //                    return $objectxml['mweb_url']; //mweb_url是微信返回的支付连接要把这个连接分配到前台
                 }
                 if ($objectxml['result_code'] == 'FAIL') {
-//                    return $err_code_des = $objectxml['err_code_des'];
+                    echo $objectxml['err_code_des'];
                 }
             }
         }
@@ -296,6 +296,7 @@ class Order extends \app\http\base\controllers\Frontend
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);//严格校验
         }
+        curl_setopt($ch, CURLOPT_REFERER,'www.ilaike.net/mobile');
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
