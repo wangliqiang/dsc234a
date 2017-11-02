@@ -233,6 +233,9 @@ class Account extends \app\http\base\controllers\Frontend
                 include_once ADDONS_PATH . 'payment/' . $payment_info['pay_code'] . '.php';
                 $pay_obj = new $payment_info['pay_code']();
                 $payment_info['pay_button'] = $pay_obj->get_code($order, $payment);
+                if(strpos( $payment_info['pay_button'],'微信') && (!is_wechat_browser() || empty($_SESSION['openid']))){
+                    $payment_info['pay_button'] = '<a class="box-flex btn-submit min-two-btn" type="button" href="'.url('user/account/payment',array('pay_name'=>'微信支付','orderid'=> $order['order_sn'],'totalfee'=>'￥'.$_POST['amount'],'goodname'=>'充值')).'">微信支付</a>';
+                }
                 $this->assign('payment', $payment_info);
                 $this->assign('pay_fee', price_format($payment_info['pay_fee'], false));
                 $this->assign('amount', price_format($amount, false));
@@ -243,6 +246,93 @@ class Account extends \app\http\base\controllers\Frontend
                 $this->display();
             }
         }
+    }
+
+    public function actionPayment()
+    {
+        $pay_name = $_GET['pay_name'];
+        $orderid = $_GET['orderid'];
+        $totalfee = substr($_GET['totalfee'], 2, strlen($_GET['totalfee'])) * 100;
+        $subject = $_GET['goodname'];//描述
+        if ($pay_name === '微信支付') {//微信支付
+            $nonce_str = md5($orderid);
+            $spbill_create_ip = $this->getIp();
+            $trade_type = 'MWEB';//交易类型 具体看API 里面有详细介绍
+            $notify_url = notify_url(basename(__FILE__, '.php')); //回调地址
+            $scene_info = '{"h5_info":{"type":"Wap","wap_url":"http://www.ilaike.net/mobile","wap_name":"微信支付"}}';  //场景信息
+            //对参数按照key=value的格式，并按照参数名ASCII字典序排序生成字符串
+            $appid = 'wx8bf3494ef096a20c';
+            $mch_id = '1430990802';
+            $key = 'oGf1Acf04q9b3C1Pb4ZpcsE0T4P41q4S';
+            $signA = "appid=$appid&body=$subject&mch_id=$mch_id&nonce_str=$nonce_str&notify_url=$notify_url&out_trade_no=$orderid&scene_info=$scene_info&spbill_create_ip=$spbill_create_ip&total_fee=$totalfee&trade_type=$trade_type";
+            $strSignTmp = $signA . "&key=$key"; //拼接字符串
+            $sign = strtoupper(md5($strSignTmp)); // MD5 后转换成大写
+            $post_data = "<xml>
+                       <appid>wx8bf3494ef096a20c</appid>
+                       <mch_id>1430990802</mch_id>
+                       <body>$subject</body>
+                       <nonce_str>$nonce_str</nonce_str>
+                       <notify_url>$notify_url</notify_url>
+                       <out_trade_no>$orderid</out_trade_no>
+                       <scene_info>$scene_info</scene_info>
+                       <spbill_create_ip>$spbill_create_ip</spbill_create_ip>
+                       <total_fee>$totalfee</total_fee>
+                       <trade_type>$trade_type</trade_type>
+                       <sign>$sign</sign>
+                   </xml>";//拼接成XML格式
+            $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";//微信传参地址
+            $dataxml = $this->http_post($url, $post_data); //后台POST微信传参地址  同时取得微信返回的参数，http_post方法请看下文
+            $objectxml = (array)simplexml_load_string($dataxml, 'SimpleXMLElement', LIBXML_NOCDATA); //将微信返回的XML 转换成数组
+            if ($objectxml['return_code'] == 'SUCCESS') {
+                if ($objectxml['result_code'] == 'SUCCESS') {//如果这两个都为此状态则返回mweb_url，详情看‘统一下单’接口文档
+                    $this->assign('url', $objectxml['mweb_url']);
+//                    return $objectxml['mweb_url']; //mweb_url是微信返回的支付连接要把这个连接分配到前台
+                }
+                if ($objectxml['result_code'] == 'FAIL') {
+                    echo $objectxml['err_code_des'];
+                }
+            }
+        }
+        $this->assign('page_title', '微信支付');
+        $this->display();
+    }
+
+    function http_post($url, $data)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        if (stripos($url, "https://") !== FALSE) {
+            curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        } else {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);//严格校验
+        }
+        curl_setopt($ch, CURLOPT_REFERER, 'www.ilaike.net/mobile');
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $res = curl_exec($ch);
+        curl_close($ch);
+        return $res;
+    }
+
+    //获取用户真实IP
+    public static function getIp()
+    {
+        $ip = '';
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        $ip_arr = explode(',', $ip);
+        return $ip_arr[0];
     }
 
     public function actionLog()
