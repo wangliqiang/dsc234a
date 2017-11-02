@@ -125,7 +125,6 @@ class Order extends \app\http\base\controllers\Frontend
 
         if ((0 < $order['order_amount']) && (($order['pay_status'] == PS_UNPAYED) || ($order['pay_status'] == PS_PAYED_PART)) && ($order['shipping_status'] == SS_UNSHIPPED)) {
             $payment_list = available_payment_list(false, 0, true);
-
             if (is_array($payment_list)) {
                 foreach ($payment_list as $key => $payment) {
                     if (substr($payment['pay_code'], 0, 4) == 'pay_') {
@@ -136,15 +135,11 @@ class Order extends \app\http\base\controllers\Frontend
                     if (!file_exists(ADDONS_PATH . 'payment/' . $payment['pay_code'] . '.php')) {
                         unset($payment_list[$key]);
                     }
-
-//					if (($payment['pay_code'] == 'wxpay') && (!is_wechat_browser() || empty($_SESSION['openid']))) {
-//						unset($payment_list[$key]);
-//					}
-
-//					if (($payment['pay_id'] == $order['pay_id']) || ($payment['pay_code'] == 'balance')) {
-//						unset($payment_list[$key]);
-//					}
                 }
+            }
+
+            if(strpos($order['pay_online'],'微信') && (!is_wechat_browser() || empty($_SESSION['openid']))){
+                $order['pay_online'] = '<div class="n-right-width" ><span class="box-flex text-right"></span> <a class="btn-submit f1" type="button" href="{url(\'user/order/payment\',array(\'pay_name\'=>$order.pay_name,\'orderid\'=>$order.order_sn,\'totalfee\'=>$order.formated_order_amount,\'goodname\'=>$val.goods_name))}">微信支付</a></div>';
             }
 
             $this->assign('payment_list', $payment_list);
@@ -225,7 +220,6 @@ class Order extends \app\http\base\controllers\Frontend
                 $order['failure'] = $failure;
             }
         }
-
         $this->assign('order', $order);
         $this->assign('goods_list', $goods_list);
         $this->assign('goods_count', $goods_count);
@@ -271,7 +265,7 @@ class Order extends \app\http\base\controllers\Frontend
             $objectxml = (array)simplexml_load_string($dataxml, 'SimpleXMLElement', LIBXML_NOCDATA); //将微信返回的XML 转换成数组
             if ($objectxml['return_code'] == 'SUCCESS') {
                 if ($objectxml['result_code'] == 'SUCCESS') {//如果这两个都为此状态则返回mweb_url，详情看‘统一下单’接口文档
-                    $this->assign('url',$objectxml['mweb_url']);
+                    $this->assign('url', $objectxml['mweb_url']);
 //                    return $objectxml['mweb_url']; //mweb_url是微信返回的支付连接要把这个连接分配到前台
                 }
                 if ($objectxml['result_code'] == 'FAIL') {
@@ -279,7 +273,7 @@ class Order extends \app\http\base\controllers\Frontend
                 }
             }
         }
-        $this->assign('page_title','微信支付');
+        $this->assign('page_title', '微信支付');
         $this->display();
     }
 
@@ -296,7 +290,7 @@ class Order extends \app\http\base\controllers\Frontend
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);//严格校验
         }
-        curl_setopt($ch, CURLOPT_REFERER,'www.ilaike.net/mobile');
+        curl_setopt($ch, CURLOPT_REFERER, 'www.ilaike.net/mobile');
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
