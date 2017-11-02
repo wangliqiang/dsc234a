@@ -1043,6 +1043,11 @@ class Index extends \app\http\base\controllers\Frontend
             $pay_obj = new $payment['pay_code']();
             $pay_online = $pay_obj->get_code($order, unserialize_config($payment['pay_config']));
             $order['pay_desc'] = $payment['pay_desc'];
+
+            if (strpos($pay_online, '微信') && (!is_wechat_browser() || empty($_SESSION['openid']))) {
+                $pay_online = '<a class="box-flex btn-submit min-two-btn" type="button" href="'.url('user/order/payment',array('pay_name'=>'微信支付','orderid'=>$order['order_sn'],'totalfee'=>'￥'.$order['order_amount'],'goodname'=>'订单支付')).'">微信支付</a>';
+            }
+
             $this->assign('pay_online', $pay_online);
         }
 

@@ -139,7 +139,7 @@ class Order extends \app\http\base\controllers\Frontend
             }
 
             if(strpos($order['pay_online'],'微信') && (!is_wechat_browser() || empty($_SESSION['openid']))){
-                $order['pay_online'] = '<div class="n-right-width" ><span class="box-flex text-right"></span> <a class="btn-submit f1" type="button" href="{url(\'user/order/payment\',array(\'pay_name\'=>$order.pay_name,\'orderid\'=>$order.order_sn,\'totalfee\'=>$order.formated_order_amount,\'goodname\'=>$val.goods_name))}">微信支付</a></div>';
+                $order['pay_online'] = '<div class="n-right-width" ><span class="box-flex text-right"></span> <a class="box-flex btn-submit min-two-btn" type="button" href="'.url('user/order/payment',array('pay_name'=>'微信支付','orderid'=> $order['order_sn'],'totalfee'=>$order['formated_order_amount'],'goodname'=>'订单支付')).'">微信支付</a></div>';
             }
 
             $this->assign('payment_list', $payment_list);
