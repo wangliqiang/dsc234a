@@ -22,7 +22,7 @@ function user_list()
         $filter['record_count'] = $GLOBALS['db']->getOne('SELECT COUNT(*) FROM ' . $GLOBALS['ecs']->table('users') . ' AS u inner join'
             . $GLOBALS['ecs']->table('shareholder') . 'as s on u.user_id = s.user_id' . $ex_where);
         $filter = page_and_size($filter);
-        $sql = 'SELECT u.user_id, u.user_name,u.mobile_phone,s.id,s.share_realname,s.share_phone,s.share_number,s.share_principal,s.share_date
+        $sql = 'SELECT u.user_id, u.user_name,u.mobile_phone,s.id,s.share_realname,s.share_phone,s.share_number,s.share_principal,s.share_date,s.share_bonus
             ,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ) - s.share_principal,2) AS profit
             ,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ),2) AS total'
             . ' FROM ' .
@@ -148,8 +148,25 @@ if ($_REQUEST['act'] == 'list') {
     $smarty->assign('action_link2', array('text' => $_LANG['01_shareholder_list'], 'href' => 'shareholder.php?act=list'));
     $smarty->display('shareholder_list_edit.dwt');
 
-} else if ($_REQUEST['act'] == 'add') {
+} else if ($_REQUEST['act'] == 'share_bonus') {
+    $share_id = (empty($_GET['share_id']) ? '' : trim($_GET['share_id']));
+    $sql = 'select id,user_id,share_realname,share_phone,share_number,share_principal,share_date from ' . $ecs->table('shareholder') . ' where id = \'' . $share_id . '\'';
+    $bonus = $db->getRow($sql);
+    $smarty->assign('ur_here', '分红');
+    $smarty->assign('bonus', $bonus);
+    $smarty->assign('form_action', 'bonus_confirm');
+    $smarty->assign('action_link2', array('text' => $_LANG['01_shareholder_list'], 'href' => 'shareholder.php?act=list'));
+    $smarty->display('shareholder_list_bonus.dwt');
+} else if($_REQUEST['act'] == 'bonus_confirm'){
+    $id = (empty($_POST['id']) ? '' : trim($_POST['id']));
+    $share_bonus = (empty($_POST['share_bonus']) ? '' : trim($_POST['share_bonus']));
 
+    $sql ='update ' . $ecs->table('shareholder') . ' SET  share_bonus = ' . $share_bonus . ' where id = ' . $id . '';
+    $db->query($sql);
+    if ($db->affected_rows()) {
+        ecs_header("Location: shareholder.php?act=list");
+    }
+} else if ($_REQUEST['act'] == 'add') {
     $country_list = get_regions_steps(0, 0);
     $province_list = get_regions_steps(1, 1);
     $city_list = get_regions_steps(2, $consignee['province']);

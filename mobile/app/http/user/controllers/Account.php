@@ -48,7 +48,7 @@ class Account extends \app\http\base\controllers\Frontend
 
     public function actionShareholderDetail()
     {
-        $getShareHolderInfo = 'SELECT u.user_id, u.user_name, u.mobile_phone,s.id,s.share_realname,s.share_number,s.share_principal,s.share_date,s.share_status,(SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ) as price,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1) - s.share_principal,2) AS profit,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1),2) AS total FROM ' . $GLOBALS['ecs']->table('users') . ' AS u inner join' . $GLOBALS['ecs']->table('shareholder') . 'as s on u.user_id = s.user_id WHERE s.user_id = \'' . $this->user_id . '\'';
+        $getShareHolderInfo = 'SELECT u.user_id, u.user_name, u.mobile_phone,s.id,s.share_realname,s.share_number,s.share_principal,s.share_bonus,s.share_date,s.share_status,(SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1 ) as price,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1) - s.share_principal,2) AS profit,FORMAT (s.share_number * (SELECT stock_price FROM ' . $GLOBALS['ecs']->table('share_stock') . ' WHERE stock_status = 1),2) AS total FROM ' . $GLOBALS['ecs']->table('users') . ' AS u inner join' . $GLOBALS['ecs']->table('shareholder') . 'as s on u.user_id = s.user_id WHERE s.user_id = \'' . $this->user_id . '\'';
         $shareHolderInfo = $this->db->getRow($getShareHolderInfo);
         $this->assign('shareholder', $shareHolderInfo);
         $this->assign('page_title', '收益信息');
