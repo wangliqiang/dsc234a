@@ -90,6 +90,7 @@ class Account extends \app\http\base\controllers\Frontend
         }
         $this->assign('user_list', $user_list);
         $this->assign('dis_user', $dis_phone);//用户
+        $this->assign("teamCount",count($user_list));
         $this->assign('totalAmount', $totalAmount);//总分红
         $this->assign('dis_amount', $dis_amount);//已分红
         $this->assign('surplus_amount', $totalAmount - $dis_amount);//剩余分红
@@ -158,6 +159,26 @@ class Account extends \app\http\base\controllers\Frontend
 
         $this->assign('account_log', $account_log);
         $this->assign('page_title', L('account_detail'));
+        $this->display();
+    }
+
+    public function actionDistributionTeam(){
+
+        $sql = 'select user_name,mobile_phone from {pre}users where user_id = \'' . $this->user_id . '\'';
+        $dis_phone = $this->db->getRow($sql);
+        $dis_list = 'SELECT u.user_id, u.user_name,u.mobile_phone,FORMAT(SUM(order_amount)*(select dis_percent from ' . $GLOBALS['ecs']->table('distribution') . ')/100,2) as dis_price FROM ' . $GLOBALS['ecs']->table('users') . ' as u
+            INNER JOIN ' . $GLOBALS['ecs']->table('order_info') . ' as i ON u.user_id = i.user_id
+            INNER JOIN ' . $GLOBALS['ecs']->table('order_goods') . ' AS g ON i.order_id = g.order_id  WHERE recommender = \'' . $dis_phone['mobile_phone'] . '\' and i.pay_status = 2 ';
+        $user_list = $this->db->getAll($dis_list);
+
+        if (IS_AJAX) {
+            $page = I('page', 1, 'intval');
+            $offset = 10;
+            $page_size = ceil(count($user_list) / $offset);
+            exit(json_encode(array('user_list' => $user_list, 'totalPage' => $page_size)));
+        }
+
+        $this->assign('page_title', '我的团队');
         $this->display();
     }
 

@@ -1,0 +1,38 @@
+{include file="page_header"}
+<div class="con">
+    <div id="j-tab-con" class="article_info">
+        <script id="j-product" type="text/html">
+            <%if user_list%>
+            <%each user_list as item%>
+            <section class="padding-all b-color-f position-rel m-top1px">
+                <a href="javascript:void(0);" class="product-div-link"></a>
+                <div class="dis-box b-color-f card-div">
+                    <div>
+                        <p>姓名：<%item.user_name%></p>
+                        <span></span>
+                    </div>
+                    <div class="box-flex input-text text-right" style="padding-right:1.6rem">
+                        <p>电话：<%item.mobile_phone%></p>
+                        <span class="color-red">收益：<%item.dis_price%>
+                        </span>
+                    </div>
+                    <span class="t-jiantou"><i class="iconfont icon-jiantou tf-180 jian-top"></i></span>
+                </div>
+            </section>
+            <%/each%>
+            <%else%>
+            <div class="no-div-message">
+                <i class="iconfont icon-biaoqingleiben"></i>
+                <p>亲，此处没有内容～！</p>
+            </div>
+            <%/if%>
+        </script>
+    </div>
+</div>
+{include file="float_nav_footer"}
+<script>
+    $('.article_info').infinite({url: "{url('user/account/distributionteam')}", template: 'j-product'});
+</script>
+</body>
+
+</html>
