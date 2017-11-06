@@ -74,6 +74,62 @@ class Account extends \app\http\base\controllers\Frontend
         $this->redirect('user/index/index');
     }
 
+    public function actionDistribution()
+    {
+        $sql = 'select user_name,mobile_phone from {pre}users where user_id = \'' . $this->user_id . '\'';
+        $dis_phone = $this->db->getRow($sql);
+        $dis_list = 'SELECT u.user_id, u.user_name,u.mobile_phone,FORMAT(SUM(order_amount)*(select dis_percent from ' . $GLOBALS['ecs']->table('distribution') . ')/100,2) as dis_price FROM ' . $GLOBALS['ecs']->table('users') . ' as u
+            INNER JOIN ' . $GLOBALS['ecs']->table('order_info') . ' as i ON u.user_id = i.user_id
+            INNER JOIN ' . $GLOBALS['ecs']->table('order_goods') . ' AS g ON i.order_id = g.order_id  WHERE recommender = \'' . $dis_phone['mobile_phone'] . '\' and i.pay_status = 2 ';
+        $user_list = $this->db->getAll($dis_list);
+        $dis_amount = $this->db->getOne('select dis_amount from dsc_users where user_id = \'' . $this->user_id . '\'');
+
+        $totalAmount = 0;
+        foreach ($user_list as $k => $v) {
+            $totalAmount += $v['dis_price'];
+        }
+        $this->assign('user_list', $user_list);
+        $this->assign('dis_user', $dis_phone);//用户
+        $this->assign('totalAmount', $totalAmount);//总分红
+        $this->assign('dis_amount', $dis_amount);//已分红
+        $this->assign('surplus_amount', $totalAmount - $dis_amount);//剩余分红
+        $this->assign('page_title', '分销信息');
+        $this->display();
+    }
+
+    public function actionDistributionApply()
+    {
+        $this->assign('page_title', '申请分成');
+        $this->display();
+    }
+
+    public function actionDistributionApplyAdd()
+    {
+        $dis_money = (empty($_POST['dis_money']) ? '' : trim($_POST['dis_money']));
+        $dis_memo = (empty($_POST['dis_memo']) ? '' : trim($_POST['dis_memo']));
+        $dis_status = '申请中';
+        $sql = 'insert into {pre}distribution_apply (user_id,dis_money,dis_memo,dis_status,dis_date) VALUES (' . $this->user_id . ',' . $dis_money . ',\'' . $dis_memo . '\',\'' . $dis_status . '\',SYSDATE())';
+        $this->db->query($sql);
+        $this->redirect('user/account/distribution');
+    }
+
+    public function actionDistributionDetail()
+    {
+
+        $sql = 'select d.id,d.user_id,d.dis_money,d.dis_memo,d.dis_status,d.dis_date,u.user_name,u.mobile_phone from {pre}distribution_apply as d INNER JOIN {pre}users as u ON d.user_id = u.user_id where d.user_id = \'' . $this->user_id . '\' order by d.dis_date desc';
+        $applyList = $this->db->getAll($sql);
+        $record_count = 'select count(*) from {pre}distribution_apply as d INNER JOIN {pre}users as u ON d.user_id = u.user_id where d.user_id = \'' . $this->user_id . '\'';
+        if (IS_AJAX) {
+            $page = I('page', 1, 'intval');
+            $offset = 10;
+            $page_size = ceil($record_count / $offset);
+            exit(json_encode(array('applyList' => $applyList, 'totalPage' => $page_size)));
+        }
+
+        $this->assign('page_title', '分成明细');
+        $this->display();
+    }
+
     public function actionDetail()
     {
         $account_type = 'user_money';
@@ -233,8 +289,8 @@ class Account extends \app\http\base\controllers\Frontend
                 include_once ADDONS_PATH . 'payment/' . $payment_info['pay_code'] . '.php';
                 $pay_obj = new $payment_info['pay_code']();
                 $payment_info['pay_button'] = $pay_obj->get_code($order, $payment);
-                if(strpos( $payment_info['pay_button'],'微信') && (!is_wechat_browser() || empty($_SESSION['openid']))){
-                    $payment_info['pay_button'] = '<a class="box-flex btn-submit min-two-btn" type="button" href="'.url('user/account/payment',array('pay_name'=>'微信支付','orderid'=> $order['order_sn'],'totalfee'=>'￥'.$_POST['amount'],'goodname'=>'充值')).'">微信支付</a>';
+                if (strpos($payment_info['pay_button'], '微信') && (!is_wechat_browser() || empty($_SESSION['openid']))) {
+                    $payment_info['pay_button'] = '<a class="box-flex btn-submit min-two-btn" type="button" href="' . url('user/account/payment', array('pay_name' => '微信支付', 'orderid' => $order['order_sn'], 'totalfee' => '￥' . $_POST['amount'], 'goodname' => '充值')) . '">微信支付</a>';
                 }
                 $this->assign('payment', $payment_info);
                 $this->assign('pay_fee', price_format($payment_info['pay_fee'], false));

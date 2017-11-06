@@ -104,7 +104,7 @@
             <input type="hidden" name="back_act" value="<?php echo $back_act; ?>"/>
             <button type="submit" class="btn-submit min-two-btn br-5">立即登录</button>
         </form>
-        <?php if($sms_signin == 1) { ?>
+        <?php if($sms_signin == 0) { ?>
         <div class="text-right m-top10"><a href="<?php echo url('user/login/mobile_quick');?>" class="f-04" >手机号快捷登录</a></div>
         <?php } ?>
         <div class="dis-box user-login-list">

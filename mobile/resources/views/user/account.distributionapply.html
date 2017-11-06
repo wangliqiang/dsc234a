@@ -1,0 +1,95 @@
+{include file="page_header"}
+<form action="{url('user/account/distributionapplyadd')}" method="post" class="validation">
+    <div class="con b-color-f" id="checkPage">
+        <div class="flow-consignee margin-lr">
+            <div class="text-all dis-box j-text-all">
+                <label>会员名称</label>
+                <div class="box-flex input-text">
+                    <input name='dis_money' class="j-input-text" type="number" placeholder="请输入分成金额(大于100)" datatype="*" nullmsg="请输入分成金额" value="" id='username'/>
+                    <i class="iconfont icon-guanbi1 close-common j-is-null"></i>
+                </div>
+            </div>
+            <div class="text-all ">
+                <label>备注</label>
+                <div class="box-flex input-text">
+                    <input class="j-input-text wx-location" name='dis_memo' type="text" value="" placeholder="请填写备注" datatype="*" nullmsg="请填写备注" />
+                    <i class="iconfont icon-guanbi1 close-common j-is-null"></i>
+                </div>
+            </div>
+            <div class="ect-button-more dis-box m-top12">
+                <input type="submit" name="submit"  class="btn-submit box-flex br-5 min-two-btn"  value="提交申请"/>
+            </div>
+
+        </div>
+    </div>
+</form>
+{include file="float_nav_footer"}
+<script>
+    $(function () {
+        $.Tipmsg.r = null;
+        $(".validation").Validform({
+            tiptype: function (msg) {
+                d_messages(msg);
+            }
+        });
+    })
+</script>
+
+{if $is_wechat}
+<script>
+    //微信获取共享售后地址
+    $(function(){
+        var url = window.location.href;
+        var jsConfig = {
+            debug: false,
+            jsApiList: [
+                'openAddress',
+            ]
+        };
+        $.post('{url("wechat/jssdk/index")}', {url: url}, function (res) {
+            if(res.status == 200){
+                jsConfig.appId = res.data.appId;
+                jsConfig.timestamp = res.data.timestamp;
+                jsConfig.nonceStr = res.data.nonceStr;
+                jsConfig.signature = res.data.signature;
+                // 配置注入
+                wx.config(jsConfig);
+                //事件注入
+                wx.ready(function () {
+                    document.querySelector('#getLocation').onclick = function () {
+                        wx.openAddress({
+                            success: function(rps){
+                                 //用户成功拉去出地址
+                                 var province = rps.provinceName;
+                                 var city = rps.cityName;
+                                 var area = rps.countryName;
+                                 $('#realname').val(rps.userName);
+                                 $('#phone').val(rps.telNumber);
+                                 $('#addr_de').val(rps.detailInfo);
+                                 $.ajax({
+                                      url:'{url("user/region/index")}',
+                                      type:'POST',
+                                      dataType:'json',
+                                      data:{province:province,city:city,area:area},
+                                      success: function(result){
+                                         $('#province_id').val(result.province_id);
+                                         $('#city_id').val(result.city_id);
+                                          alert(result.province_id);
+                                         $('#district_id').val(result.area_id);
+                                         $('.addressdetail').text(province+city+area);
+                                      },
+                                  });
+                            },
+                            cancel: function(){
+                                alert('用户拒绝授权获取共享收货地址');
+                            }
+                        });
+                    }
+                });
+            }
+        }, 'json');
+    })
+</script>
+{/if}
+</body>
+</html>

@@ -5,19 +5,39 @@
 
 <body class="iframe_body">
 	<div class="warpper">
-    	<div class="title">分销管理 - {$ur_here}</div>
+    	<div class="title"><a href="{$action_link2.href}" class="s-back">{$lang.back}</a>分销详情 - {$ur_here}</div>
         <div class="content">
-            {include file="library/distribution_tab.lbi"}
         	<div class="explanation" id="explanation">
-                <div class="ex_tit"><i class="sc_icon"></i><h4>操作提示</h4><span id="explanationZoom" title="收起提示"></span></div>
-                <ul>
-                    <li>会员列表展示商城所有的会员信息。</li>
-                    <li>可通过会员名称关键字进行搜索，如需详细搜索请在侧边栏进行高级搜索。</li>
-                    <li>会员等级必须在有效积分范围内，否则无法显示会员等级；<em>比如会员积分0，却没有0积分的等级就会显示无等级</em></li>
-                </ul>
+                <div class="flexilist">
+                    <div class="common-content">
+                        <div class="mian-info">
+                            <div class="item">
+                                <div class="label">会员姓名：</div>
+                                <div class="label_value">{$user_name}</div>
+                            </div>
+                            <div class="item">
+                                <div class="label">总分成：</div>
+                                <div class="label_value">{if $totalAmount eq ''}0.00{else}{$totalAmount}{/if}  元</div>
+                            </div>
+                            <div class="item">
+                                <div class="label">已分成：</div>
+                                <div class="label_value">{if $dis_amount eq ''}0.00{else}{$dis_amount}{/if}  元</div>
+                            </div>
+                            <div class="item">
+                                <div class="label">剩余分成：</div>
+                                <div class="label_value">{if $surplus_amount eq ''}0.00{else}{$surplus_amount}{/if}  元</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
             <div class="flexilist">
-            	<div class="common-head">
+            	<div class="common-head" style="display:none;">
+                   	<div class="refresh">
+                    	<div class="refresh_tit" title="刷新数据"><i class="icon icon-refresh"></i></div>
+                    	<div class="refresh_span">刷新 - 共{$record_count}条记录</div>
+                    </div>
                     <form action="javascript:searchUserName()" name="searchForm">
                         <div class="search">
                             <div class="input">
@@ -34,15 +54,10 @@
                         	<thead>
                             	<tr>
                                     <th width="3%" class="sign"><div class="tDiv"><input type="checkbox" name="all_list" class="checkbox" id="all_list" /><label for="all_list" class="checkbox_stars"></label></div></th>
-                                    <th width="5%"><div class="tDiv">姓名</div></th>
+                                    <th width="5%"><div class="tDiv">名称</div></th>
                                     <th width="10%"><div class="tDiv">手机号</div></th>
-                                    <th width="8%"><div class="tDiv">分成金额（元）</div></th>
-                                    <th width="8%"><div class="tDiv">备注</div></th>
-                                    <th width="8%"><div class="tDiv">状态</div></th>
-                                    <th width="8%"><div class="tDiv">{if $flag == 0}申请时间{else}审核时间{/if}</div></th>
-                                     {if $flag == 0}
-                                    <th width="12%" class="handle">{$lang.handler}</th>
-                                    {/if}
+                                    <th width="10%"><div class="tDiv">分成(元)</div></th>
+                                    <th style="display:none;" width="12%" class="handle">{$lang.handler}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,18 +66,13 @@
                                 	<td class="sign"><div class="tDiv"><input type="checkbox" name="checkboxes[]" value="{$list.user_id}" class="checkbox" id="checkbox_{$list.user_id}" /><label for="checkbox_{$list.user_id}" class="checkbox_stars"></label></div></td>
                                     <td><div class="tDiv">{$list.user_name}</div></td>
                                 	<td><div class="tDiv">{$list.mobile_phone}</div></td>
-                                    <td><div class="tDiv">{$list.dis_money}</div></td>
-                                    <td><div class="tDiv">{$list.dis_memo}</div></td>
-                                    <td><div class="tDiv">{$list.dis_status}</div></td>
-                                    <td><div class="tDiv">{$list.dis_date}</div></td>
-                                    {if $flag == 0}
-                                        <td class="handle">
-                                            <div class="tDiv a2">
-                                                <a href="javascript:confirm_redirect('您确定要通过审核吗？','distribution.php?act=apply_option&id={$list.id}')" class="btn_see"><i class="sc_icon sc_icon_see"></i>通过审核</a>
-                                                <a href="javascript:confirm_redirect('您确定要驳回吗？','distribution.php?act=apply_reject&id={$list.id}')" class="btn_see"><i class="icon icon-copy"></i>驳回</a>
-                                            </div>
-                                        </td>
-                                    {/if}
+                                	<td><div class="tDiv">{$list.dis_price}</div></td>
+                                    <td style="display:none;" class="handle">
+                                       <div class="tDiv a2">
+                                           <a href="shareholder.php?act=mgt_option&stock_id={$list.stock_id}" class="btn_see"><i class="sc_icon sc_icon_see"></i>启用</a>
+                                           <a href="javascript:confirm_redirect('{if $list.stock_status eq '1'}该股指已被启用{else}您确定要删除吗？{/if}', 'shareholder.php?act=mgt_remove&stock_id={$list.stock_id}')" title="删除" class="btn_trash"><i class="icon icon-trash"></i>删除</a>
+                                       </div>
+                                    </td>
                                 </tr>
                                 {foreachelse}
                                     <tr><td class="no-records" colspan="12">{$lang.no_records}</td></tr>
@@ -85,7 +95,7 @@
                     </form>
                 </div>
             </div>
-            
+
         </div>
     </div>
     {include file ='library/pagefooter.lbi'}
@@ -96,6 +106,12 @@ listTable.pageCount = '{$page_count}';
 {foreach from=$filter item=item key=key}
 listTable.filter.{$key} = '{$item}';
 {/foreach}
+
+$(function(){
+    $("#submitBtn").click(function(){
+        $("#shareholder_form").submit();
+    });
+});
 
 //列表导航栏设置下路选项
 $(".ps-container").perfectScrollbar();
@@ -137,7 +153,7 @@ function download_userlist()
       args += "&" + i + "=" + encodeURIComponent(listTable.filter[i]);
     }
   }
-  
+
   location.href = "users.php?act=export" + args;
 }
 
@@ -184,10 +200,10 @@ function searchUser()
 function searchUserName()
 {
 	var frm = $("form[name='searchForm']");
-	
+
 	listTable.filter = [];
 	listTable.filter['keywords'] = Utils.trim(frm.find("input[name='user_name']").val());
-	
+
 	listTable.filter['page'] = 1;
     listTable.loadList();
 }

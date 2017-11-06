@@ -11,7 +11,7 @@
     foreach ($_from AS $this->_var['nav']):
 ?>
         	<?php if ($this->_var['nav']['children']): ?>
-				<?php if ($this->_var['nav']['type'] != ""): ?><li data-param="<?php echo $this->_var['nav']['type']; ?>"><a href="javascript:void(0);"><?php echo $this->_var['nav']['label']; ?></a></li><?php endif; ?>
+			    <?php if ($this->_var['nav']['type'] != ""): ?><li data-param="<?php echo $this->_var['nav']['type']; ?>"><a href="javascript:void(0);"><?php echo $this->_var['nav']['label']; ?></a></li><?php endif; ?>
             <?php endif; ?>
         <?php endforeach; endif; unset($_from); ?><?php $this->pop_vars();; ?>
 		</ul>

@@ -1,0 +1,62 @@
+{include file="page_header"}
+<section class="purse-header-box text-center purse-f">
+    <p>当前分成</p>
+    <h2>{$surplus_amount}</h2>
+    <!--<h5>总额：{$totalAmount}</h5>-->
+    <img src="{elixir('img/pur-bg.png')}">
+    <div class="user-pur-box">
+    </div>
+</section>
+<section class="b-color-f my-nav-box m-top10">
+    <div class="user-money-list g-s-i-title-1 dis-box my-dingdan purse-f">
+        <a href="javascript:void(0)" class="box-flex text-center">
+            <p class="t-remark3">总分成</p>
+            <h5 class="ellipsis-one">{$totalAmount}</h5>
+            <div class="purse-ts-box" style="display:none"></div>
+        </a>
+        <a href="javascript:void(0)" class="box-flex text-center">
+            <p class="t-remark3">已分成</p>
+            <h5 class="ellipsis-one">{$dis_amount}</h5>
+            <div class="purse-ts-box" style="display:none"></div>
+        </a>
+        <a href="javascript:void(0)" class="box-flex text-center">
+            <p class="t-remark3">剩余分成</p>
+            <h5 class="ellipsis-one">{$surplus_amount}</h5>
+            <div class="purse-ts-box" style="display:none"></div>
+        </a>
+    </div>
+</section>
+<section class="b-color-f my-nav-box m-top10">
+    <a href="{url('user/account/distributionApply')}">
+        <div class="dis-box padding-all my-bottom">
+            <h3 class="box-flex text-all-span my-u-title-size">申请分成</h3>
+            <div class="f-04"><span class="t-jiantou"><i class="iconfont icon-jiantou tf-180 jian-top"></i></span></div>
+        </div>
+    </a>
+    <a href="{url('user/account/distributionDetail')}">
+        <div class="dis-box padding-all my-bottom">
+            <h3 class="box-flex text-all-span my-u-title-size">分成明细</h3>
+            <div class="f-04"><span class="t-jiantou"><i class="iconfont icon-jiantou tf-180 jian-top"></i></span></div>
+        </div>
+    </a>
+    <a href="javascript:void(0)">
+        <div class="dis-box padding-all my-bottom">
+            <h3 class="box-flex text-all-span my-u-title-size">股东姓名</h3>
+            <div class="f-04"><span class="t-jiantou">{$dis_user.user_name}</span></div>
+        </div>
+    </a>
+    <a href="javascript:void(0)">
+        <div class="dis-box padding-all my-bottom">
+            <h3 class="box-flex text-all-span my-u-title-size">联系电话</h3>
+            <div class="f-04"><span class="t-jiantou">{$dis_user.mobile_phone}</span></div>
+        </div>
+    </a>
+</section>
+
+<!--快捷导航-->
+<!--{include file="float_nav"}-->
+{include file="float_nav_footer"}
+
+</body>
+
+</html>

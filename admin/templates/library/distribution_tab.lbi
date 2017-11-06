@@ -1,0 +1,13 @@
+<div class="tabs_info">
+    <ul>
+        <li {if $menu_select.current eq '待审核'}class="curr"{/if}>
+            <a href="distribution.php?act=apply_list">待审核</a>
+        </li>
+        <li {if $menu_select.current eq '审核通过'}class="curr"{/if}>
+            <a href="distribution.php?act=apply_list_over">审核通过</a>
+        </li>
+        <li {if $menu_select.current eq '已驳回'}class="curr"{/if}>
+            <a href="distribution.php?act=apply_list_reject">已驳回</a>
+        </li>
+    </ul>
+</div>
