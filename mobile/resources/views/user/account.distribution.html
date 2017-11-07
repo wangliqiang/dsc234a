@@ -26,38 +26,36 @@
         </a>
     </div>
 </section>
-<section class="b-color-f my-nav-box m-top10">
-    <a href="{url('user/account/distributionApply')}">
-        <div class="dis-box padding-all my-bottom">
-            <h3 class="box-flex text-all-span my-u-title-size">申请分成</h3>
-            <div class="f-04"><span class="t-jiantou"><i class="iconfont icon-jiantou tf-180 jian-top"></i></span></div>
-        </div>
-    </a>
-    <a href="{url('user/account/distributionDetail')}">
-        <div class="dis-box padding-all my-bottom">
-            <h3 class="box-flex text-all-span my-u-title-size">分成明细</h3>
-            <div class="f-04"><span class="t-jiantou"><i class="iconfont icon-jiantou tf-180 jian-top"></i></span></div>
-        </div>
-    </a>
-    <a href="{url('user/account/distributionTeam')}">
-        <div class="dis-box padding-all my-bottom">
-            <h3 class="box-flex text-all-span my-u-title-size">我的团队</h3>
-            <div class="f-04"><span class="t-jiantou">{$teamCount}&nbsp;人<i class="iconfont icon-jiantou tf-180 jian-top"></i></span></div>
-        </div>
-    </a>
-    <a href="javascript:void(0)">
-        <div class="dis-box padding-all my-bottom">
-            <h3 class="box-flex text-all-span my-u-title-size">姓名</h3>
-            <div class="f-04"><span class="t-jiantou">{$dis_user.user_name}</span></div>
-        </div>
-    </a>
-    <a href="javascript:void(0)">
-        <div class="dis-box padding-all my-bottom">
-            <h3 class="box-flex text-all-span my-u-title-size">联系电话</h3>
-            <div class="f-04"><span class="t-jiantou">{$dis_user.mobile_phone}</span></div>
-        </div>
-    </a>
-</section>
+<nav class="b-color-f user-nav-box m-top08">
+    <div class="box ul-4 text-c b-color-f">
+        <a href="{url('user/account/distributionDetail')}">
+            <label><i class="iconfont icon-3shouce color-fe"></i></label>
+            <p class="f-02 col-7">分成明细</p>
+        </a>
+        <a href="{url('user/account/distributionApply')}" class="">
+            <label><i class="iconfont icon-dianpu color-f9c"></i></label>
+            <p class="f-02 col-7">申请分成</p>
+        </a>
+        <a href="{url('user/account/distributionOrder')}">
+            <label><i class="iconfont icon-zichou color-fe"></i></label>
+            <p class="f-02 col-7">分成订单</p>
+        </a>
+        <a href="{url('user/account/distributionTeam')}" class="">
+            <label><i class="iconfont icon-wodetuandui color-f9c"></i></label>
+            <p class="f-02 col-7">我的团队({$teamCount}人)</p>
+        </a>
+    </div>
+</nav>
+<style>
+    .user-nav-box .ul-4 a {
+        width: 50%;
+        float: left;
+        border-right: 1px solid #f6f6f9;
+        border-bottom: 1px solid #f6f6f9;
+        box-sizing: border-box;
+        padding: 1.6rem 0 1.6rem 0;
+    }
+</style>
 
 <!--快捷导航-->
 <!--{include file="float_nav"}-->
