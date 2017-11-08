@@ -12,16 +12,16 @@
                     <div class="common-content">
                         <div class="mian-info">
                             <div class="item">
-                                <div class="label">会员姓名：</div>
-                                <div class="label_value">{$user_name}</div>
+                                <div class="label">姓名：</div>
+                                <div class="label_value">{$user_name}({$nick_name})</div>
+                            </div>
+                            <div class="item">
+                                <div class="label">手机号：</div>
+                                <div class="label_value">{$mobile_phone}</div>
                             </div>
                             <div class="item">
                                 <div class="label">总分成：</div>
                                 <div class="label_value">{if $totalAmount eq ''}0.00{else}{$totalAmount}{/if}  元</div>
-                            </div>
-                            <div class="item">
-                                <div class="label">已分成：</div>
-                                <div class="label_value">{if $dis_amount eq ''}0.00{else}{$dis_amount}{/if}  元</div>
                             </div>
                             <div class="item">
                                 <div class="label">剩余分成：</div>
@@ -64,7 +64,7 @@
                                 {foreach from=$user_list item=list}
                             	<tr>
                                 	<td class="sign"><div class="tDiv"><input type="checkbox" name="checkboxes[]" value="{$list.user_id}" class="checkbox" id="checkbox_{$list.user_id}" /><label for="checkbox_{$list.user_id}" class="checkbox_stars"></label></div></td>
-                                    <td><div class="tDiv">{$list.user_name}</div></td>
+                                    <td><div class="tDiv">{$list.user_name}{if $list.nick_name eq ''}{else}({$list.nick_name}){/if}</div></td>
                                 	<td><div class="tDiv">{$list.mobile_phone}</div></td>
                                 	<td><div class="tDiv">{$list.dis_price}</div></td>
                                     <td style="display:none;" class="handle">

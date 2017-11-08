@@ -50,7 +50,7 @@
                                 {foreach from=$user_list item=list}
                             	<tr>
                                 	<td class="sign"><div class="tDiv"><input type="checkbox" name="checkboxes[]" value="{$list.user_id}" class="checkbox" id="checkbox_{$list.user_id}" /><label for="checkbox_{$list.user_id}" class="checkbox_stars"></label></div></td>
-                                    <td><div class="tDiv">{$list.user_name}</div></td>
+                                    <td><div class="tDiv">{$list.user_name}{if $list.nick_name eq ''}{else}({$list.nick_name}){/if}</div></td>
                                 	<td><div class="tDiv">{$list.mobile_phone}</div></td>
                                     <td class="handle">
                                     	<div class="tDiv a2">

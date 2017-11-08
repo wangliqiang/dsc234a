@@ -21,7 +21,7 @@ function user_list()
 
         $filter['record_count'] = $GLOBALS['db']->getOne('SELECT COUNT(*) FROM ' . $GLOBALS['ecs']->table('users') . ' AS u ' . $ex_where);
         $filter = page_and_size($filter);
-        $sql = 'SELECT user_id, user_name,mobile_phone FROM ' .
+        $sql = 'SELECT user_id,user_name,nick_name,mobile_phone FROM ' .
             $GLOBALS['ecs']->table('users') . $ex_where . ' '
             . ' LIMIT ' . $filter['start'] . ',' . $filter['page_size'];
         $filter['keywords'] = stripslashes($filter['keywords']);
@@ -51,7 +51,7 @@ function dis_user_list($user_phone)
 
         $filter['record_count'] = $GLOBALS['db']->getOne('SELECT COUNT(*) FROM ' . $GLOBALS['ecs']->table('users') . ' AS u ' . $ex_where);
         $filter = page_and_size($filter);
-        $sql = 'SELECT u.user_id, u.user_name,u.mobile_phone,FORMAT(SUM(order_amount)*(select dis_percent from ' . $GLOBALS['ecs']->table('distribution') . ')/100,2) as dis_price FROM ' . $GLOBALS['ecs']->table('users') . ' as u 
+        $sql = 'SELECT u.user_id, u.user_name,u.nick_name,u.mobile_phone,FORMAT(SUM(order_amount)*(select dis_percent from ' . $GLOBALS['ecs']->table('distribution') . ')/100,2) as dis_price FROM ' . $GLOBALS['ecs']->table('users') . ' as u 
             INNER JOIN ' . $GLOBALS['ecs']->table('order_info') . ' as i ON u.user_id = i.user_id 
             INNER JOIN ' . $GLOBALS['ecs']->table('order_goods') . ' AS g ON i.order_id = g.order_id' . $ex_where . ' and i.pay_status = 2 '
             . ' LIMIT ' . $filter['start'] . ',' . $filter['page_size'];
@@ -130,7 +130,7 @@ if ($_REQUEST['act'] == 'list') {
     make_json_result($smarty->fetch('distribution_list.dwt'), '', array('filter' => $user_list['filter'], 'page_count' => $user_list['page_count']));
 } else if ($_REQUEST['act'] == 'goDetail') {
     $user_id = (empty($_GET['user_id']) ? '' : trim($_GET['user_id']));
-    $sql = 'SELECT user_name,mobile_phone FROM ' . $ecs->table('users') . ' WHERE user_id = \'' . $user_id . '\' ';
+    $sql = 'SELECT user_name,nick_name,mobile_phone FROM ' . $ecs->table('users') . ' WHERE user_id = \'' . $user_id . '\' ';
     $dis_phone = $db->getRow($sql);
     $user_list = dis_user_list($dis_phone['mobile_phone']);
 
@@ -143,6 +143,8 @@ if ($_REQUEST['act'] == 'list') {
     $smarty->assign('ur_here', $dis_phone['user_name'] . '的分销');
     $smarty->assign('user_list', $user_list['user_list']);
     $smarty->assign('user_name', $dis_phone['user_name']);//用户
+    $smarty->assign('nick_name', $dis_phone['nick_name']);//用户
+    $smarty->assign('mobile_phone', $dis_phone['mobile_phone']);//用户
     $smarty->assign('totalAmount', $totalAmount);//总分红
     $smarty->assign('dis_amount', $dis_amount);//已分红
     $smarty->assign('surplus_amount', $totalAmount - $dis_amount);//剩余分红
