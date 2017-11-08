@@ -185,13 +185,13 @@ if (file_exists(MOBILE_WECHAT)) {
 	$modules['22_wechat']['11_template'] = '../mobile/index.php?r=wechat/admin/template';
 }
 
-if (file_exists(MOBILE_DRP)) {
-	$modules['23_drp']['01_drp_config'] = '../mobile/index.php?r=drp/admin/config';
-	$modules['23_drp']['02_drp_shop'] = '../mobile/index.php?r=drp/admin/shop';
-	$modules['23_drp']['03_drp_list'] = '../mobile/index.php?r=drp/admin/drplist';
-	$modules['23_drp']['04_drp_order_list'] = '../mobile/index.php?r=drp/admin/drporderlist';
-	$modules['23_drp']['05_drp_set_config'] = '../mobile/index.php?r=drp/admin/drpsetconfig';
-}
+//if (file_exists(MOBILE_DRP)) {
+//	$modules['23_drp']['01_drp_config'] = '../mobile/index.php?r=drp/admin/config';
+//	$modules['23_drp']['02_drp_shop'] = '../mobile/index.php?r=drp/admin/shop';
+//	$modules['23_drp']['03_drp_list'] = '../mobile/index.php?r=drp/admin/drplist';
+//	$modules['23_drp']['04_drp_order_list'] = '../mobile/index.php?r=drp/admin/drporderlist';
+//	$modules['23_drp']['05_drp_set_config'] = '../mobile/index.php?r=drp/admin/drpsetconfig';
+//}
 
 $modules['16_email_manage']['email_list'] = 'email_list.php?act=list';
 $modules['16_email_manage']['magazine_list'] = 'magazine_list.php?act=list';

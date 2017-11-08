@@ -84,7 +84,7 @@
                                 	<th width="5%" class="sky_id"><div class="tDiv"><a href="javascript:listTable.sort('goods_id');"><?php echo $this->_var['lang']['record_id']; ?></a><?php echo $this->_var['sort_goods_id']; ?></div></th>
                                     <th width="18%"><div class="tDiv"><a href="javascript:listTable.sort('goods_name');"><?php echo $this->_var['lang']['goods_name']; ?></a><?php echo $this->_var['sort_goods_name']; ?></div></th>
                                     <th width="8%"><div class="tDiv"><?php echo $this->_var['lang']['goods_steps_name']; ?></div></th>
-                                    <th width="7%"><div class="tDiv"><?php echo $this->_var['lang']['lab_commission_rate']; ?></div></th>
+
                                     <th width="12%"><div class="tDiv"><?php echo $this->_var['lang']['shop_price']; ?>/<?php echo $this->_var['lang']['goods_sn']; ?>/<?php echo $this->_var['lang']['lab_freight']; ?></div></th>
                                     <th width="10%"><div class="tDiv"><?php echo $this->_var['lang']['goods_label']; ?></div></th>
                                     <th width="6%"><div class="tDiv"><a href="javascript:listTable.sort('sort_order');"><?php echo $this->_var['lang']['sort_order']; ?></a><?php echo $this->_var['sort_sort_order']; ?></div></th>
@@ -147,11 +147,6 @@
                                     <td>
                                         <div class="tDiv">
                                             <div class="goods_list_seller" title="<?php echo $this->_var['goods']['user_name']; ?>" data-toggle="tooltip"><?php if ($this->_var['goods']['user_name']): ?><font class="red"><?php echo $this->_var['goods']['user_name']; ?></font><?php else: ?><font class="blue3"><?php echo $this->_var['lang']['self']; ?></font><?php endif; ?></div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="tDiv">
-                                        	<input class="text w30 tc fn" style="margin-right:0px;" onblur="listTable.editInput(this, 'edit_commission_rate', '<?php echo $this->_var['goods']['goods_id']; ?>' );" autocomplete="off" value="<?php echo empty($this->_var['goods']['commission_rate']) ? '0' : $this->_var['goods']['commission_rate']; ?>" type="text" <?php if (! $this->_var['goods']['user_id']): ?>disabled<?php endif; ?>>&nbsp;%
                                         </div>
                                     </td>
                                     <td>

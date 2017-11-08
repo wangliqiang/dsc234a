@@ -84,7 +84,7 @@
                                 	<th width="5%" class="sky_id"><div class="tDiv"><a href="javascript:listTable.sort('goods_id');">{$lang.record_id}</a>{$sort_goods_id}</div></th>
                                     <th width="18%"><div class="tDiv"><a href="javascript:listTable.sort('goods_name');">{$lang.goods_name}</a>{$sort_goods_name}</div></th>
                                     <th width="8%"><div class="tDiv">{$lang.goods_steps_name}</div></th>
-                                    <th width="7%"><div class="tDiv">{$lang.lab_commission_rate}</div></th>
+
                                     <th width="12%"><div class="tDiv">{$lang.shop_price}/{$lang.goods_sn}/{$lang.lab_freight}</div></th>
                                     <th width="10%"><div class="tDiv">{$lang.goods_label}</div></th>
                                     <th width="6%"><div class="tDiv"><a href="javascript:listTable.sort('sort_order');">{$lang.sort_order}</a>{$sort_sort_order}</div></th>
@@ -145,11 +145,6 @@
                                     <td>
                                         <div class="tDiv">
                                             <div class="goods_list_seller" title="{$goods.user_name}" data-toggle="tooltip">{if $goods.user_name}<font class="red">{$goods.user_name}</font>{else}<font class="blue3">{$lang.self}</font>{/if}</div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="tDiv">
-                                        	<input class="text w30 tc fn" style="margin-right:0px;" onblur="listTable.editInput(this, 'edit_commission_rate', '{$goods.goods_id}' );" autocomplete="off" value="{$goods.commission_rate|default:0}" type="text" {if !$goods.user_id}disabled{/if}>&nbsp;%
                                         </div>
                                     </td>
                                     <td>
