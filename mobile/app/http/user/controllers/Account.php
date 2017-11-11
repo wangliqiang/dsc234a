@@ -336,7 +336,7 @@ class Account extends \app\http\base\controllers\Frontend
                 $pay_obj = new $payment_info['pay_code']();
                 $payment_info['pay_button'] = $pay_obj->get_code($order, $payment);
                 if (strpos($payment_info['pay_button'], '微信') && (!is_wechat_browser() || empty($_SESSION['openid']))) {
-                    $payment_info['pay_button'] = '<a class="box-flex btn-submit min-two-btn" type="button" href="' . url('user/account/payment', array('pay_name' => '微信支付', 'orderid' => $order['order_sn'], 'totalfee' => '￥' . $_POST['amount'], 'goodname' => '充值')) . '">微信支付</a>';
+                    $payment_info['pay_button'] = '<a class="box-flex btn-submit min-two-btn" type="button" href="' . url('user/account/payment', array('pay_name' => '微信支付', 'orderid' => $order['order_sn'], 'totalfee' => $_POST['amount'], 'goodname' => '充值')) . '">微信支付</a>';
                 }
                 $this->assign('payment', $payment_info);
                 $this->assign('pay_fee', price_format($payment_info['pay_fee'], false));
@@ -354,7 +354,7 @@ class Account extends \app\http\base\controllers\Frontend
     {
         $pay_name = $_GET['pay_name'];
         $orderid = $_GET['orderid'];
-        $totalfee = substr($_GET['totalfee'], 2, strlen($_GET['totalfee'])) * 100;
+        $totalfee = $_GET['totalfee'] * 100;
         $subject = $_GET['goodname'];//描述
         if ($pay_name === '微信支付') {//微信支付
             $nonce_str = md5($orderid);
