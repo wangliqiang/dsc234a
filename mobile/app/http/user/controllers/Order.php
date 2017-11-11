@@ -260,7 +260,6 @@ class Order extends \app\http\base\controllers\Frontend
                        <trade_type>$trade_type</trade_type>
                        <sign>$sign</sign>
                    </xml>";//拼接成XML格式
-            echo $post_data;
             $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";//微信传参地址
             $dataxml = $this->http_post($url, $post_data); //后台POST微信传参地址  同时取得微信返回的参数，http_post方法请看下文
             $objectxml = (array)simplexml_load_string($dataxml, 'SimpleXMLElement', LIBXML_NOCDATA); //将微信返回的XML 转换成数组
@@ -300,12 +299,12 @@ class Order extends \app\http\base\controllers\Frontend
                        <trade_type>$trade_type</trade_type>
                        <sign>$sign</sign>
                    </xml>";//拼接成XML格式
-            echo $post_data;
             $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";//微信传参地址
             $dataxml = $this->http_post($url, $post_data); //后台POST微信传参地址  同时取得微信返回的参数，http_post方法请看下文
             $objectxml = (array)simplexml_load_string($dataxml, 'SimpleXMLElement', LIBXML_NOCDATA); //将微信返回的XML 转换成数组
             if ($objectxml['return_code'] == 'SUCCESS') {
                 if ($objectxml['result_code'] == 'SUCCESS') {//如果这两个都为此状态则返回mweb_url，详情看‘统一下单’接口文档
+                    // 改变订单状态
                     $this->assign('url', $objectxml['mweb_url']);
 //                    return $objectxml['mweb_url']; //mweb_url是微信返回的支付连接要把这个连接分配到前台
                 }
@@ -314,6 +313,8 @@ class Order extends \app\http\base\controllers\Frontend
                 }
             }
         }
+        $sql = 'UPDATE ' . $this->ecs->table('order_info') . ' SET order_status = \'' . PS_PAYED . '\', ' . ' confirm_time = \'' . gmtime() . '\', ' . ' pay_status = \'' . PS_PAYED . '\', ' . ' pay_time = \'' . gmtime()  . '\' WHERE order_id = \'' . $orderid . '\'';
+        $this->db->query($sql);
         $this->assign('page_title', '微信支付');
         $this->display();
     }
