@@ -1,9 +1,9 @@
 <?php
 $data = array (
-  'shop_name' => 'SHOP',
-  'shop_title' => 'SHOP',
-  'shop_desc' => 'SHOP',
-  'shop_keywords' => 'SHOP',
+  'shop_name' => '大商创2.3.2修复版本',
+  'shop_title' => '大商创-免费B2B2C商城系统，免费多商户商城系统，多店铺商城系统，企业级电商系统免费下载_模板堂',
+  'shop_desc' => '大商创推出的免费B2B2C商城系统，支持多店铺入驻，包含多城市多仓库等众多功能，能帮助企业及个人快速搭建多商户电商系统，并减少二次开发带来的成本',
+  'shop_keywords' => '大商创 免费商城系统 免费B2B2C 免费多商户系统  多店铺商城系统 企业级电商系统  ecsh',
   'shop_country' => '1',
   'shop_province' => '16',
   'shop_city' => '221',

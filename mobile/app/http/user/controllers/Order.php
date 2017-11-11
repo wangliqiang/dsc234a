@@ -138,8 +138,8 @@ class Order extends \app\http\base\controllers\Frontend
                 }
             }
 
-            if(strpos($order['pay_online'],'微信') && (!is_wechat_browser() || empty($_SESSION['openid']))){
-                $order['pay_online'] = '<div class="n-right-width" ><span class="box-flex text-right"></span> <a class="box-flex btn-submit min-two-btn" type="button" href="'.url('user/order/payment',array('pay_name'=>'微信支付','orderid'=> $order['order_sn'],'totalfee'=>$order['formated_order_amount'],'goodname'=>'订单支付')).'">微信支付</a></div>';
+            if (strpos($order['pay_online'], '微信') && (!is_wechat_browser() || empty($_SESSION['openid']))) {
+                $order['pay_online'] = '<div class="n-right-width" ><span class="box-flex text-right"></span> <a class="box-flex btn-submit min-two-btn" type="button" href="' . url('user/order/payment', array('pay_name' => '微信支付', 'orderid' => $order['order_sn'], 'totalfee' => $order['formated_order_amount'], 'goodname' => '订单支付')) . '">微信支付</a></div>';
             }
 
             $this->assign('payment_list', $payment_list);
@@ -232,9 +232,9 @@ class Order extends \app\http\base\controllers\Frontend
     {
         $pay_name = $_GET['pay_name'];
         $orderid = $_GET['orderid'];
-        $totalfee = substr($_GET['totalfee'], 2, strlen($_GET['totalfee'])) * 100;
         $subject = $_GET['goodname'];//描述
         if ($pay_name === '微信支付') {//微信支付
+            $totalfee = substr($_GET['totalfee'], 2, strlen($_GET['totalfee'])) * 100;
             $nonce_str = md5($orderid);
             $spbill_create_ip = $this->getIp();
             $trade_type = 'MWEB';//交易类型 具体看API 里面有详细介绍
@@ -260,6 +260,47 @@ class Order extends \app\http\base\controllers\Frontend
                        <trade_type>$trade_type</trade_type>
                        <sign>$sign</sign>
                    </xml>";//拼接成XML格式
+            echo $post_data;
+            $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";//微信传参地址
+            $dataxml = $this->http_post($url, $post_data); //后台POST微信传参地址  同时取得微信返回的参数，http_post方法请看下文
+            $objectxml = (array)simplexml_load_string($dataxml, 'SimpleXMLElement', LIBXML_NOCDATA); //将微信返回的XML 转换成数组
+            if ($objectxml['return_code'] == 'SUCCESS') {
+                if ($objectxml['result_code'] == 'SUCCESS') {//如果这两个都为此状态则返回mweb_url，详情看‘统一下单’接口文档
+                    $this->assign('url', $objectxml['mweb_url']);
+//                    return $objectxml['mweb_url']; //mweb_url是微信返回的支付连接要把这个连接分配到前台
+                }
+                if ($objectxml['result_code'] == 'FAIL') {
+                    echo $objectxml['err_code_des'];
+                }
+            }
+        }else if ($pay_name === '微信支付1'){
+            $totalfee = $_GET['totalfee'] * 100;
+            $nonce_str = md5($orderid);
+            $spbill_create_ip = $this->getIp();
+            $trade_type = 'MWEB';//交易类型 具体看API 里面有详细介绍
+            $notify_url = notify_url(basename(__FILE__, '.php')); //回调地址
+            $scene_info = '{"h5_info":{"type":"Wap","wap_url":"http://www.ilaike.net/mobile","wap_name":"微信支付"}}';  //场景信息
+            //对参数按照key=value的格式，并按照参数名ASCII字典序排序生成字符串
+            $appid = 'wx8bf3494ef096a20c';
+            $mch_id = '1430990802';
+            $key = 'oGf1Acf04q9b3C1Pb4ZpcsE0T4P41q4S';
+            $signA = "appid=$appid&body=$subject&mch_id=$mch_id&nonce_str=$nonce_str&notify_url=$notify_url&out_trade_no=$orderid&scene_info=$scene_info&spbill_create_ip=$spbill_create_ip&total_fee=$totalfee&trade_type=$trade_type";
+            $strSignTmp = $signA . "&key=$key"; //拼接字符串
+            $sign = strtoupper(md5($strSignTmp)); // MD5 后转换成大写
+            $post_data = "<xml>
+                       <appid>wx8bf3494ef096a20c</appid>
+                       <mch_id>1430990802</mch_id>
+                       <body>$subject</body>
+                       <nonce_str>$nonce_str</nonce_str>
+                       <notify_url>$notify_url</notify_url>
+                       <out_trade_no>$orderid</out_trade_no>
+                       <scene_info>$scene_info</scene_info>
+                       <spbill_create_ip>$spbill_create_ip</spbill_create_ip>
+                       <total_fee>$totalfee</total_fee>
+                       <trade_type>$trade_type</trade_type>
+                       <sign>$sign</sign>
+                   </xml>";//拼接成XML格式
+            echo $post_data;
             $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";//微信传参地址
             $dataxml = $this->http_post($url, $post_data); //后台POST微信传参地址  同时取得微信返回的参数，http_post方法请看下文
             $objectxml = (array)simplexml_load_string($dataxml, 'SimpleXMLElement', LIBXML_NOCDATA); //将微信返回的XML 转换成数组
