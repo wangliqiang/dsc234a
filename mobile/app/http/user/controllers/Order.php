@@ -238,7 +238,7 @@ class Order extends \app\http\base\controllers\Frontend
             $nonce_str = md5($orderid);
             $spbill_create_ip = $this->getIp();
             $trade_type = 'MWEB';//交易类型 具体看API 里面有详细介绍
-            $notify_url = notify_url(basename(__FILE__, '.php')); //回调地址
+            $notify_url = '127.0.0.1/dsc234a/wxpay/wxpay.php'; //回调地址
             $scene_info = '{"h5_info":{"type":"Wap","wap_url":"http://www.ilaike.net/mobile","wap_name":"微信支付"}}';  //场景信息
             //对参数按照key=value的格式，并按照参数名ASCII字典序排序生成字符串
             $appid = 'wx8bf3494ef096a20c';
@@ -313,8 +313,6 @@ class Order extends \app\http\base\controllers\Frontend
                 }
             }
         }
-        $sql = 'UPDATE ' . $this->ecs->table('order_info') . ' SET order_status = \'' . PS_PAYED . '\', ' . ' confirm_time = \'' . gmtime() . '\', ' . ' pay_status = \'' . PS_PAYED . '\', ' . ' pay_time = \'' . gmtime()  . '\' WHERE order_id = \'' . $orderid . '\'';
-        $this->db->query($sql);
         $this->assign('page_title', '微信支付');
         $this->display();
     }
