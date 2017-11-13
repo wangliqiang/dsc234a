@@ -41,7 +41,6 @@ class Index extends \app\http\base\controllers\Frontend
 
         $where['mobile_phone'] = $this->mobile;
         $user_id = $this->db->getOne('SELECT user_id FROM {pre}users WHERE mobile_phone=\'' . $where['mobile_phone'] . '\'');
-
         if ($this->flag == 'register') {
             if (!empty($user_id)) {
                 exit(json_encode(array('msg' => L('change_mobile'))));
@@ -49,6 +48,10 @@ class Index extends \app\http\base\controllers\Frontend
         } else if ($this->flag == 'forget') {
             if (empty($user_id)) {
                 exit(json_encode(array('msg' => L('mobile_number_Unknown'))));
+            }
+        }else if($this->flag == 'raply') {
+            if (empty($user_id)) {
+                exit(json_encode(array('msg' => L('请先设置手机号码'))));
             }
         }
 

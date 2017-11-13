@@ -159,7 +159,7 @@
         $.post(ROOT_URL + 'index.php?m=sms&a=send', {
             mobile: mobile,
             verify_code: verify_code,
-            flag: 'register'
+            flag: 'raply'
         }, function (res) {
             d_messages(res.msg);
             if (res.code == 2) {
