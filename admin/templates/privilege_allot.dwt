@@ -28,7 +28,7 @@
                                     <div class="checkbox_items">
                                     	<div class="checkbox_item">
                                             <input type="checkbox" name="chkGroup_share" value="checkbox" class="ui-checkbox" id="chkGroup_shareholder"/>
-                                            <label for="chkGroup_shareholder" class="ui-label blod">股东管理&nbsp;(请单独使用该权限)</label>
+                                            <label for="chkGroup_shareholder" class="ui-label blod">分享信息&nbsp;(请单独使用该权限)</label>
                                         </div>
                                     </div>
                                 </div>
@@ -37,7 +37,7 @@
                                         <div class="checkbox_items">
                                             <div class="checkbox_item">
                                                 <input type="checkbox" value="" name="shareholder" class="ui-checkbox" id="shareholder" {if $is_admin eq 1} checked="true" {/if}/>
-                                                <label for="shareholder" class="ui-label">股东管理</label>
+                                                <label for="shareholder" class="ui-label">分享信息</label>
                                             </div>
                                         </div>
                                     </div>

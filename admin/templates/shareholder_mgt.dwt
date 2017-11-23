@@ -5,7 +5,7 @@
 
 <body class="iframe_body">
 	<div class="warpper">
-    	<div class="title">股东管理 - {$ur_here}</div>
+    	<div class="title">分享信息 - {$ur_here}</div>
         <div class="content">
         	<div class="explanation" id="explanation">
                 <div class="flexilist">
