@@ -64,7 +64,7 @@
                                     <td><div class="tDiv">{$list.total}</div></td>
                                     <td class="handle">
                                     	<div class="tDiv a2">
-                                            <a href="shareholder.php?act=apply_option&share_id={$list.id}" class="btn_see"><i class="sc_icon sc_icon_see"></i>操作</a>
+                                            <a href="shareholder_apply.php?act=apply_option&share_id={$list.id}" class="btn_see"><i class="sc_icon sc_icon_see"></i>操作</a>
                                         </div>
                                     </td>
                                 </tr>

@@ -17,7 +17,7 @@
             <div class="flexilist">
                 <div class="common-content">
                     <div class="mian-info">
-                        <form method="post" action="shareholder.php" name="theForm" id="shareholder_form" >
+                        <form method="post" action="shareholder_apply.php" name="theForm" id="shareholder_form" >
                             <div class="switch_info">
                                 <div class="item">
                                     <div class="label">会员名称：</div>

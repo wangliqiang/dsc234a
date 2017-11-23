@@ -145,7 +145,7 @@ $menu_top['ectouch'] = '20_ectouch,22_wechat,23_drp';
 $menu_top['shareholdersystem'] = 'shareholder_mgt';
 $menu_top['distributionsystem'] = 'distribution_mgt';
 $modules['shareholder_mgt']['01_shareholder_list'] = 'shareholder.php?act=list';
-$modules['shareholder_mgt']['02_shareholder_apply'] = 'shareholder.php?act=apply';
+$modules['shareholder_mgt']['02_shareholder_apply'] = 'shareholder_apply.php?act=apply';
 $modules['shareholder_mgt']['03_shareholder_config'] = 'shareholder.php?act=mgt';
 $modules['distribution_mgt']['01_distribution_list'] = 'distribution.php?act=list';
 $modules['distribution_mgt']['02_distribution_list_apply'] = 'distribution.php?act=apply_list';
