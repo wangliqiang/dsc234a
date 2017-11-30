@@ -22,7 +22,7 @@ function user_list()
         $filter['record_count'] = $GLOBALS['db']->getOne('SELECT COUNT(*) FROM ' . $GLOBALS['ecs']->table('users') . ' AS u ' . $ex_where);
         $filter = page_and_size($filter);
         $sql = 'SELECT user_id,user_name,nick_name,mobile_phone FROM ' .
-            $GLOBALS['ecs']->table('users') . $ex_where . ' '
+            $GLOBALS['ecs']->table('users')  . ' AS u ' . $ex_where . ' '
             . ' LIMIT ' . $filter['start'] . ',' . $filter['page_size'];
         $filter['keywords'] = stripslashes($filter['keywords']);
         set_filter($filter, $sql);

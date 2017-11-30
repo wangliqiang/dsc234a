@@ -14,7 +14,12 @@
 			<a href="{url('profile/index')}" class="box-flex">
 				<div class="header-admin">
 
-					<h4 class="ellipsis-one f-06">{$info.nick_name}</h4>
+					<h4 class="ellipsis-one f-06">{$info.nick_name}
+						{if $info.nick_name == $info.mobile_phone }
+                        <h4 style="color: red;">（请尽快把用户名修改为真实姓名）</h4>
+						{else}
+						{/if}
+					</h4>
 					<p class="color-whie f-02 m-top02">{$rank.user_rank.rank_name}</p>
 				</div>
 			</a>
