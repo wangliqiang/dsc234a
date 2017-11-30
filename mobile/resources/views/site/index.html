@@ -141,8 +141,8 @@
     <!--recom-->
     <div class="box mb-1 title inx-ms  m-top08">
         <div class="b-color-f p-r">
-            <img class="img" src="__TPL__/img/guangao.png"> 
-            <a href="{url('category/index/search',array('intro'=>'best'))}"><div class="index-jt-more jinpin-bg">更多<i class="iconfont icon-next-s"></i></div></a>   
+            <img class="img" src="__TPL__/img/guangao.png">
+            <a href="{url('category/index/search',array('intro'=>'best'))}"><div class="index-jt-more jinpin-bg">更多<i class="iconfont icon-next-s"></i></div></a>
         </div>
         <section class="product-list-medium">
             <ul>
@@ -196,8 +196,8 @@
     <!--brand-->
     {if $store}
     <div class="p-r b-color-f m-top08">
-            <img class="img" src="__TPL__/img/dianpujie.png"> 
-            <a href="{url('store/index/index')}"><div class="index-jt-more dianpu-bg">更多<i class="iconfont icon-next-s"></i></div></a>   
+            <img class="img" src="__TPL__/img/dianpujie.png">
+            <a href="{url('store/index/index')}"><div class="index-jt-more dianpu-bg">更多<i class="iconfont icon-next-s"></i></div></a>
     </div>
     <section class="store-new-box b-color-f">
                 <div class="of-hidden scrollbar-none j-g-s-p-con swiper-container-horizontal">
@@ -218,8 +218,8 @@
                                     <img src="{$v.goods_thumb}" />
                                 </li>
                                 <!--{/foreach}-->
-                            </ul>   
-                               </a>   
+                            </ul>
+                               </a>
 
                         </li>
                          <!--{/foreach}-->
@@ -235,8 +235,8 @@
     {/if}
     <!--like-->
      <div>
-            <img class="img" src="__TPL__/img/cainixihuan.png"> 
-            <a href="{url('store/index/index')}"></a>   
+            <img class="img" src="__TPL__/img/cainixihuan.png">
+            <a href="{url('store/index/index')}"></a>
     </div>
     <section class="product-list j-product-list product-list-medium" data="1">
 		<script id="j-product" type="text/html">
@@ -337,7 +337,6 @@
 <script src="__TPL__/js/jquery.cookie.js"></script>
 <script src="//3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
 <script type="text/javascript ">
-
     $(function ($) {
         //滑动跳转
          $("#store-box-list").on("touchstart", function(e) {
@@ -352,7 +351,7 @@
 
             X = moveEndX - startX,
             Y = moveEndY - startY;
-           if ( Math.abs(X) > Math.abs(Y) && X < 0 ) {            
+           if ( Math.abs(X) > Math.abs(Y) && X < 0 ) {
                 var href = $("#store-box-list-a").attr("href");
                     window.location.href = href;
             }
@@ -387,7 +386,7 @@
         }else{
            $('.index-history').hide();
         }
-        //浏览历史隐藏 
+        //浏览历史隐藏
         var int=setTimeout("clock()",6000);
         $(".index-history .right label").click(function(){
             $(".index-history").hide();
@@ -471,16 +470,16 @@
                 }
         }
             loadimgCont();
-        $(window).scroll(function() {     
+        $(window).scroll(function() {
             loadimgCont()
         });
-    });  
+    });
 	var url = "{url('async')}";
 	$('.product-list').infinite({url: url, template:'j-product'});
     function clock(){
         $(".index-history").hide();
     }
 </script>
-   
+
 </body>
 </html>

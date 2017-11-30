@@ -86,7 +86,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="lift lift-hide" ectype="lift" style="z-index:100001">
     	<div class="lift-list" ectype="liftList">
         	<div class="lift-item lift-h-seckill lift-item-first" ectype="liftItem" data-target="#h-seckill"><span>秒杀</span></div>
@@ -101,7 +101,7 @@
             <div class="lift-item lift-item-top" ectype="liftItem"><i class="iconfont icon-returntop"></i></div>
         </div>
     </div>
-    
+
     <!--首页弹出广告-->
     <div class="ejectAdv" ectype="ejectAdv">
     	<div class="ejectAdvbg"></div>
@@ -111,7 +111,7 @@
         </div>
     </div>
     {* ECSHOP 提醒您：动态载入user_menu_position.lbi，显示首页分类小广告 *}{insert name='user_menu_position'}
-    
+
     <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
     {* DSC 提醒您：动态载入bonushome_ad.lbi，显示首页分类小广告 *}{insert name='get_adv_child' ad_arr=$bonushome}
     {insert_scripts files='jquery.SuperSlide.2.1.1.js,jquery.yomi.js,cart_common.js,cart_quick_links.js'}
@@ -133,7 +133,7 @@
 	}
 	$(".vip-item").slide({titCell:".tit a",mainCell:".con"});
 	$(".seckill-channel").slide({mainCell:".box-bd ul",effect:"leftLoop",autoPlay:true,autoPage:true,interTime:5000,delayTime:500,vis:5,scroll:1,trigger:"click"});
-	
+
 	function load_js_content(key){
 		var Floor = $("#floor_" + key);
 		Floor.slide({titCell:".hd-tags li",mainCell:".floor-tabs-content",titOnClassName:"current"});
@@ -142,20 +142,20 @@
 	$("*[ectype='time']").each(function(){
 		$(this).yomi();
 	});
-	
+
 	//页面刷新自动返回顶部
 	$("body,html").animate({scrollTop:0},50);
-	
+
 	$(function(){
 		//判断首页那些广告位是否存在，处理左侧悬浮楼层栏
 		var index_ad_cat = $("input[name='index_ad_cat']").val();
-		
+
 		if(index_ad_cat == 0){
 			$(".lift-h-need").hide();
 		}else{
 			$(".lift-h-need").show();
 		}
-		
+
 		//秒杀活动
 		var seckill_goods = $("input[name='seckill_goods']").val();
 		if(seckill_goods == 0){
@@ -164,21 +164,21 @@
 			$(".lift-h-seckill").show();
 		}
 	});
-	
+
 	//楼层异步加载封装函数调用
 	$.homefloorLoad();
-	
+
 	$(window).scroll(function(){
 		var scrollTop = $(document).scrollTop();
 		var navTop = $("*[ectype='channel']").offset().top;  //by yanxin
-			
+
 		if(scrollTop>navTop){
 			$("*[ectype='suspColumn']").addClass("show");
 		}else{
 			$("*[ectype='suspColumn']").removeClass("show");
 		}
 	});
-	
+
 	//去掉悬浮框 我的购物车
 	$(".attached-search-container .shopCart-con a span").text("");
     </script>

@@ -34,7 +34,7 @@
                                     </div>
                                 </div>
                                 <div class="item">
-                                    <div class="label">分红：</div>
+                                    <div class="label">领取：</div>
                                     <div class="label_value">
                                         <input type="text" name="share_bonus" class="text" value="" id="share_bonus" autocomplete="off"/>
                                         <div class="form_prompt"></div>

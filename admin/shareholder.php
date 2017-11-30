@@ -153,7 +153,7 @@ if ($_REQUEST['act'] == 'list') {
     $share_id = (empty($_GET['share_id']) ? '' : trim($_GET['share_id']));
     $sql = 'select id,user_id,share_realname,share_phone,share_number,share_principal,share_date from ' . $ecs->table('shareholder') . ' where id = \'' . $share_id . '\'';
     $bonus = $db->getRow($sql);
-    $smarty->assign('ur_here', '分红');
+    $smarty->assign('ur_here', '领取');
     $smarty->assign('bonus', $bonus);
     $smarty->assign('form_action', 'bonus_confirm');
     $smarty->assign('action_link2', array('text' => $_LANG['01_shareholder_list'], 'href' => 'shareholder.php?act=list'));

@@ -8,25 +8,25 @@
     <link rel=stylesheet href="//at.alicdn.com/t/font_lkv63qpdlo8khuxr.css" media="screen" title="no title">
     <link href="__ROOT__/public/css/app.css?v=<?=date('Ymd')?>" rel=stylesheet>
     <style>
-		.picture-tile ul li{
-			padding-bottom:0 !important;
-			padding-right:0 !important;
-			padding-left:0 !important;
-		}
-		.picture-tile ul{
-			padding-top:0;
-			padding:0;
-		}
-		.picture-tile ul li img{
-			display:block;
-		}
-		.product-list figure h4 {
-		    height:3.8rem;
-		    line-height: 1.9rem;
-		}
-		.mod-nav nav ul li img {
-		    width: 100%;
-		}
+        .picture-tile ul li{
+            padding-bottom:0 !important;
+            padding-right:0 !important;
+            padding-left:0 !important;
+        }
+        .picture-tile ul{
+            padding-top:0;
+            padding:0;
+        }
+        .picture-tile ul li img{
+            display:block;
+        }
+        .product-list figure h4 {
+            height:3.8rem;
+            line-height: 1.9rem;
+        }
+        .mod-nav nav ul li img {
+            width: 100%;
+        }
 
     </style>
     <script>
@@ -34,7 +34,7 @@
         window.PC_URL = '__STATIC__/';
         //首页app下载连接
         window.APP_DOWNLOAD_URL = '';
-         window.shopInfo = {ru_id :0,authority:1};
+        window.shopInfo = {ru_id :0,authority:1};
     </script>
 </head>
 <body>
@@ -89,44 +89,44 @@
 {/if}
 </body>
 <script>
-window.onload=function(){
-		//头部导航
-		$(window).scroll(function() {
-			if($(window).scrollTop() > 100) {
-				$("header.search-fixed,header.search-fixed .search-mask,header.search-fixed .search-center,.mod-search .search-left,.mod-search .search-right,.ect-header-banner").addClass("active");
-			} else {
-				$("header.search-fixed,header.search-fixed .search-mask,header.search-fixed .search-center,.mod-search .search-left,.mod-search .search-right,.ect-header-banner").removeClass("active");
-			}
-		});
+    window.onload=function(){
+        //头部导航
+        $(window).scroll(function() {
+            if($(window).scrollTop() > 100) {
+                $("header.search-fixed,header.search-fixed .search-mask,header.search-fixed .search-center,.mod-search .search-left,.mod-search .search-right,.ect-header-banner").addClass("active");
+            } else {
+                $("header.search-fixed,header.search-fixed .search-mask,header.search-fixed .search-center,.mod-search .search-left,.mod-search .search-right,.ect-header-banner").removeClass("active");
+            }
+        });
 
-		/*页面向上滚动js*/
-		$(".filter-top").click(function() {
-			$("html,body").animate({
-				scrollTop: 0
-			}, 200);
-		});
+        /*页面向上滚动js*/
+        $(".filter-top").click(function() {
+            $("html,body").animate({
+                scrollTop: 0
+            }, 200);
+        });
 
-		$(window).scroll(function() {
-			var prevTop = 0,
-				currTop = 0;
-			currTop = $(window).scrollTop();
-			win_height = $(window).height() * 2;
-			if(currTop >= win_height) {
-				$(".filter-top").stop().fadeIn(200);
-			} else {
-				$(".filter-top").stop().fadeOut(200);
-			}
-			//prevTop = currTop; //IE下有BUG，所以用以下方式
-			setTimeout(function() {
-				prevTop = currTop
-			}, 0);
-		});
+        $(window).scroll(function() {
+            var prevTop = 0,
+                currTop = 0;
+            currTop = $(window).scrollTop();
+            win_height = $(window).height() * 2;
+            if(currTop >= win_height) {
+                $(".filter-top").stop().fadeIn(200);
+            } else {
+                $(".filter-top").stop().fadeOut(200);
+            }
+            //prevTop = currTop; //IE下有BUG，所以用以下方式
+            setTimeout(function() {
+                prevTop = currTop
+            }, 0);
+        });
 
-    /*点击关闭顶部层*/
-    $(".ect-header-banner i.icon-guanbi").click(function () {
-        $(".app-down").hide();
-    });
-}
+        /*点击关闭顶部层*/
+        $(".ect-header-banner i.icon-guanbi").click(function () {
+            $(".app-down").hide();
+        });
+    }
 </script>
 </body>
 </html>
