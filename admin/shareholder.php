@@ -202,7 +202,7 @@ if ($_REQUEST['act'] == 'list') {
         sys_msg('该用户没注册或手机号不正确', 1);
     } else {
         if (!empty($db->getOne('select id  from ' . $ecs->table('shareholder') . ' where user_id = \'' . $userId . '\''))) {
-            sys_msg('该用户已是股东！', 1);
+            sys_msg('该用户已是共享人员了！', 1);
         }
     }
 

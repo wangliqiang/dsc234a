@@ -232,7 +232,7 @@ class Order extends \app\http\base\controllers\Frontend
     {
         $pay_name = $_GET['pay_name'];
         $orderid = $_GET['orderid'];
-        $subject = $_GET['goodname'];//描述
+        $subject = $_GET['orderid'];//描述
         if ($pay_name === '微信支付') {//微信支付
             $totalfee = substr($_GET['totalfee'], 2, strlen($_GET['totalfee'])) * 100;
             $nonce_str = md5($orderid);

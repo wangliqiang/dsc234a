@@ -17,7 +17,7 @@
 			<p{if $action eq 'account_safe'} class="current"{/if}><a href="user.php?act=account_safe" target="_self">{$lang.account_safe}</a></p>
 			<p{if $action eq 'account_bind'} class="current"{/if}><a href="user.php?act=account_bind" target="_self">{$lang.account_bind}</a></p>
 			<p{if $action eq 'crowdfunding'} class="current"{/if}><a href="user.php?act=crowdfunding" target="_self">{$lang.crowdfunding}</a></p>
-			<p{if $action eq 'become_shareholder'} class="current"{/if}><a href="user.php?act=become_shareholder">成为股东</a></p>
+			<p{if $action eq 'become_shareholder'} class="current"{/if}><a href="user.php?act=become_shareholder">成为共享</a></p>
 			<p{if $action eq 'collection_list' || $action eq 'store_list'} class="current"{/if}><a href="user.php?act=collection_list" target="_self">{$lang.btn_collect}/{$lang.attention}</a></p>
 <!--        <p{if $action eq 'focus_brand'} class="current"{/if}><a href="user.php?act=focus_brand" target="_self">{$lang.focus_brand}</a></p>-->
 			<p{if $action eq 'message_list'} class="current"{/if}><a href="user.php?act=message_list" target="_self">{$lang.message_list}</a></p>

@@ -42,7 +42,7 @@ class Account extends \app\http\base\controllers\Frontend
         $sql = 'select user_name,mobile_phone from {pre}users where user_id = \'' . $this->user_id . '\'';
         $userinfo = $this->db->getRow($sql);
         $this->assign('userinfo', $userinfo);
-        $this->assign('page_title', '成为股东');
+        $this->assign('page_title', '成为共享');
         $this->display();
     }
 

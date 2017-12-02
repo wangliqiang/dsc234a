@@ -390,11 +390,11 @@
         <!--{/if}-->
         <!--关注品牌 end-->
 
-        <!-- 成为股东界面 start-->
+        <!-- 成为共享界面 start-->
         <!--{if $action eq 'become_shareholder'}-->
         <div class="user-mod">
             <div class="user-title">
-                <h2>成为股东</h2>
+                <h2>成为共享</h2>
             </div>
             <div class="user-message-warp clearfix">
                 <form action="user.php" method="post" enctype="multipart/form-data" name="formMsg" onSubmit="return submitMsg()">
@@ -496,7 +496,7 @@
                                 <div class="label">&nbsp;</div>
                                     <div class="value">
                                         <input type="hidden" name="act" value="act_recommend" />
-                                        <input type="submit" class="sc-btn sc-redBg-btn pingjia_form" value="成为股东">
+                                        <input type="submit" class="sc-btn sc-redBg-btn pingjia_form" value="成为共享">
                                     </div>
                                 </div>
                             </div>
@@ -513,7 +513,7 @@
                                         <div class="label">&nbsp;</div>
                                             <div class="value">
                                                 <input type="hidden" name="act" value="act_recommend" />
-                                                    <input type="submit" class="sc-btn sc-redBg-btn pingjia_form" value="成为股东">
+                                                    <input type="submit" class="sc-btn sc-redBg-btn pingjia_form" value="成为共享">
                                                 </div>
                                             </div>
                                         </div>
@@ -550,7 +550,7 @@
             </div>
         </div>
         <!-- {/if} -->
-        <!-- #成为股东界面 end-->
+        <!-- #成为共享界面 end-->
         
         <!-- 我的留言界面 start-->
         <!--{if $action eq 'message_list'}-->

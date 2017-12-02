@@ -2910,7 +2910,7 @@ if ($action == 'register') {
             $smarty->assign('pager', $pager);
             $smarty->assign('order_info', $order_info);
             $smarty->display('user_clips.dwt');
-        } else if ($action == 'become_shareholder') { //成为股东
+        } else if ($action == 'become_shareholder') { //成为共享
 
             include_once ROOT_PATH . 'includes/lib_clips.php';
 
@@ -2934,7 +2934,7 @@ if ($action == 'register') {
             $smarty->display('user_clips.dwt');
 
         } else if ($action == 'act_recommend') {
-            //添加股东申请
+            //添加共享申请
             include_once ROOT_PATH . 'includes/lib_clips.php';
             $username = (empty($_POST['username']) ? '' : trim($_POST['username']));
             $realname = (empty($_POST['realname']) ? '' : trim($_POST['realname']));
