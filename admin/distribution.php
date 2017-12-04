@@ -16,7 +16,7 @@ function user_list()
         }
         $ex_where = ' WHERE 1=1';
         if ($filter['keywords']) {
-            $ex_where .= ' AND (u.user_name LIKE \'%' . mysql_like_quote($filter['keywords']) . '%\')';
+            $ex_where .= ' AND (u.nick_name LIKE \'%' . mysql_like_quote($filter['keywords']) . '%\')';
         }
 
         $filter['record_count'] = $GLOBALS['db']->getOne('SELECT COUNT(*) FROM ' . $GLOBALS['ecs']->table('users') . ' AS u ' . $ex_where);
