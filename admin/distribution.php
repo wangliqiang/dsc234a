@@ -111,7 +111,7 @@ if ($adminru['ru_id'] == 0) {
 
 if ($_REQUEST['act'] == 'list') {
 
-    $smarty->assign('ur_here', '分销商列表');
+    $smarty->assign('ur_here', '分享商列表');
     $user_list = user_list();
     $smarty->assign('user_list', $user_list['user_list']);
     $smarty->assign('filter', $user_list['filter']);
@@ -140,7 +140,7 @@ if ($_REQUEST['act'] == 'list') {
 
     $dis_amount = $db->getOne('select dis_amount from dsc_users where user_id = \'' . $user_id . '\'');
 
-    $smarty->assign('ur_here', $dis_phone['user_name'] . '的分销');
+    $smarty->assign('ur_here', $dis_phone['user_name'] . '的分享');
     $smarty->assign('user_list', $user_list['user_list']);
     $smarty->assign('user_name', $dis_phone['user_name']);//用户
     $smarty->assign('nick_name', $dis_phone['nick_name']);//用户
@@ -214,7 +214,7 @@ if ($_REQUEST['act'] == 'list') {
         ecs_header("Location: distribution.php?act=apply_list_reject");
     }
 } else if ($_REQUEST['act'] == 'mgt') {
-    $smarty->assign('ur_here', '分销比例设置');
+    $smarty->assign('ur_here', '分享比例设置');
 
     $sql = 'select id,dis_percent,dis_status from ' . $ecs->table('distribution') . '';
 

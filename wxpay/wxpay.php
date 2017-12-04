@@ -12,7 +12,6 @@ require dirname(__FILE__) . '/../includes/init.php';
 $dataxml = file_get_contents('php://input');
 
 $objectxml = (array)simplexml_load_string($dataxml, 'SimpleXMLElement', LIBXML_NOCDATA); //将微信返回的XML 转换成数组
-
 if ($objectxml['return_code'] == 'SUCCESS') {
     if ($objectxml['result_code'] == 'SUCCESS') {//如果这两个都为此状态则返回mweb_url，详情看‘支付回调’接口文档
         // 改变订单状态

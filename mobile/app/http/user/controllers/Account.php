@@ -361,7 +361,7 @@ class Account extends \app\http\base\controllers\Frontend
             $spbill_create_ip = $this->getIp();
             $trade_type = 'MWEB';//交易类型 具体看API 里面有详细介绍
             $notify_url = notify_url(basename(__FILE__, '.php')); //回调地址
-            $scene_info = '{"h5_info":{"type":"Wap","wap_url":"http://www.ilaike.net/mobile","wap_name":"微信支付"}}';  //场景信息
+            $scene_info = '{"h5_info":{"type":"Wap","wap_url":"http://www.nongyepark.net/mobile","wap_name":"微信支付"}}';  //场景信息
             //对参数按照key=value的格式，并按照参数名ASCII字典序排序生成字符串
             $appid = 'wx8bf3494ef096a20c';
             $mch_id = '1430990802';

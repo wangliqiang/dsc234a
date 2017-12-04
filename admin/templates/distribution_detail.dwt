@@ -5,7 +5,7 @@
 
 <body class="iframe_body">
 	<div class="warpper">
-    	<div class="title"><a href="{$action_link2.href}" class="s-back">{$lang.back}</a>分销详情 - {$ur_here}</div>
+    	<div class="title"><a href="{$action_link2.href}" class="s-back">{$lang.back}</a>分享详情 - {$ur_here}</div>
         <div class="content">
         	<div class="explanation" id="explanation">
                 <div class="flexilist">
