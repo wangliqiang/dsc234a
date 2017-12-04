@@ -22,7 +22,7 @@ function user_list()
         $filter['record_count'] = $GLOBALS['db']->getOne('SELECT COUNT(*) FROM ' . $GLOBALS['ecs']->table('users') . ' AS u ' . $ex_where);
         $filter = page_and_size($filter);
         $sql = 'SELECT user_id,user_name,nick_name,mobile_phone FROM ' .
-            $GLOBALS['ecs']->table('users')  . ' AS u ' . $ex_where . ' '
+            $GLOBALS['ecs']->table('users')  . ' AS u ' . $ex_where . ' order by u.reg_time desc '
             . ' LIMIT ' . $filter['start'] . ',' . $filter['page_size'];
         $filter['keywords'] = stripslashes($filter['keywords']);
         set_filter($filter, $sql);
@@ -53,7 +53,7 @@ function dis_user_list($user_phone)
         $filter = page_and_size($filter);
         $sql = 'SELECT u.user_id, u.user_name,u.nick_name,u.mobile_phone,FORMAT(SUM(order_amount)*(select dis_percent from ' . $GLOBALS['ecs']->table('distribution') . ')/100,2) as dis_price FROM ' . $GLOBALS['ecs']->table('users') . ' as u 
             INNER JOIN ' . $GLOBALS['ecs']->table('order_info') . ' as i ON u.user_id = i.user_id 
-            INNER JOIN ' . $GLOBALS['ecs']->table('order_goods') . ' AS g ON i.order_id = g.order_id' . $ex_where . ' and i.pay_status = 2 '
+            INNER JOIN ' . $GLOBALS['ecs']->table('order_goods') . ' AS g ON i.order_id = g.order_id' . $ex_where . ' and i.pay_status = 2  order by u.reg_time desc '
             . ' LIMIT ' . $filter['start'] . ',' . $filter['page_size'];
         $filter['keywords'] = stripslashes($filter['keywords']);
         set_filter($filter, $sql);
