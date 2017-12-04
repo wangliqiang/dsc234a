@@ -16,7 +16,7 @@ function user_list()
         }
         $ex_where = ' WHERE share_status = 1 ';
         if ($filter['keywords']) {
-            $ex_where .= ' AND (u.user_name LIKE \'%' . mysql_like_quote($filter['keywords']) . '%\')';
+            $ex_where .= ' AND (s.share_realname LIKE \'%' . mysql_like_quote($filter['keywords']) . '%\')';
         }
 
         $filter['record_count'] = $GLOBALS['db']->getOne('SELECT COUNT(*) FROM ' . $GLOBALS['ecs']->table('users') . ' AS u inner join'
