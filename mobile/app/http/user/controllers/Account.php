@@ -335,7 +335,7 @@ class Account extends \app\http\base\controllers\Frontend
                 include_once ADDONS_PATH . 'payment/' . $payment_info['pay_code'] . '.php';
                 $pay_obj = new $payment_info['pay_code']();
                 $payment_info['pay_button'] = $pay_obj->get_code($order, $payment);
-                if (strpos($payment_info['pay_button'], '微信') && (!is_wechat_browser() || empty($_SESSION['openid']))) {
+                if (strpos($payment_info['pay_button'], '微信中') && (!is_wechat_browser() || empty($_SESSION['openid']))) {
                     $payment_info['pay_button'] = '<a class="box-flex btn-submit min-two-btn" type="button" href="' . url('user/account/payment', array('pay_name' => '微信支付', 'orderid' => $order['order_sn'], 'totalfee' => $_POST['amount'], 'goodname' => '充值')) . '">微信支付</a>';
                 }
                 $this->assign('payment', $payment_info);
