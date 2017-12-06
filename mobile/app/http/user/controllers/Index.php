@@ -1020,7 +1020,11 @@ class Index extends \app\http\base\controllers\Frontend
 			$this->assign('level_point_all', $share['config']['level_point_all']);
 		}
 
-		$url = url('/', '', true, true) . '?u=' . $this->user_id;
+//		$url = url('/', '', true, true) . '?u=' . $this->user_id;
+
+        $sql = 'SELECT mobile_phone FROM {pre}users WHERE user_id = ' . $this->user_id . '';
+        $phone = $GLOBALS['db']->getOne($sql);
+		$url = url('/', '', true, true) . '?m=user&c=login&a=register&rec_phone='.$phone;
 		$errorCorrectionLevel = 'M';
 		$matrixPointSize = 8;
 		$file = dirname(ROOT_PATH) . '/data/attached/qrcode/';

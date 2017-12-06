@@ -384,6 +384,9 @@ class Login extends \app\http\base\controllers\Frontend
 
     public function actionRegister()
     {
+
+        $rec_phone = (isset($_GET['rec_phone']) ? trim($_GET['rec_phone']) : '');
+
         if (IS_POST) {
             $back_act = (isset($_POST['back_act']) ? trim($_POST['back_act']) : url('user/index/index'));
 
@@ -480,6 +483,7 @@ class Login extends \app\http\base\controllers\Frontend
         }
         $this->assign('flag', 'register');
         $this->assign('back_act', $back_act);
+        $this->assign('rec_phone', $rec_phone);
         $this->assign('page_title', '新用户注册');
         $this->assign('page_title', L('registered_user'));
         $this->assign('show', 1);//$GLOBALS['_CFG']['sms_signin']
