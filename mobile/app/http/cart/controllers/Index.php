@@ -75,8 +75,8 @@ class Index extends \app\http\base\controllers\Frontend
 
 						if ($cart_goods['goods_list'][$k]['goods_list'][$key]['extension_code'] == 'package_buy') {
 							$sql = 'SELECT activity_thumb FROM {pre}goods_activity WHERE review_status = 3 AND act_id =' . $cart_goods['goods_list'][$k]['goods_list'][$key]['goods_id'] . ' and is_finished = 0';
-							$activity_thumb = $this->db->getRow($sql);
-							$cart_goods['goods_list'][$k]['goods_list'][$key]['goods_thumb'] = get_image_path($activity_thumb['activity_thumb']);
+                            $activity_thumb = $this->db->getRow($sql);
+                            $cart_goods['goods_list'][$k]['goods_list'][$key]['goods_thumb'] = get_image_path($activity_thumb['activity_thumb']);
 						}
 					}
 				}
