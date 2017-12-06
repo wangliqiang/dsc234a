@@ -1,21 +1,31 @@
 {include file="page_header"}
 <div class="con">
-	<div class="affiliate-cont-box">
-		<!--分享二维码-->
-	    <header class="p-r">
-		    <div><img src="__TPL__/img/affiliate.jpg" class="img"></div>
-			<div class="share-ewm-box">
-				<img src="{$ewm}">
-			</div>
-		</header>
-	</div>
+    <div class="affiliate-cont-box">
+        <!--分享二维码-->
+        <header class="p-r">
+            <div><img src="__TPL__/img/affiliate.jpg" class="img"></div>
+            <div class="share-ewm-box">
+                <img src="{$ewm}">
+                <p class="text-c">分享二维码</p>
+            </div>
+        </header>
+        <section class="affiliate-cont padding-all m-top08 user-function-list b-color-f">
+            <a href="{url('user/account/distribution')}">
+                <div class="dis-box padding-all wallet-bt">
+                    <h3 class="box-flex"><i class="iconfont icon-dianpu color-fe"></i>进入分享信息</h3>
+                    <div class="box-flex f-03 text-right onelist-hidden jian-top">分享管理</div>
+                    <span class="t-jiantou"><i class="iconfont icon-jiantou tf-180 jian-top"></i></span>
+                </div>
+            </a>
+        </section>
+    </div>
 </div>
 
 <script>
-$(function () {
-	var url = "{url('affiliate')}";
-	//订单列表
-	$('.affiliate-ajax').infinite({url: url, template: 'j-product'});
-});
+    $(function () {
+        var url = "{url('affiliate')}";
+        //订单列表
+        $('.affiliate-ajax').infinite({url: url, template: 'j-product'});
+    });
 </script>
 {include file="page_footer"}

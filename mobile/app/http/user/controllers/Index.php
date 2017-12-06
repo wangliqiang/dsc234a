@@ -1022,10 +1022,10 @@ class Index extends \app\http\base\controllers\Frontend
 
 //		$url = url('/', '', true, true) . '?u=' . $this->user_id;
 
-        $sql = 'SELECT mobile_phone FROM {pre}users WHERE user_id = ' . $this->user_id . '';
-        $phone = $GLOBALS['db']->getOne($sql);
-		$url = url('/', '', true, true) . '?m=user&c=login&a=register&rec_phone='.$phone;
-		$errorCorrectionLevel = 'M';
+        $getPhone = 'SELECT mobile_phone FROM dsc_users WHERE user_id = ' . $this->user_id . '';
+        $phone = $GLOBALS['db']->getOne($getPhone);
+        $url = url('/', '', true, true) . '?m=user&c=login&a=register&rec_phone='.$phone;
+        $errorCorrectionLevel = 'M';
 		$matrixPointSize = 8;
 		$file = dirname(ROOT_PATH) . '/data/attached/qrcode/';
 
